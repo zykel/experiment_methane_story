@@ -1,10 +1,11 @@
 <script>
   import { p } from '../stores/p.js';
-  import { csv, csvParse } from 'd3';
+  import { select, csv, csvParse } from 'd3';
   import { onMount } from 'svelte';
   import { gsap } from 'gsap';
   import mapboxgl from 'mapbox-gl';
   import 'mapbox-gl/dist/mapbox-gl.css'; // Import Mapbox CSS
+  import MapMarker from './MapMarker.svelte';
 
   export let tl;
   export let step;
@@ -73,7 +74,7 @@
         data: circleData
       });
 
-      // Add a layer to display the points as circles
+        //   Add a layer to display the points as circles
       map.addLayer({
         id: 'points',
         type: 'circle',
@@ -83,7 +84,39 @@
           'circle-color': '#007cbf'
         }
       });
+
+    console.log("loading markers");
+        // OPTION EXEX
+        // const container = map.getCanvasContainer();
+        //     const svg = select(container).append("svg")
+        //         .attr('id', 'map-svg')
+        //         .attr('class', 'map-svg');
+        // $p.dataCSV.forEach(marker_data => {
+        //     svg.append('circle')
+        //         .attr('cx', marker_data.lon)
+        //         .attr('cy', marker_data.lat)
+        //         .attr('r', 5)
+        //         .attr('fill', 'red')
+        //         .attr('class', 'map-marker')
+        //         .on('click', () => {
+        //             console.log(marker_data);
+        //         });
+
+
+            // OPTION Rudi
+            // const mark = document.createElement("div");
+
+            // new MapMarker({
+            //     target: mark,
+            //     props: { data: marker_data },
+            // });
+
+            // new mapboxgl.Marker({ element: mark })
+            //     .setLngLat([marker_data.lon, marker_data.lat])
+            //     .addTo(map);
+        // });
     });
+
 
   });
 
