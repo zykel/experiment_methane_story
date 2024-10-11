@@ -6,7 +6,6 @@
   import { gsap } from 'gsap';
 
   let step = 0;
-  const stepMax = 2;
   let tl;
   
   $: {
@@ -14,7 +13,7 @@
       defaults: { duration: $p.duration + 1 },
       paused: step == 0 ? true : false,
       onComplete: () => {
-        if (step < stepMax) step += 1;
+        if (step < $p.stepMax) step += 1;
       }
     });
   }

@@ -1,5 +1,6 @@
 <script>
 	import { p } from '../stores/p.js';
+    import { range } from 'd3-array';
     export let tl;
     export let step;
 
@@ -19,14 +20,12 @@
 </script>
 
 <div class="progress-bars">
-    <div class="progress-bar-container">
-        <div class="progress-bar ghost" id="ghost-progress-bar-1"></div>
-        <div class="progress-bar" id="progress-bar-1" style="width: {step <= 1 ? 0 : 100}%;"></div>
-    </div>
-    <div class="progress-bar-container">
-        <div class="progress-bar ghost" id="ghost-progress-bar-2"></div>
-        <div class="progress-bar" id="progress-bar-2" style="width: {step <= 2 ? 0 : 100}%;"></div>
-    </div>
+    {#each range(1, $p.stepMax + 1) as s}
+        <div class="progress-bar-container">
+            <div class="progress-bar ghost" id="ghost-progress-bar-{s}"></div>
+            <div class="progress-bar" id="progress-bar-{s}" style="width: {step <= s ? 0 : 100}%;"></div>
+        </div>  
+    {/each}
 </div>
 
 <style>
