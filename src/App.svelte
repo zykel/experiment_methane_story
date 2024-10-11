@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import Map from './lib/Map.svelte';
+  import ProgressBars from './lib/ProgressBars.svelte';
   import { gsap } from 'gsap';
 
   let step = 0;
@@ -36,7 +37,8 @@
   });
 </script>
 
-<Map bind:tl={tl} {step} />
+<ProgressBars tl={tl} step={step} />
+<Map tl={tl} {step} />
 
 <!-- On mousedown on document, call pauseAnimation -->
 

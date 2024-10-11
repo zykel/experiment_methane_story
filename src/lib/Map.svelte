@@ -42,14 +42,14 @@
 
         // Animate the zoomObj
         tl.to(zoomObj, {
-        duration: 3,
-        zoom: targetZoom,
-        ease: 'power1.inOut',
-        onUpdate: () => {
-            // Update the map's zoom level during the animation
-            map.setZoom(zoomObj.zoom);
-        },
-        });
+            duration: 3,
+            zoom: targetZoom,
+            ease: 'power1.inOut',
+            onUpdate: () => {
+                // Update the map's zoom level during the animation
+                map.setZoom(zoomObj.zoom);
+            },
+        }, 0);
     }
   }
 </script>
