@@ -1,5 +1,6 @@
 <script>
   import { p } from '../stores/p.js';
+  import { csv, csvParse } from 'd3';
   import { onMount } from 'svelte';
   import { gsap } from 'gsap';
   import mapboxgl from 'mapbox-gl';
@@ -11,6 +12,49 @@
   let map; // Store the map instance
   let initialZoom = 15;
   let targetZoom;
+
+  // Convert the array to a GeoJSON object
+  $: circleData = {
+    type: 'FeatureCollection',
+    features: $p.dataCSV.map(d => {
+        // debugger
+    return ({
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [d.lon, d.lat]
+      },
+      properties: {}
+    })
+  })
+  };
+
+
+  // Example GeoJSON data
+  const geojsonData = {
+    type: 'FeatureCollection',
+    features: [
+      {        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [38, 50]
+        },
+        properties: {
+          title: 'Point 1'
+        }
+      },
+      {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [38.5, 50.5]
+        },
+        properties: {
+          title: 'Point 2'
+        }
+      }
+    ]
+  };
   
   // Function to initialize the map
   onMount(() => {
@@ -18,10 +62,28 @@
     map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/dark-v10',
-      center: [38, 50], // Replace with your initial coordinates
+      center: [54.01610983773737, 38.3918319439921], // Replace with your initial coordinates
       zoom: initialZoom,
     });
 
+    // Add GeoJSON source
+    map.on('load', () => {
+      map.addSource('points', {
+        type: 'geojson',
+        data: circleData
+      });
+
+      // Add a layer to display the points as circles
+      map.addLayer({
+        id: 'points',
+        type: 'circle',
+        source: 'points',
+        paint: {
+          'circle-radius': 6,
+          'circle-color': '#007cbf'
+        }
+      });
+    });
 
   });
 

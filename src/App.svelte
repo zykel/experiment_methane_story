@@ -4,6 +4,7 @@
   import Map from './lib/Map.svelte';
   import ProgressBars from './lib/ProgressBars.svelte';
   import { gsap } from 'gsap';
+  import { csv } from 'd3';
 
   let step = 0;
   let tl;
@@ -32,10 +33,15 @@
     tl.resume();
   }
 
-  onMount(() => {
-    document.addEventListener('mousedown', pauseAnimation);
-    document.addEventListener('mouseup', resumeAnimation);
-  });
+  onMount(
+    async () => {
+      $p.dataCSV = await csv("./data/unep_methanedata_detected_plumes.csv");
+      document.addEventListener('mousedown', pauseAnimation);
+      document.addEventListener('mouseup', resumeAnimation);
+    }
+  );
+
+  $: console.log($p.dataCSV);
 </script>
 
 <ProgressBars tl={tl} step={step} />
