@@ -1,4 +1,5 @@
 <script>
+  import { p } from '../stores/p.js';
   import { onMount } from 'svelte';
   import { gsap } from 'gsap';
   import mapboxgl from 'mapbox-gl';
@@ -8,7 +9,7 @@
   export let step;
 
   let map; // Store the map instance
-  let initialZoom = 10;
+  let initialZoom = 15;
   let targetZoom;
   
   // Function to initialize the map
@@ -16,7 +17,7 @@
     mapboxgl.accessToken = 'pk.eyJ1IjoiY2hvNCIsImEiOiJja3Z0b2ViNTIwdG55MzBseWZ3Mmc0bXluIn0.F3y-oHZn9KCmgPNR_11zzg'; // Use your token here
     map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v11',
+      style: 'mapbox://styles/mapbox/dark-v10',
       center: [38, 50], // Replace with your initial coordinates
       zoom: initialZoom,
     });
@@ -29,7 +30,7 @@
     if (map && step > 0) {
         
         if (step >= 1) {
-            initialZoom = 10;
+            initialZoom = 15;
             targetZoom = 5;
         }
         if (step >= 2) {
@@ -42,7 +43,7 @@
 
         // Animate the zoomObj
         tl.to(zoomObj, {
-            duration: 3,
+            duration: $p.duration,
             zoom: targetZoom,
             ease: 'power1.inOut',
             onUpdate: () => {

@@ -1,4 +1,5 @@
 <script>
+	import { p } from './stores/p.js';
   import { onMount } from 'svelte';
   import Map from './lib/Map.svelte';
   import ProgressBars from './lib/ProgressBars.svelte';
@@ -10,6 +11,7 @@
   
   $: {
       tl = gsap.timeline({ 
+      defaults: { duration: $p.duration + 1 },
       paused: step == 0 ? true : false,
       onComplete: () => {
         if (step < stepMax) step += 1;
@@ -55,4 +57,9 @@
     padding: 5px 10px;
   }
 
+
+  :global(body) {
+    background-color: #121212; /* Dark background color */
+    color: #ffffff; /* Light text color for contrast */
+  }
 </style>

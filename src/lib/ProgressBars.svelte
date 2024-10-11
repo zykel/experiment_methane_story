@@ -1,4 +1,5 @@
 <script>
+	import { p } from '../stores/p.js';
     export let tl;
     export let step;
 
@@ -9,9 +10,8 @@
 
         // Animate the zoomObj
         tl.to("#progress-bar-"+step, {
-            duration: 3,
             width: "100%",
-            ease: 'power1.inOut',
+            ease: 'none',
         }, 0);
     }
   }
