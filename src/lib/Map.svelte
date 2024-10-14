@@ -11,7 +11,7 @@
   export let step;
 
   let map; // Store the map instance
-  let initialZoom = 15;
+  let initialZoom = 10;
   let targetZoom;
 
   // Convert the array to a GeoJSON object
@@ -29,33 +29,14 @@
       };
     }),
   };
-
-  // Example GeoJSON data
-  const geojsonData = {
-    type: 'FeatureCollection',
-    features: [
-      {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [38, 50],
-        },
-        properties: {
-          title: 'Point 1',
-        },
-      },
-      {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [38.5, 50.5],
-        },
-        properties: {
-          title: 'Point 2',
-        },
-      },
-    ],
-  };
+  // $: circleData = $p.dataCSV.map((d) => ({
+  //   type: 'Feature',
+  //   geometry: {
+  //     type: 'Point',
+  //     coordinates: [d.lon, d.lat],
+  //   },
+  //   properties: {},
+  // }));
 
   // Function to initialize the map
   onMount(() => {
@@ -67,21 +48,31 @@
       zoom: initialZoom,
     });
 
+    // circleData.forEach((circleDatum) => {});
     // Add GeoJSON source
     map.on('load', () => {
-      // map.addSource('points', {
-      //   type: 'geojson',
-      //   data: circleData
-      // });
+      map.addSource('points', {
+        type: 'geojson',
+        data: circleData,
+      });
 
-      //   //   Add a layer to display the points as circles
-      // map.addLayer({
-      //   id: 'points',
-      //   type: 'circle',
-      //   source: 'points',
-      //   paint: {
-      //     'circle-radius': 6,
-      //     'circle-color': '#007cbf'
+      map.addLayer({
+        id: 'points',
+        type: 'circle',
+        source: 'points',
+        paint: {
+          'circle-radius': 6,
+          'circle-color': '#007cbf', // Default color
+        },
+      });
+
+      // $p.dataCSV.forEach((marker_data, idx) => {
+      //   if (idx % 2 == 0) {
+      //     // Example: Change the appearance of the first point
+      //     map.setFeatureState(
+      //       { source: 'points', id: idx },
+      //       { selected: true }
+      //     );
       //   }
       // });
 
@@ -91,39 +82,64 @@
       //     const svg = select(container).append("svg")
       //         .attr('id', 'map-svg')
       //         .attr('class', 'map-svg');
-      $p.dataCSV.forEach((marker_data) => {
-        //     svg.append('circle')
-        //         .attr('cx', marker_data.lon)
-        //         .attr('cy', marker_data.lat)
-        //         .attr('r', 5)
-        //         .attr('fill', 'red')
-        //         .attr('class', 'map-marker')
-        //         .on('click', () => {
-        //             console.log(marker_data);
-        //         });
-      });
+      // $p.dataCSV.forEach((marker_data) => {
+      //     svg.append('circle')
+      //         .attr('cx', marker_data.lon)
+      //         .attr('cy', marker_data.lat)
+      //         .attr('r', 5)
+      //         .attr('fill', 'red')
+      //         .attr('class', 'map-marker')
+      //         .on('click', () => {
+      //             console.log(marker_data);
+      //         });
+      // });
 
       //     // OPTION Rudi
-      $p.dataCSV.forEach((marker_data) => {
-        const mark = document.createElement('div');
+      // $p.dataCSV.forEach((marker_data) => {
+      //   const mark = document.createElement('div');
 
-        new MapMarker({
-          target: mark,
-          props: { data: marker_data },
-        });
+      //   new MapMarker({
+      //     target: mark,
+      //     props: { data: marker_data },
+      //   });
 
-        new mapboxgl.Marker({ element: mark })
-          .setLngLat([marker_data.lon, marker_data.lat])
-          .addTo(map);
-      });
+      //   new mapboxgl.Marker({ element: mark })
+      //     .setLngLat([marker_data.lon, marker_data.lat])
+      //     .addTo(map);
+      // });
     });
   });
 
   $: {
     if (map && step > 0) {
+      // const mue = map.querySourceFeatures({
+      //   sourceLayer: 'points',
+      //   filter: ['==', ['get', 'id'], 'point-1'],
+      // });
       if (step >= 1) {
-        initialZoom = 15;
+        initialZoom = 10;
         targetZoom = 5;
+
+        // Animate the circle opacity using GSAP
+        // circleData.features.forEach((feature, index) => {
+        //   tl.to(
+        //     { opacity: 0 },
+        //     {
+        //       opacity: 1,
+        //       duration: 0.5,
+        //       delay: index * 0.0005, // Delay each circle reveal
+        //       ease: 'power1.inOut',
+        //       onUpdate: function () {
+        //         map.setPaintProperty(
+        //           'points',
+        //           'circle-opacity',
+        //           this.targets()[0].opacity
+        //         );
+        //       },
+        //     },
+        //     0
+        //   );
+        // });
       }
       if (step >= 2) {
         initialZoom = 5;
