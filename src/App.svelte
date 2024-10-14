@@ -1,5 +1,5 @@
 <script>
-	import { p } from './stores/p.js';
+  import { p } from './stores/p.js';
   import { onMount } from 'svelte';
   import Map from './lib/Map.svelte';
   import ProgressBars from './lib/ProgressBars.svelte';
@@ -8,14 +8,14 @@
 
   let step = 0;
   let tl;
-  
+
   $: {
-      tl = gsap.timeline({ 
+    tl = gsap.timeline({
       defaults: { duration: $p.duration + 1 },
       paused: step == 0 ? true : false,
       onComplete: () => {
         if (step < $p.stepMax) step += 1;
-      }
+      },
     });
   }
 
@@ -33,38 +33,34 @@
     tl.resume();
   }
 
-  onMount(
-    async () => {
-      $p.dataCSV = await csv("./data/unep_methanedata_detected_plumes.csv");
-      document.addEventListener('mousedown', pauseAnimation);
-      document.addEventListener('mouseup', resumeAnimation);
-    }
-  );
+  onMount(async () => {
+    $p.dataCSV = await csv('./data/unep_methanedata_detected_plumes.csv');
+    document.addEventListener('mousedown', pauseAnimation);
+    document.addEventListener('mouseup', resumeAnimation);
+  });
 
   $: console.log($p.dataCSV);
 </script>
 
-<ProgressBars tl={tl} step={step} />
-<Map tl={tl} {step} />
-
-<!-- On mousedown on document, call pauseAnimation -->
-
-<div>
-  <button on:click={startAnimation}>Start Animation</button>
-  <!-- <button on:click={pauseAnimation}>Pause</button>
-  <button on:click={resumeAnimation}>Resume</button> -->
-</div>
-
 <style>
-
   button {
     margin: 10px;
     padding: 5px 10px;
   }
-
 
   :global(body) {
     background-color: #121212; /* Dark background color */
     color: #ffffff; /* Light text color for contrast */
   }
 </style>
+
+<ProgressBars {tl} {step} />
+<Map {tl} {step} />
+
+<!-- On mousedown on document, call pauseAnimation -->
+
+<div>
+  <button on:click="{startAnimation}">Start Animation</button>
+  <!-- <button on:click={pauseAnimation}>Pause</button>
+  <button on:click={resumeAnimation}>Resume</button> -->
+</div>
