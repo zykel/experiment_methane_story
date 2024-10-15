@@ -16,6 +16,9 @@
   let initialZoom;
   let targetZoom;
 
+  let lonCenter = 54.2828085816237;
+  let latCenter = 38.65034094375579;
+
   $: mapWidth = $p.mapWidth;
   $: mapHeight = $p.mapHeight;
 
@@ -49,7 +52,7 @@
     map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/dark-v10',
-      center: [54.01610983773737, 38.3918319439921], // Replace with your initial coordinates
+      center: [lonCenter, latCenter], // Replace with your initial coordinates
       zoom: initialZoomOverall,
     });
 
@@ -69,28 +72,6 @@
     // map.on('move', updateSVGTransform);
     map.on('zoom', updateSVGTransform);
 
-    // Example: Append a circle to the SVG
-    // const lngLat = [54.01610983773737, 38.3928319439921];
-    // const projected = map.project(lngLat);
-
-    // svg
-    //   .append('circle')
-    //   .attr('cx', projected.x)
-    //   .attr('cy', projected.y)
-    //   .attr('r', 2)
-    //   .attr('fill', 'red');
-
-    // Test: Gumdag
-    // const lngLat = [54.59187997240022, 39.20684491812217];
-    // const projected = map.project(lngLat);
-
-    // svg
-    //   .append('circle')
-    //   .attr('cx', projected.x / 2 ** (initialZoomOverall - targetZoomOverall))
-    //   .attr('cy', projected.y / 2 ** (initialZoomOverall - targetZoomOverall))
-    //   .attr('r', 6)
-    //   .attr('fill', 'blue');
-
     // debugger;
     $p.dataCSV.forEach((marker_data, i) => {
       const projection = map.project([marker_data.lon, marker_data.lat]);
@@ -102,9 +83,7 @@
         .attr('class', marker_data.country + '-marker')
         .attr('cx', x)
         .attr('cy', y)
-        .attr('r', 0)
-        .attr('fill', 'red')
-        .attr('opacity', 0.5);
+        .attr('fill', 'red');
     });
 
     // Initial transformation update
@@ -128,8 +107,12 @@
         // Animate the circle opacity using GSAP
         $p.dataCSV.forEach((_, i) => {
           if (i < $p.dataCSV.length / 2) {
-            tl.to(
+            tl.fromTo(
               `#marker-${i}`,
+              {
+                opacity: 1,
+                r: 0,
+              },
               {
                 opacity: 0,
                 r: 0.2 + (i / 6000) * 10,
@@ -151,8 +134,12 @@
         $p.dataCSV.forEach((_, i) => {
           if (i > $p.dataCSV.length / 2) {
             // console.log('pinging');
-            tl.to(
+            tl.fromTo(
               `#marker-${i}`,
+              {
+                opacity: 1,
+                r: 0,
+              },
               {
                 opacity: 0,
                 r: 0.2 + (i / 6000) * 10,

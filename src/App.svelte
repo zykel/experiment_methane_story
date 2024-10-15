@@ -35,6 +35,7 @@
 
   onMount(async () => {
     $p.dataCSV = await csv('./data/unep_methanedata_detected_plumes.csv');
+    // debugger;
     document.addEventListener('mousedown', pauseAnimation);
     document.addEventListener('mouseup', resumeAnimation);
   });
