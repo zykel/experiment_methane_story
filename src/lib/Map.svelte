@@ -10,9 +10,7 @@
   export let tl;
   export let step;
 
-  let map; // Store the map instance
-  let initialZoomOverall = 10;
-  let targetZoomOverall = 1;
+  // let map; // Store the map instance
   let initialZoom;
   let targetZoom;
 
@@ -23,41 +21,25 @@
   $: mapHeight = $p.mapHeight;
 
   const getSvgTransform = (zoom) => {
-    return zoomIdentity.scale(2 ** (zoom - targetZoomOverall));
+    return zoomIdentity.scale(2 ** (zoom - $p.targetZoomOverall));
   };
 
   const deScaleScreenPosition = (position) => {
-    return position / 2 ** (initialZoomOverall - targetZoomOverall);
-  };
-
-  const getIncrementalRadius = (x, y) => {
-    // TODO: This is just to work around not wanting to factor in time in the radius (which we actually need to do) for our current situation where we do not have the ideal starting point yet
-    // Calculate incremental radius
-    // Calculate distance between [x,y] and [mapWidth/2, mapHeight/2]
-    const distance = Math.sqrt(
-      (x - mapWidth / 2) ** 2 + (y - mapHeight / 2) ** 2
-    );
-    // Normalize distance to be between 0 and 1
-    const normalizedDistance =
-      distance / Math.sqrt((mapWidth / 2) ** 2 + (mapHeight / 2) ** 2);
-    // Calculate the radius of the circle
-    const r = 0.2 + normalizedDistance * 20;
-
-    return r;
+    return position / 2 ** ($p.initialZoomOverall - $p.targetZoomOverall);
   };
 
   // Function to initialize the map
   onMount(() => {
     mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_KEY; // Use your token here
-    map = new mapboxgl.Map({
-      container: 'map',
+    $p.map = new mapboxgl.Map({
+      container: 'mapbox-map-container',
       style: 'mapbox://styles/mapbox/dark-v10',
       center: [lonCenter, latCenter], // Replace with your initial coordinates
-      zoom: initialZoomOverall,
+      zoom: $p.initialZoomOverall,
     });
 
     // Create an SVG element and append it to the map container
-    const svg = select(map.getCanvasContainer())
+    const svg = select($p.map.getCanvasContainer())
       .append('svg')
       .attr('class', 'map-overlay')
       .attr('width', mapWidth)
@@ -65,16 +47,16 @@
 
     // Function to update the SVG transformation
     function updateSVGTransform() {
-      svg.attr('transform', getSvgTransform(map.getZoom()));
+      svg.attr('transform', getSvgTransform($p.map.getZoom()));
     }
 
     // Add event listeners for move and zoom events
     // map.on('move', updateSVGTransform);
-    map.on('zoom', updateSVGTransform);
+    $p.map.on('zoom', updateSVGTransform);
 
     // debugger;
     $p.dataCSV.forEach((marker_data, i) => {
-      const projection = map.project([marker_data.lon, marker_data.lat]);
+      const projection = $p.map.project([marker_data.lon, marker_data.lat]);
       const x = deScaleScreenPosition(projection.x) + mapWidth / 2;
       const y = deScaleScreenPosition(projection.y) + mapHeight / 2;
       svg
@@ -90,17 +72,17 @@
     updateSVGTransform();
 
     // Add GeoJSON source
-    map.on('load', () => {});
+    $p.map.on('load', () => {});
   });
 
   $: {
-    if (map && step > 0) {
+    if ($p.map && step > 0) {
       // const mue = map.querySourceFeatures({
       //   sourceLayer: 'points',
       //   filter: ['==', ['get', 'id'], 'point-1'],
       // });
       if (step >= 1) {
-        initialZoom = initialZoomOverall;
+        initialZoom = $p.initialZoomOverall;
         targetZoom = 5;
       }
       if (step == 1) {
@@ -127,7 +109,7 @@
       }
       if (step >= 2) {
         initialZoom = 5;
-        targetZoom = targetZoomOverall;
+        targetZoom = $p.targetZoomOverall;
       }
       if (step == 2) {
         // Animate the circle opacity using GSAP
@@ -165,7 +147,7 @@
           ease: 'power1.inOut',
           onUpdate: () => {
             // Update the map's zoom level during the animation
-            map.setZoom(zoomObj.zoom);
+            $p.map.setZoom(zoomObj.zoom);
           },
         },
         0
@@ -174,4 +156,26 @@
   }
 </script>
 
-<div id="map" style="width: {mapWidth}px; height: {mapHeight}px"></div>
+<style>
+  #map-container {
+    position: relative;
+  }
+
+  #mapbox-map-container,
+  #svg-map-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+</style>
+
+<div id="map-container" style="width: {mapWidth}px; height: {mapHeight}px">
+  <div
+    id="mapbox-map-container"
+    style="width: {mapWidth}px; height: {mapHeight}px"
+  ></div>
+  <div
+    id="svg-map-container"
+    style="width: {mapWidth}px; height: {mapHeight}px"
+  ></div>
+</div>

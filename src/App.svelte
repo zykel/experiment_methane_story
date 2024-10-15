@@ -50,6 +50,14 @@
 </script>
 
 <style>
+  #story-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+  }
   button {
     margin: 10px;
     padding: 5px 10px;
@@ -61,15 +69,16 @@
   }
 </style>
 
-<ProgressBars {tl} {step} />
-{#if $p.dataCSV.length > 0}
-  <Map {tl} {step} />
-{/if}
+<div id="story-content">
+  {#if $p.dataCSV.length > 0}
+    <ProgressBars {tl} {step} />
+    <Map {tl} {step} />
+    <div>
+      <button on:click="{startAnimation}">Start Animation</button>
+      <!-- <button on:click={pauseAnimation}>Pause</button>
+      <button on:click={resumeAnimation}>Resume</button> -->
+    </div>
+  {/if}
+</div>
 
 <!-- On mousedown on document, call pauseAnimation -->
-
-<div>
-  <button on:click="{startAnimation}">Start Animation</button>
-  <!-- <button on:click={pauseAnimation}>Pause</button>
-  <button on:click={resumeAnimation}>Resume</button> -->
-</div>

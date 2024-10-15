@@ -6,4 +6,7 @@ export const p = writable({
   stepMax: 2,
   mapWidth: 700,
   mapHeight: 500,
+  map: null,
+  initialZoomOverall: 10,
+  targetZoomOverall: 1,
 });
