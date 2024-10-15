@@ -1,6 +1,6 @@
 <script>
   import { p } from '../stores/p.js';
-  import { select, csv, csvParse } from 'd3';
+  import { select, csv, csvParse, zoomIdentity } from 'd3';
   import { onMount } from 'svelte';
   import { gsap } from 'gsap';
   import mapboxgl from 'mapbox-gl';
@@ -48,23 +48,72 @@
       zoom: initialZoom,
     });
 
+    // Create an SVG element and append it to the map container
+    const svg = select(map.getCanvasContainer())
+      .append('svg')
+      .attr('class', 'map-overlay');
+
+    // Function to update the SVG transformation
+    function updateSVGTransform() {
+      const bounds = map.getBounds();
+      const topLeft = map.project(bounds.getNorthWest());
+      const bottomRight = map.project(bounds.getSouthEast());
+
+      svg
+        .style('width', `${bottomRight.x - topLeft.x}px`)
+        .style('height', `${bottomRight.y - topLeft.y}px`)
+        .style('left', `${topLeft.x}px`)
+        .style('top', `${topLeft.y}px`);
+
+      const transform = zoomIdentity
+        .translate(-topLeft.x, -topLeft.y)
+        .scale(map.getZoom());
+
+      svg.attr('transform', transform);
+    }
+
+    // Add event listeners for move and zoom events
+    map.on('move', updateSVGTransform);
+    map.on('zoom', updateSVGTransform);
+
+    // Initial transformation update
+    updateSVGTransform();
+
+    // Example: Append a circle to the SVG
+    const lngLat = [54.01610983773737, 38.3828319439921]; // Replace with your desired coordinates
+    const projected = map.project(lngLat);
+
+    svg
+      .append('circle')
+      .attr('cx', projected.x)
+      .attr('cy', projected.y)
+      .attr('r', 10)
+      .attr('fill', 'red');
+
+    // svg
+    //   .append('circle')
+    //   .attr('cx', 100)
+    //   .attr('cy', 100)
+    //   .attr('r', 10)
+    //   .attr('fill', 'red');
+
     // circleData.forEach((circleDatum) => {});
     // Add GeoJSON source
     map.on('load', () => {
-      map.addSource('points', {
-        type: 'geojson',
-        data: circleData,
-      });
+      // map.addSource('points', {
+      //   type: 'geojson',
+      //   data: circleData,
+      // });
 
-      map.addLayer({
-        id: 'points',
-        type: 'circle',
-        source: 'points',
-        paint: {
-          'circle-radius': 6,
-          'circle-color': '#007cbf', // Default color
-        },
-      });
+      // map.addLayer({
+      //   id: 'points',
+      //   type: 'circle',
+      //   source: 'points',
+      //   paint: {
+      //     'circle-radius': 6,
+      //     'circle-color': '#007cbf', // Default color
+      //   },
+      // });
 
       // $p.dataCSV.forEach((marker_data, idx) => {
       //   if (idx % 2 == 0) {
