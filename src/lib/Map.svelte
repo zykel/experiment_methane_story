@@ -27,6 +27,22 @@
     return position / 2 ** (initialZoomOverall - targetZoomOverall);
   };
 
+  const getIncrementalRadius = (x, y) => {
+    // TODO: This is just to work around not wanting to factor in time in the radius (which we actually need to do) for our current situation where we do not have the ideal starting point yet
+    // Calculate incremental radius
+    // Calculate distance between [x,y] and [mapWidth/2, mapHeight/2]
+    const distance = Math.sqrt(
+      (x - mapWidth / 2) ** 2 + (y - mapHeight / 2) ** 2
+    );
+    // Normalize distance to be between 0 and 1
+    const normalizedDistance =
+      distance / Math.sqrt((mapWidth / 2) ** 2 + (mapHeight / 2) ** 2);
+    // Calculate the radius of the circle
+    const r = 0.2 + normalizedDistance * 20;
+
+    return r;
+  };
+
   // Function to initialize the map
   onMount(() => {
     mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_KEY; // Use your token here
@@ -80,25 +96,14 @@
       const projection = map.project([marker_data.lon, marker_data.lat]);
       const x = deScaleScreenPosition(projection.x) + mapWidth / 2;
       const y = deScaleScreenPosition(projection.y) + mapHeight / 2;
-      // Calculate incremental radius
-      // Calculate distance between [x,y] and [mapWidth/2, mapHeight/2]
-      const distance = Math.sqrt(
-        (x - mapWidth / 2) ** 2 + (y - mapHeight / 2) ** 2
-      );
-      // Normalize distance to be between 0 and 1
-      const normalizedDistance =
-        distance / Math.sqrt((mapWidth / 2) ** 2 + (mapHeight / 2) ** 2);
-      // Calculate the radius of the circle
-      const r = 0.2 + normalizedDistance * 20;
       svg
         .append('circle')
+        .attr('id', `marker-${i}`)
         .attr('class', marker_data.country + '-marker')
         .attr('cx', x)
         .attr('cy', y)
-        .attr('r', r)
-        // .attr('r', 4)
+        .attr('r', 0)
         .attr('fill', 'red')
-        // .attr('class', 'map-marker')
         .attr('opacity', 0.5);
     });
 
@@ -118,31 +123,47 @@
       if (step >= 1) {
         initialZoom = initialZoomOverall;
         targetZoom = 5;
-
+      }
+      if (step == 1) {
         // Animate the circle opacity using GSAP
-        // circleData.features.forEach((feature, index) => {
-        //   tl.to(
-        //     { opacity: 0 },
-        //     {
-        //       opacity: 1,
-        //       duration: 0.5,
-        //       delay: index * 0.0005, // Delay each circle reveal
-        //       ease: 'power1.inOut',
-        //       onUpdate: function () {
-        //         map.setPaintProperty(
-        //           'points',
-        //           'circle-opacity',
-        //           this.targets()[0].opacity
-        //         );
-        //       },
-        //     },
-        //     0
-        //   );
-        // });
+        $p.dataCSV.forEach((_, i) => {
+          if (i < $p.dataCSV.length / 2) {
+            tl.to(
+              `#marker-${i}`,
+              {
+                opacity: 0,
+                r: 0.2 + (i / 6000) * 10,
+                duration: 1,
+                delay: i * 0.0015, // Delay each circle reveal
+                ease: 'power1.inOut',
+              },
+              0
+            );
+          }
+        });
       }
       if (step >= 2) {
         initialZoom = 5;
         targetZoom = targetZoomOverall;
+      }
+      if (step == 2) {
+        // Animate the circle opacity using GSAP
+        $p.dataCSV.forEach((_, i) => {
+          if (i > $p.dataCSV.length / 2) {
+            // console.log('pinging');
+            tl.to(
+              `#marker-${i}`,
+              {
+                opacity: 0,
+                r: 0.2 + (i / 6000) * 10,
+                duration: 1,
+                delay: i * 0.0015 - ($p.dataCSV.length / 2) * 0.0015, // Delay each circle reveal
+                ease: 'power1.inOut',
+              },
+              0
+            );
+          }
+        });
       }
 
       // Create an object to hold zoom level and animate this instead of the map directly
