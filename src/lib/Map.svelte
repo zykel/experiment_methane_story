@@ -11,8 +11,13 @@
   export let step;
 
   let map; // Store the map instance
-  let initialZoom = 10;
+  let initialZoomOverall = 10;
+  let targetZoomOverall = 2;
+  let initialZoom;
   let targetZoom;
+
+  let mapWidth = 400;
+  let mapHeight = 500;
 
   // Convert the array to a GeoJSON object
   $: circleData = {
@@ -38,6 +43,10 @@
   //   properties: {},
   // }));
 
+  const getSvgTransform = (zoom) => {
+    return zoomIdentity.scale(2 ** (zoom - targetZoomOverall));
+  };
+
   // Function to initialize the map
   onMount(() => {
     mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_KEY; // Use your token here
@@ -45,50 +54,50 @@
       container: 'map',
       style: 'mapbox://styles/mapbox/dark-v10',
       center: [54.01610983773737, 38.3918319439921], // Replace with your initial coordinates
-      zoom: initialZoom,
+      zoom: initialZoomOverall,
     });
 
     // Create an SVG element and append it to the map container
     const svg = select(map.getCanvasContainer())
       .append('svg')
-      .attr('class', 'map-overlay');
+      .attr('class', 'map-overlay')
+      .attr('width', mapWidth)
+      .attr('height', mapHeight);
 
     // Function to update the SVG transformation
     function updateSVGTransform() {
-      const bounds = map.getBounds();
-      const topLeft = map.project(bounds.getNorthWest());
-      const bottomRight = map.project(bounds.getSouthEast());
-
-      svg
-        .style('width', `${bottomRight.x - topLeft.x}px`)
-        .style('height', `${bottomRight.y - topLeft.y}px`)
-        .style('left', `${topLeft.x}px`)
-        .style('top', `${topLeft.y}px`);
-
-      const transform = zoomIdentity
-        .translate(-topLeft.x, -topLeft.y)
-        .scale(map.getZoom());
-
-      svg.attr('transform', transform);
+      svg.attr('transform', getSvgTransform(map.getZoom()));
     }
 
     // Add event listeners for move and zoom events
-    map.on('move', updateSVGTransform);
+    // map.on('move', updateSVGTransform);
     map.on('zoom', updateSVGTransform);
 
     // Initial transformation update
-    updateSVGTransform();
+    updateSVGTransform(); // TODO: Check if it changes something if this is done after the circle creation below
 
     // Example: Append a circle to the SVG
-    const lngLat = [54.01610983773737, 38.3828319439921]; // Replace with your desired coordinates
+    const lngLat = [54.01610983773737, 38.3928319439921];
     const projected = map.project(lngLat);
 
     svg
       .append('circle')
       .attr('cx', projected.x)
       .attr('cy', projected.y)
-      .attr('r', 10)
+      .attr('r', 2)
       .attr('fill', 'red');
+
+    // $p.dataCSV.forEach((marker_data) => {
+    //       svg.append('circle')
+    //           .attr('cx', marker_data.lon)
+    //           .attr('cy', marker_data.lat)
+    //           .attr('r', 5)
+    //           .attr('fill', 'red')
+    //           .attr('class', 'map-marker')
+    //           .on('click', () => {
+    //               console.log(marker_data);
+    //           });
+    //   });
 
     // svg
     //   .append('circle')
@@ -166,7 +175,7 @@
       //   filter: ['==', ['get', 'id'], 'point-1'],
       // });
       if (step >= 1) {
-        initialZoom = 10;
+        initialZoom = initialZoomOverall;
         targetZoom = 5;
 
         // Animate the circle opacity using GSAP
@@ -192,7 +201,7 @@
       }
       if (step >= 2) {
         initialZoom = 5;
-        targetZoom = 2;
+        targetZoom = targetZoomOverall;
       }
 
       // Create an object to hold zoom level and animate this instead of the map directly
@@ -216,11 +225,4 @@
   }
 </script>
 
-<style>
-  #map {
-    width: 400px;
-    height: 500px; /* Adjust as necessary */
-  }
-</style>
-
-<div id="map"></div>
+<div id="map" style="width: {mapWidth}px; height: {mapHeight}px"></div>
