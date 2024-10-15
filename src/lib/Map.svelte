@@ -16,8 +16,8 @@
   let initialZoom;
   let targetZoom;
 
-  let mapWidth = 700;
-  let mapHeight = 500;
+  $: mapWidth = $p.mapWidth;
+  $: mapHeight = $p.mapHeight;
 
   const getSvgTransform = (zoom) => {
     return zoomIdentity.scale(2 ** (zoom - targetZoomOverall));
