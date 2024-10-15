@@ -12,39 +12,19 @@
 
   let map; // Store the map instance
   let initialZoomOverall = 10;
-  let targetZoomOverall = 2;
+  let targetZoomOverall = 1;
   let initialZoom;
   let targetZoom;
 
-  let mapWidth = 400;
+  let mapWidth = 700;
   let mapHeight = 500;
-
-  // Convert the array to a GeoJSON object
-  $: circleData = {
-    type: 'FeatureCollection',
-    features: $p.dataCSV.map((d) => {
-      // debugger
-      return {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [d.lon, d.lat],
-        },
-        properties: {},
-      };
-    }),
-  };
-  // $: circleData = $p.dataCSV.map((d) => ({
-  //   type: 'Feature',
-  //   geometry: {
-  //     type: 'Point',
-  //     coordinates: [d.lon, d.lat],
-  //   },
-  //   properties: {},
-  // }));
 
   const getSvgTransform = (zoom) => {
     return zoomIdentity.scale(2 ** (zoom - targetZoomOverall));
+  };
+
+  const deScaleScreenPosition = (position) => {
+    return position / 2 ** (initialZoomOverall - targetZoomOverall);
   };
 
   // Function to initialize the map
@@ -73,99 +53,60 @@
     // map.on('move', updateSVGTransform);
     map.on('zoom', updateSVGTransform);
 
-    // Initial transformation update
-    updateSVGTransform(); // TODO: Check if it changes something if this is done after the circle creation below
-
     // Example: Append a circle to the SVG
-    const lngLat = [54.01610983773737, 38.3928319439921];
-    const projected = map.project(lngLat);
-
-    svg
-      .append('circle')
-      .attr('cx', projected.x)
-      .attr('cy', projected.y)
-      .attr('r', 2)
-      .attr('fill', 'red');
-
-    // $p.dataCSV.forEach((marker_data) => {
-    //       svg.append('circle')
-    //           .attr('cx', marker_data.lon)
-    //           .attr('cy', marker_data.lat)
-    //           .attr('r', 5)
-    //           .attr('fill', 'red')
-    //           .attr('class', 'map-marker')
-    //           .on('click', () => {
-    //               console.log(marker_data);
-    //           });
-    //   });
+    // const lngLat = [54.01610983773737, 38.3928319439921];
+    // const projected = map.project(lngLat);
 
     // svg
     //   .append('circle')
-    //   .attr('cx', 100)
-    //   .attr('cy', 100)
-    //   .attr('r', 10)
+    //   .attr('cx', projected.x)
+    //   .attr('cy', projected.y)
+    //   .attr('r', 2)
     //   .attr('fill', 'red');
 
-    // circleData.forEach((circleDatum) => {});
-    // Add GeoJSON source
-    map.on('load', () => {
-      // map.addSource('points', {
-      //   type: 'geojson',
-      //   data: circleData,
-      // });
+    // Test: Gumdag
+    // const lngLat = [54.59187997240022, 39.20684491812217];
+    // const projected = map.project(lngLat);
 
-      // map.addLayer({
-      //   id: 'points',
-      //   type: 'circle',
-      //   source: 'points',
-      //   paint: {
-      //     'circle-radius': 6,
-      //     'circle-color': '#007cbf', // Default color
-      //   },
-      // });
+    // svg
+    //   .append('circle')
+    //   .attr('cx', projected.x / 2 ** (initialZoomOverall - targetZoomOverall))
+    //   .attr('cy', projected.y / 2 ** (initialZoomOverall - targetZoomOverall))
+    //   .attr('r', 6)
+    //   .attr('fill', 'blue');
 
-      // $p.dataCSV.forEach((marker_data, idx) => {
-      //   if (idx % 2 == 0) {
-      //     // Example: Change the appearance of the first point
-      //     map.setFeatureState(
-      //       { source: 'points', id: idx },
-      //       { selected: true }
-      //     );
-      //   }
-      // });
-
-      console.log('loading markers');
-      // OPTION EXEX
-      // const container = map.getCanvasContainer();
-      //     const svg = select(container).append("svg")
-      //         .attr('id', 'map-svg')
-      //         .attr('class', 'map-svg');
-      // $p.dataCSV.forEach((marker_data) => {
-      //     svg.append('circle')
-      //         .attr('cx', marker_data.lon)
-      //         .attr('cy', marker_data.lat)
-      //         .attr('r', 5)
-      //         .attr('fill', 'red')
-      //         .attr('class', 'map-marker')
-      //         .on('click', () => {
-      //             console.log(marker_data);
-      //         });
-      // });
-
-      //     // OPTION Rudi
-      // $p.dataCSV.forEach((marker_data) => {
-      //   const mark = document.createElement('div');
-
-      //   new MapMarker({
-      //     target: mark,
-      //     props: { data: marker_data },
-      //   });
-
-      //   new mapboxgl.Marker({ element: mark })
-      //     .setLngLat([marker_data.lon, marker_data.lat])
-      //     .addTo(map);
-      // });
+    // debugger;
+    $p.dataCSV.forEach((marker_data, i) => {
+      const projection = map.project([marker_data.lon, marker_data.lat]);
+      const x = deScaleScreenPosition(projection.x) + mapWidth / 2;
+      const y = deScaleScreenPosition(projection.y) + mapHeight / 2;
+      // Calculate incremental radius
+      // Calculate distance between [x,y] and [mapWidth/2, mapHeight/2]
+      const distance = Math.sqrt(
+        (x - mapWidth / 2) ** 2 + (y - mapHeight / 2) ** 2
+      );
+      // Normalize distance to be between 0 and 1
+      const normalizedDistance =
+        distance / Math.sqrt((mapWidth / 2) ** 2 + (mapHeight / 2) ** 2);
+      // Calculate the radius of the circle
+      const r = 0.2 + normalizedDistance * 20;
+      svg
+        .append('circle')
+        .attr('class', marker_data.country + '-marker')
+        .attr('cx', x)
+        .attr('cy', y)
+        .attr('r', r)
+        // .attr('r', 4)
+        .attr('fill', 'red')
+        // .attr('class', 'map-marker')
+        .attr('opacity', 0.5);
     });
+
+    // Initial transformation update
+    updateSVGTransform();
+
+    // Add GeoJSON source
+    map.on('load', () => {});
   });
 
   $: {

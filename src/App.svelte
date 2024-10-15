@@ -55,7 +55,9 @@
 </style>
 
 <ProgressBars {tl} {step} />
-<Map {tl} {step} />
+{#if $p.dataCSV.length > 0}
+  <Map {tl} {step} />
+{/if}
 
 <!-- On mousedown on document, call pauseAnimation -->
 
