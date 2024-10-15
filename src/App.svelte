@@ -34,8 +34,14 @@
   }
 
   onMount(async () => {
-    $p.dataCSV = await csv('./data/unep_methanedata_detected_plumes.csv');
-    // debugger;
+    const dataCSVUnsorted = await csv(
+      './data/unep_methanedata_detected_plumes.csv'
+    );
+    $p.dataCSV = dataCSVUnsorted.sort(function (a, b) {
+      if (a.insert_date < b.insert_date) return -1;
+      if (a.insert_date > b.insert_date) return 1;
+      return 0;
+    });
     document.addEventListener('mousedown', pauseAnimation);
     document.addEventListener('mouseup', resumeAnimation);
   });

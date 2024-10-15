@@ -118,7 +118,7 @@
                 r: 0.2 + (i / 6000) * 10,
                 duration: 1,
                 delay: i * 0.0015, // Delay each circle reveal
-                ease: 'power1.inOut',
+                ease: 'power1.in',
               },
               0
             );
@@ -145,7 +145,7 @@
                 r: 0.2 + (i / 6000) * 10,
                 duration: 1,
                 delay: i * 0.0015 - ($p.dataCSV.length / 2) * 0.0015, // Delay each circle reveal
-                ease: 'power1.inOut',
+                ease: 'power1.out',
               },
               0
             );
