@@ -1,11 +1,10 @@
 <script>
   import { p } from '../stores/p.js';
-  import { select, csv, csvParse, zoomIdentity } from 'd3';
+  import { select, zoomIdentity } from 'd3';
   import { onMount } from 'svelte';
   import { gsap } from 'gsap';
   import mapboxgl from 'mapbox-gl';
-  import 'mapbox-gl/dist/mapbox-gl.css'; // Import Mapbox CSS
-  import MapMarker from './MapMarker.svelte';
+  import 'mapbox-gl/dist/mapbox-gl.css';
   import PingSVG from './PingSVG.svelte';
 
   export let tl;
@@ -21,7 +20,7 @@
   $: mapWidth = $p.mapWidth;
   $: mapHeight = $p.mapHeight;
 
-  let pingSVG;
+  let pingSVGNode;
 
   const getSvgTransform = (zoom) => {
     return zoomIdentity.scale(2 ** (zoom - $p.targetZoomOverall));
@@ -39,7 +38,9 @@
 
     // Function to update the SVG transformation
     function updateSVGTransform() {
-      select('#ping-svg').attr('transform', getSvgTransform($p.map.getZoom()));
+      select(pingSVGNode).attr('transform', getSvgTransform($p.map.getZoom()));
+      // TODO: extract reactive zoom variable
+      // $p.zoom = $p.map.getZoom();
     }
 
     // Add event listeners for move and zoom events
@@ -112,6 +113,6 @@
     id="svg-map-container"
     style="width: {mapWidth}px; height: {mapHeight}px"
   >
-    <PingSVG bind:this="{pingSVG}" {tl} {step} />
+    <PingSVG bind:pingSVGNode {tl} {step} />
   </div>
 </div>

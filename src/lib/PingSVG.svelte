@@ -1,45 +1,13 @@
 <script>
   import { p } from '../stores/p.js';
-  import { select, csv, csvParse, zoomIdentity } from 'd3';
-  import { onMount } from 'svelte';
-  import { gsap } from 'gsap';
-  import mapboxgl from 'mapbox-gl';
-  import 'mapbox-gl/dist/mapbox-gl.css'; // Import Mapbox CSS
-  import MapMarker from './MapMarker.svelte';
-  import PingSVG from './PingSVG.svelte';
 
   export let tl;
   export let step;
+  export let pingSVGNode;
 
-  $: {
-    if ($p.map !== null) {
-      const deScaleScreenPosition = (position) => {
-        return position / 2 ** ($p.initialZoomOverall - $p.targetZoomOverall);
-      };
-
-      // Create an SVG element and append it to the map container
-      //   const svg = select($p.map.getCanvasContainer())
-      const svg = select('#svg-map-container')
-        .append('svg')
-        .attr('id', 'ping-svg')
-        .attr('class', 'map-overlay')
-        .attr('width', $p.mapWidth)
-        .attr('height', $p.mapHeight);
-
-      $p.dataCSV.forEach((marker_data, i) => {
-        const projection = $p.map.project([marker_data.lon, marker_data.lat]);
-        const x = deScaleScreenPosition(projection.x) + $p.mapWidth / 2;
-        const y = deScaleScreenPosition(projection.y) + $p.mapHeight / 2;
-        svg
-          .append('circle')
-          .attr('id', `marker-${i}`)
-          .attr('class', marker_data.country + '-marker')
-          .attr('cx', x)
-          .attr('cy', y)
-          .attr('fill', 'red');
-      });
-    }
-  }
+  const deScaleScreenPosition = (position) => {
+    return position / 2 ** ($p.initialZoomOverall - $p.targetZoomOverall);
+  };
 
   $: {
     if (step == 1) {
@@ -90,3 +58,24 @@
     }
   }
 </script>
+
+<svg
+  bind:this="{pingSVGNode}"
+  id="ping-svg"
+  class="map-overlay"
+  width="{$p.mapWidth}"
+  height="{$p.mapHeight}"
+>
+  {#if $p.map !== null}
+    {#each $p.dataCSV as marker_data, i}
+      {@const projection = $p.map.project([marker_data.lon, marker_data.lat])}
+      <circle
+        id="{`marker-${i}`}"
+        class="{marker_data.country + '-marker'}"
+        cx="{deScaleScreenPosition(projection.x) + $p.mapWidth / 2}"
+        cy="{deScaleScreenPosition(projection.y) + $p.mapHeight / 2}"
+        fill="red"
+      ></circle>
+    {/each}
+  {/if}
+</svg>
