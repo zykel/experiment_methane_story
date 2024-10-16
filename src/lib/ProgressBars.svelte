@@ -7,7 +7,7 @@
   let gap = 4; // Gap between progress bars
 
   $: {
-    if (step > 0) {
+    if (step > $p.steps[0]) {
       // Animate the zoomObj
       tl.to(
         '#progress-bar-' + step,
@@ -56,10 +56,10 @@
 </style>
 
 <div class="progress-bars" style="gap: {gap}px">
-  {#each $p.steps.slice(1, $p.steps.length) as s}
+  {#each $p.steps.slice(1, $p.nrSteps) as s}
     <div
       class="progress-bar-container"
-      style="width: {$p.mapWidth / 2 - gap / 2}px;"
+      style="width: {$p.mapWidth / ($p.nrSteps - 1) - gap / 2}px;"
     >
       <div class="progress-bar ghost" id="ghost-progress-bar-{s}"></div>
       <div

@@ -12,7 +12,7 @@ const pInit = {
   map: null,
   initialZoomOverall: 10,
   targetZoomOverall: 1,
-  steps: [0, 20, 30],
+  steps: [0, 10, 20, 30],
 };
 
 // p including self-derived values
@@ -20,6 +20,7 @@ export const p = writable({
   ...pInit,
   // Rememeber that these derived values are not reactive
   nrSteps: pInit.steps.length,
+  maxZoomFactor: 2 ** (pInit.initialZoomOverall - pInit.targetZoomOverall),
 });
 
 export const isLastStep = derived(

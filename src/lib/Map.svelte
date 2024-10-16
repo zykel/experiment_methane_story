@@ -20,10 +20,14 @@
   $: mapWidth = $p.mapWidth;
   $: mapHeight = $p.mapHeight;
 
+  $: dx = $p.mapWidth / 2 - ($p.mapWidth * $p.maxZoomFactor) / 2;
+  $: dy = $p.mapHeight / 2 - ($p.mapHeight * $p.maxZoomFactor) / 2;
+
   let pingSVGNode;
 
-  const getSvgTransform = (zoom) => {
-    return zoomIdentity.scale(2 ** (zoom - $p.targetZoomOverall));
+  $: getSvgTransform = (zoom) => {
+    const scale = 1 / 2 ** Math.abs(zoom - $p.initialZoomOverall);
+    return `translate(${dx},${dy}) scale(${scale})`;
   };
 
   // Function to initialize the map
@@ -56,36 +60,41 @@
 
   $: {
     if ($p.map && step > $p.steps[0]) {
-      // const mue = map.querySourceFeatures({
-      //   sourceLayer: 'points',
-      //   filter: ['==', ['get', 'id'], 'point-1'],
-      // });
+      if (step == $p.steps[1]) {
+        // Reset the zoom level
+        $p.map.setZoom($p.initialZoomOverall);
+      }
       if (step >= 20) {
+        // Setup where to zoom to
         initialZoom = $p.initialZoomOverall;
         targetZoom = 5;
       }
       if (step >= 30) {
+        // Setup where to zoom to
         initialZoom = 5;
         targetZoom = $p.targetZoomOverall;
       }
 
-      // Create an object to hold zoom level and animate this instead of the map directly
-      let zoomObj = { zoom: initialZoom };
+      if (step >= 20) {
+        // Perform the actual zoom
+        // Create an object to hold zoom level and animate this instead of the map directly
+        let zoomObj = { zoom: initialZoom };
 
-      // Animate the zoomObj
-      tl.to(
-        zoomObj,
-        {
-          duration: $p.duration,
-          zoom: targetZoom,
-          ease: 'power1.inOut',
-          onUpdate: () => {
-            // Update the map's zoom level during the animation
-            $p.map.setZoom(zoomObj.zoom);
+        // Animate the zoomObj
+        tl.to(
+          zoomObj,
+          {
+            duration: $p.duration,
+            zoom: targetZoom,
+            ease: 'power1.inOut',
+            onUpdate: () => {
+              // Update the map's zoom level during the animation
+              $p.map.setZoom(zoomObj.zoom);
+            },
           },
-        },
-        0
-      );
+          0
+        );
+      }
     }
   }
 </script>

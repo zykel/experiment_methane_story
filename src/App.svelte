@@ -53,10 +53,14 @@
     );
     $p.firstFlare = idealFlareCandidates[0];
     // Filter $p.dataCSV to only include flares after the first flare
-    $p.dataCSVAfterFirst = $p.dataCSV.filter(
-      (d) => d.tile_date == $p.firstFlare.tile_date // later without = in >=
+    const indexOfFirstFlare = $p.dataCSV.indexOf(
+      (d) => d.id_plume == $p.firstFlare.id_plume
     );
-    debugger;
+    $p.dataCSVAfterFirst = $p.dataCSV.slice(indexOfFirstFlare + 1);
+    // $p.dataCSVAfterFirst = $p.dataCSV.filter(
+    //   (d) => d.tile_date >= $p.firstFlare.tile_date // later without = in >=
+    // );
+    // debugger;
     // // LON
     // 53.39823970699587
     // 55.025513516498485
