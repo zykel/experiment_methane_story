@@ -10,7 +10,7 @@ const pInit = {
   map: null,
   initialZoomOverall: 10,
   targetZoomOverall: 1,
-  steps: [0, 10, 20],
+  steps: [0, 20, 30],
 };
 
 // p including self-derived values

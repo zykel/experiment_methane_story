@@ -55,16 +55,16 @@
   });
 
   $: {
-    if ($p.map && step > 0) {
+    if ($p.map && step > $p.steps[0]) {
       // const mue = map.querySourceFeatures({
       //   sourceLayer: 'points',
       //   filter: ['==', ['get', 'id'], 'point-1'],
       // });
-      if (step >= 10) {
+      if (step >= 20) {
         initialZoom = $p.initialZoomOverall;
         targetZoom = 5;
       }
-      if (step >= 20) {
+      if (step >= 30) {
         initialZoom = 5;
         targetZoom = $p.targetZoomOverall;
       }
