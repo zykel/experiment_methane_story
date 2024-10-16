@@ -4,7 +4,7 @@
   import Map from './lib/Map.svelte';
   import ProgressBars from './lib/ProgressBars.svelte';
   import { gsap } from 'gsap';
-  import { csv } from 'd3';
+  import { csv, json } from 'd3';
 
   let step = $p.steps[0];
   let tl;
@@ -57,6 +57,15 @@
       (d) => d.id_plume == $p.firstFlare.id_plume
     );
     $p.dataCSVAfterFirst = $p.dataCSV.slice(indexOfFirstFlare + 1);
+
+    // Load the geojson data
+    $p.dataGeoJSON = await json(
+      './data/unep_methanedata_detected_plumes.geojson'
+    );
+    const flareFeature = $p.dataGeoJSON['features'].find(
+      (d) => d.properties.id_plume == $p.firstFlare.id_plume
+    );
+    $p.flarePath = flareFeature.geometry.coordinates[0][0];
     // $p.dataCSVAfterFirst = $p.dataCSV.filter(
     //   (d) => d.tile_date >= $p.firstFlare.tile_date // later without = in >=
     // );

@@ -1,13 +1,18 @@
 <script>
   import { p } from '../stores/p.js';
+  import { area } from 'd3-shape';
   import PingMarker from './PingMarker.svelte';
 
   export let tl;
   export let step;
   export let pingSVGNode;
 
-  const scaleScreenPosition = (position) => {
-    return position * 1; //$p.maxZoomFactor; // TODO: Not quite right yet
+  $: reposition = (projection) => {
+    return {
+      x: projection.x + ($p.mapWidth * $p.maxZoomFactor) / 2 - $p.mapWidth / 2,
+      y:
+        projection.y + ($p.mapHeight * $p.maxZoomFactor) / 2 - $p.mapHeight / 2,
+    };
   };
 
   $: {
@@ -40,7 +45,7 @@
             },
             {
               opacity: 0,
-              r: 120 + 2 ** (i / 3000) * 500 - 500,
+              r: 120 + 2 ** (i / 1000) * 1500 - 1500,
               duration: 1,
               delay: i * 0.0015, // Delay each circle reveal
               ease: 'power1.in',
@@ -64,7 +69,7 @@
             },
             {
               opacity: 0,
-              r: 520 + 2 ** (i / 3000) * 500 - 500,
+              r: 520 + 2 ** (i / 1000) * 1500 - 1500,
               duration: 1,
               delay: i * 0.0015 - ($p.dataCSVAfterFirst.length / 2) * 0.0015, // Delay each circle reveal
               ease: 'power1.out',
@@ -89,6 +94,21 @@
 >
   {#if $p.map !== null}
     <PingMarker markerData="{$p.firstFlare}" idSuffix="first" />
+    {@const flareProjectedPath = $p.flarePath.map((coords) => {
+      const projection = $p.map.project(coords);
+      const position = reposition(projection);
+      return [position.x, position.y];
+    })}
+    <path
+      stroke="white"
+      fill="red"
+      d="{flareProjectedPath
+        .map((point, index) => {
+          const [x, y] = point;
+          return index === 0 ? `M${x},${y}` : `L${x},${y}`;
+        })
+        .join(' ')}"
+    ></path>
     {#each $p.dataCSVAfterFirst as markerData, i}
       <PingMarker {markerData} idSuffix="{i}" />
     {/each}
