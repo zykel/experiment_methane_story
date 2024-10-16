@@ -1,27 +1,27 @@
 <script>
-  import { p } from './stores/p.js';
+  import { p, getNextStep, isLastStep } from './stores/p.js';
   import { onMount } from 'svelte';
   import Map from './lib/Map.svelte';
   import ProgressBars from './lib/ProgressBars.svelte';
   import { gsap } from 'gsap';
   import { csv } from 'd3';
 
-  let step = 0;
+  let step = $p.steps[0];
   let tl;
 
   $: {
     tl = gsap.timeline({
       defaults: { duration: $p.duration + 1 },
-      paused: step == 0 ? true : false,
+      paused: step == $p.steps[0] ? true : false,
       onComplete: () => {
-        if (step < $p.stepMax) step += 1;
+        if (!$isLastStep(step)) step = $getNextStep(step);
       },
     });
   }
 
   // Functions to control the animation
   function startAnimation() {
-    step = 1;
+    step = $p.steps[1];
     // tl.play();
   }
 

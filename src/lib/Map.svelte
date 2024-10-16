@@ -60,11 +60,11 @@
       //   sourceLayer: 'points',
       //   filter: ['==', ['get', 'id'], 'point-1'],
       // });
-      if (step >= 1) {
+      if (step >= 10) {
         initialZoom = $p.initialZoomOverall;
         targetZoom = 5;
       }
-      if (step >= 2) {
+      if (step >= 20) {
         initialZoom = 5;
         targetZoom = $p.targetZoomOverall;
       }

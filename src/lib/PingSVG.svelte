@@ -10,7 +10,7 @@
   };
 
   $: {
-    if (step == 1) {
+    if (step == 10) {
       // Animate the circle opacity using GSAP
       $p.dataCSV.forEach((_, i) => {
         if (i < $p.dataCSV.length / 2) {
@@ -33,7 +33,7 @@
       });
     }
 
-    if (step == 2) {
+    if (step == 20) {
       // Animate the circle opacity using GSAP
       $p.dataCSV.forEach((_, i) => {
         if (i > $p.dataCSV.length / 2) {

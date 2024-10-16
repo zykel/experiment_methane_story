@@ -56,7 +56,7 @@
 </style>
 
 <div class="progress-bars" style="gap: {gap}px">
-  {#each range(1, $p.stepMax + 1) as s}
+  {#each $p.steps.slice(1, $p.steps.length) as s}
     <div
       class="progress-bar-container"
       style="width: {$p.mapWidth / 2 - gap / 2}px;"
