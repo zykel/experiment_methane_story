@@ -3,6 +3,8 @@ import { writable, derived } from 'svelte/store';
 // p without self-derived values
 const pInit = {
   dataCSV: [],
+  dataCSVAfterFirst: [],
+  firstFlare: null,
   duration: 6,
   stepMax: 2,
   mapWidth: 700,

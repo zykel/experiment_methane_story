@@ -12,8 +12,8 @@
   $: {
     if (step == 20) {
       // Animate the circle opacity using GSAP
-      $p.dataCSV.forEach((_, i) => {
-        if (i < $p.dataCSV.length / 2) {
+      $p.dataCSVAfterFirst.forEach((_, i) => {
+        if (i < $p.dataCSVAfterFirst.length / 2) {
           tl.fromTo(
             `#marker-${i}`,
             {
@@ -21,8 +21,8 @@
               r: 0,
             },
             {
-              opacity: 0,
-              r: 0.2 + (i / 6000) * 10,
+              opacity: 0.2,
+              r: 2.2 + (i / 6000) * 10,
               duration: 1,
               delay: i * 0.0015, // Delay each circle reveal
               ease: 'power1.in',
@@ -35,8 +35,8 @@
 
     if (step == 30) {
       // Animate the circle opacity using GSAP
-      $p.dataCSV.forEach((_, i) => {
-        if (i > $p.dataCSV.length / 2) {
+      $p.dataCSVAfterFirst.forEach((_, i) => {
+        if (i > $p.dataCSVAfterFirst.length / 2) {
           // console.log('pinging');
           tl.fromTo(
             `#marker-${i}`,
@@ -48,7 +48,7 @@
               opacity: 0,
               r: 0.2 + (i / 6000) * 10,
               duration: 1,
-              delay: i * 0.0015 - ($p.dataCSV.length / 2) * 0.0015, // Delay each circle reveal
+              delay: i * 0.0015 - ($p.dataCSVAfterFirst.length / 2) * 0.0015, // Delay each circle reveal
               ease: 'power1.out',
             },
             0
@@ -67,7 +67,7 @@
   height="{$p.mapHeight}"
 >
   {#if $p.map !== null}
-    {#each $p.dataCSV as marker_data, i}
+    {#each $p.dataCSVAfterFirst as marker_data, i}
       {@const projection = $p.map.project([marker_data.lon, marker_data.lat])}
       <circle
         id="{`marker-${i}`}"

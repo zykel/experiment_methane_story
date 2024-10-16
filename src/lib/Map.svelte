@@ -14,8 +14,8 @@
   let initialZoom;
   let targetZoom;
 
-  let lonCenter = 54.2828085816237;
-  let latCenter = 38.65034094375579;
+  let lonCenter = $p.firstFlare.lon; //54.2828085816237;
+  let latCenter = $p.firstFlare.lat; //38.65034094375579;
 
   $: mapWidth = $p.mapWidth;
   $: mapHeight = $p.mapHeight;

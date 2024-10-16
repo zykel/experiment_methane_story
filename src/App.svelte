@@ -38,10 +38,32 @@
       './data/unep_methanedata_detected_plumes.csv'
     );
     $p.dataCSV = dataCSVUnsorted.sort(function (a, b) {
-      if (a.insert_date < b.insert_date) return -1;
-      if (a.insert_date > b.insert_date) return 1;
+      if (a.tile_date < b.tile_date) return -1;
+      if (a.tile_date > b.tile_date) return 1;
       return 0;
     });
+
+    // Find ideal first flare
+    const idealFlareCandidates = $p.dataCSV.filter(
+      (d) =>
+        d.lon >= 53.39823970699587 &&
+        d.lon <= 55.025513516498485 &&
+        d.lat >= 38.06969014665377 &&
+        d.lat <= 39.08892395176091
+    );
+    $p.firstFlare = idealFlareCandidates[0];
+    // Filter $p.dataCSV to only include flares after the first flare
+    $p.dataCSVAfterFirst = $p.dataCSV.filter(
+      (d) => d.tile_date == $p.firstFlare.tile_date // later without = in >=
+    );
+    debugger;
+    // // LON
+    // 53.39823970699587
+    // 55.025513516498485
+    // // LAT
+    // 38.06969014665377
+    // 39.08892395176091
+
     document.addEventListener('mousedown', pauseAnimation);
     document.addEventListener('mouseup', resumeAnimation);
   });
