@@ -1,5 +1,5 @@
 <script>
-  import { p } from '../stores/p.js';
+  import { p, getDuration } from '../stores/p.js';
   import { area } from 'd3-shape';
   import PingMarker from './PingMarker.svelte';
 
@@ -27,7 +27,19 @@
         {
           opacity: 0,
           r: 120,
-          duration: 3,
+          duration: 1,
+          ease: 'power1.in',
+        },
+        0
+      );
+      tl.fromTo(
+        `#flare-path`,
+        {
+          opacity: 0,
+        },
+        {
+          opacity: 1,
+          duration: 2,
           ease: 'power1.in',
         },
         0
@@ -47,7 +59,9 @@
               opacity: 0,
               r: 120 + 2 ** (i / 1000) * 1500 - 1500,
               duration: 1,
-              delay: i * 0.0015, // Delay each circle reveal
+              delay:
+                i *
+                (($getDuration(step) - 1) / ($p.dataCSVAfterFirst.length / 2)), // Delay each circle reveal
               ease: 'power1.in',
             },
             0
@@ -100,8 +114,10 @@
       return [position.x, position.y];
     })}
     <path
+      id="flare-path"
       stroke="white"
       fill="red"
+      opacity="0"
       d="{flareProjectedPath
         .map((point, index) => {
           const [x, y] = point;

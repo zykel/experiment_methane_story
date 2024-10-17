@@ -1,5 +1,5 @@
 <script>
-  import { p } from '../stores/p.js';
+  import { p, getDuration } from '../stores/p.js';
   import { select, zoomIdentity } from 'd3';
   import { onMount } from 'svelte';
   import { gsap } from 'gsap';
@@ -84,7 +84,7 @@
         tl.to(
           zoomObj,
           {
-            duration: $p.duration,
+            duration: $getDuration(step),
             zoom: targetZoom,
             ease: 'power1.inOut',
             onUpdate: () => {

@@ -1,8 +1,15 @@
 <script>
-  import { p, getNextStep, getPreviousStep, isLastStep } from './stores/p.js';
+  import {
+    p,
+    getNextStep,
+    getPreviousStep,
+    isLastStep,
+    getDurationWithBuffer,
+  } from './stores/p.js';
   import { onMount } from 'svelte';
   import Map from './lib/Map.svelte';
   import ProgressBars from './lib/ProgressBars.svelte';
+  import StoryText from './lib/StoryText.svelte';
   import { gsap } from 'gsap';
   import { csv, json } from 'd3';
 
@@ -17,7 +24,7 @@
 
     // Create a new timeline
     tl = gsap.timeline({
-      defaults: { duration: $p.duration + 1 },
+      defaults: { duration: $getDurationWithBuffer(step) },
       paused: step == $p.steps[0] ? true : false,
       onComplete: () => {
         if (direction == 'forward') {
@@ -155,25 +162,6 @@
     position: relative;
   }
 
-  #story-text-container {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    z-index: 5;
-    padding: 20px;
-  }
-  .story-text {
-    display: inline;
-    background-color: #cacaca;
-    border-radius: 5px;
-    padding: 0px 0.5rem 0.2rem 0.5rem;
-    color: #121212;
-    font-weight: 700;
-    box-decoration-break: clone; /* Ensure background and padding apply to each line */
-    -webkit-box-decoration-break: clone; /* For WebKit browsers */
-    line-height: 1.8;
-  }
-
   button {
     margin: 10px;
     padding: 5px 10px;
@@ -190,15 +178,7 @@
     <ProgressBars {tl} {step} />
     <div id="main-view-container">
       <Map {tl} {step} />
-      <div id="story-text-container">
-        <p class="story-text">This is a methane cloud.</p>
-        <br />
-        <br />
-        <p class="story-text">
-          It was produced when industrially generating oil and gas for energy
-          generation.
-        </p>
-      </div>
+      <StoryText {tl} {step} />
     </div>
     <div>
       <button class="start-widget" on:click="{startAnimation}"

@@ -7,7 +7,7 @@ const pInit = {
   firstFlare: null,
   dataGeoJSON: [],
   flarePath: [],
-  duration: 6,
+  defaultDuration: 7,
   stepMax: 2,
   mapWidth: 300, //700,
   mapHeight: 600, //400,
@@ -24,6 +24,15 @@ export const p = writable({
   // Rememeber that these derived values are not reactive
   nrSteps: pInit.steps.length,
   maxZoomFactor: 2 ** (pInit.initialZoomOverall - pInit.targetZoomOverall),
+  durations: pInit.steps.map((step, i) => {
+    let duration = pInit.defaultDuration;
+    let buffer = 1;
+    if (step == 20) {
+      duration = 8;
+      buffer = 0;
+    }
+    return { step, duration, buffer };
+  }),
 });
 
 export const isLastStep = derived(
@@ -57,6 +66,26 @@ export const getPreviousStep = derived(
       if (index < 0) return null;
       if (index == 0) return step;
       return $p.steps[index - 1];
+    }
+);
+
+export const getDuration = derived(
+  p,
+  ($p) =>
+    function (step) {
+      const durationInfo = $p.durations.find((d) => d.step == step);
+      return durationInfo ? durationInfo.duration : $p.defaultDuration;
+    }
+);
+
+export const getDurationWithBuffer = derived(
+  p,
+  ($p) =>
+    function (step) {
+      const durationInfo = $p.durations.find((d) => d.step == step);
+      return durationInfo
+        ? durationInfo.duration + durationInfo.buffer
+        : $p.defaultDuration;
     }
 );
 
