@@ -13,6 +13,7 @@
   // let map; // Store the map instance
   let initialZoom;
   let targetZoom;
+  let ease;
 
   let lonCenter = $p.firstFlare.lon; //54.2828085816237;
   let latCenter = $p.firstFlare.lat; //38.65034094375579;
@@ -68,11 +69,16 @@
         // Setup where to zoom to
         initialZoom = $p.initialZoomOverall;
         targetZoom = 5;
+        ease = 'power1.in';
       }
       if (step >= 30) {
         // Setup where to zoom to
         initialZoom = 5;
         targetZoom = $p.targetZoomOverall;
+        ease = 'power1.out';
+      }
+      if (step > 30) {
+        ease = 'power1.inOut';
       }
 
       if (step >= 20) {
@@ -86,7 +92,7 @@
           {
             duration: $getDuration(step),
             zoom: targetZoom,
-            ease: 'power1.inOut',
+            ease: ease, // TODO: Check if inout easing is not actually nicer
             onUpdate: () => {
               // Update the map's zoom level during the animation
               $p.map.setZoom(zoomObj.zoom);

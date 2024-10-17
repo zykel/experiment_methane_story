@@ -1,5 +1,6 @@
 <script>
   import { onMount, tick } from 'svelte';
+  import { p } from '../stores/p';
 
   export let tl;
   export let step;
@@ -10,15 +11,15 @@
     {
       step: 10,
       textArray: [
-        'This is a methane cloud.',
-        'It was produced when industrially generating oil and gas for energy generation.',
-        'Methane is the main factor behind XY.',
+        'This is a methane cloud measured by the XY satellite.',
+        'Methane is released when industrially processing oil and gas for energy generation.',
+        'It is the second-largest contributor to climate warming after carbon dioxide.',
       ],
     },
     {
       step: 20,
       textArray: [
-        'Big industrial sectors in which methane is produced are gas and oil generation, coal mining, and (XY of?) waste',
+        `Big industrial sectors in which methane is released are <span style="color: ${$p.sectorColors['Oil and Gas']}">oil and gas generation</span>, <span style="color: ${$p.sectorColors['Coal']}">coal mining</span>, and <span style="color: ${$p.sectorColors['Waste']}">processing of waste</span>.`,
       ],
     },
   ];
@@ -46,7 +47,7 @@
             opacity: 1,
             duration: 0.1,
             ease: 'power1.in',
-            delay: (j + 1) * 2, // Delay each text reveal
+            delay: 2 + j * 3, // Delay each text reveal
           },
           0
         );
@@ -96,7 +97,7 @@
 
   .story-text {
     display: inline;
-    background-color: #cacaca;
+    background-color: #ffffff;
     border-radius: 5px;
     padding: 0px 0.5rem 0.2rem 0.5rem;
     color: #121212;
@@ -125,7 +126,7 @@
     <div class="text-step-container">
       {#each stepInfo.textArray as text, j}
         <p id="story-text-step-{stepInfo.step}-{j}" class="story-text">
-          {text}
+          {@html text}
         </p>
         {#if i < stepInfo.textArray.length - 1}
           <br />

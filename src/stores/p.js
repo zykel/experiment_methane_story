@@ -15,6 +15,11 @@ const pInit = {
   initialZoomOverall: 13,
   targetZoomOverall: 1,
   steps: [0, 10, 20, 30],
+  sectorColors: {
+    'Oil and Gas': '#C25D5D',
+    Coal: '#C0A85C',
+    Waste: '#5D6CC2',
+  },
   // Could be useful to include individual step durations
 };
 
@@ -26,10 +31,12 @@ export const p = writable({
   maxZoomFactor: 2 ** (pInit.initialZoomOverall - pInit.targetZoomOverall),
   durations: pInit.steps.map((step, i) => {
     let duration = pInit.defaultDuration;
-    let buffer = 1;
+    let buffer = 0;
+    if (step == 10) {
+      duration = 11;
+    }
     if (step == 20) {
       duration = 8;
-      buffer = 0;
     }
     return { step, duration, buffer };
   }),

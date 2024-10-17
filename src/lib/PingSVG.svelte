@@ -41,6 +41,7 @@
           opacity: 1,
           duration: 2,
           ease: 'power1.in',
+          delay: 0.5,
         },
         0
       );
