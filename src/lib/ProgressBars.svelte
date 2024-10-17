@@ -9,8 +9,11 @@
   $: {
     if (step > $p.steps[0]) {
       // Animate the zoomObj
-      tl.to(
+      tl.fromTo(
         '#progress-bar-' + step,
+        {
+          width: '0%',
+        },
         {
           width: '100%',
           ease: 'none',

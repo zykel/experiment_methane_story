@@ -9,12 +9,13 @@ const pInit = {
   flarePath: [],
   duration: 6,
   stepMax: 2,
-  mapWidth: 700,
-  mapHeight: 400,
+  mapWidth: 300, //700,
+  mapHeight: 600, //400,
   map: null,
   initialZoomOverall: 13,
   targetZoomOverall: 1,
   steps: [0, 10, 20, 30],
+  // Could be useful to include individual step durations
 };
 
 // p including self-derived values
@@ -44,6 +45,18 @@ export const getNextStep = derived(
       return $p.steps[index + 1];
 
       return step == $p.steps[$p.steps.length - 1];
+    }
+);
+
+export const getPreviousStep = derived(
+  p,
+  ($p) =>
+    function (step) {
+      // Inside $p.steps, find the input step and return the previous entry of $p.steps
+      const index = $p.steps.indexOf(step);
+      if (index < 0) return null;
+      if (index == 0) return step;
+      return $p.steps[index - 1];
     }
 );
 
