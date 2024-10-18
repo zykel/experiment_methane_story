@@ -11,15 +11,24 @@
     {
       step: 10,
       textArray: [
-        'This is a methane cloud measured by the XY satellite.',
-        'Methane is released when industrially processing oil and gas for energy generation.',
-        'It is the second-largest contributor to climate warming after carbon dioxide.',
+        {
+          text: 'This is a methane cloud measured by the XY satellite.<br><br>Methane is released when industrially processing oil and gas for energy generation.',
+          start: 2,
+          duration: 3,
+        },
+        {
+          text: 'It is the second-largest contributor to climate warming after carbon dioxide.',
+          start: 6,
+        },
       ],
     },
     {
       step: 20,
       textArray: [
-        `Big industrial sectors in which methane is released are <span style="color: ${$p.sectorColors['Oil and Gas']}">oil and gas generation</span>, <span style="color: ${$p.sectorColors['Coal']}">coal mining</span>, and <span style="color: ${$p.sectorColors['Waste']}">processing of waste</span>.`,
+        {
+          text: `Big industrial sectors in which methane is released are <span style="color: ${$p.sectorColors['Oil and Gas']}">oil and gas generation</span>, <span style="color: ${$p.sectorColors['Coal']}">coal mining</span>, and <span style="color: ${$p.sectorColors['Waste']}">processing of waste</span>.`,
+          start: 2,
+        },
       ],
     },
   ];
@@ -37,7 +46,7 @@
     // if (step == 10) {
     const stepInfo = storyText.find((stepInfo) => stepInfo.step === step);
     if (typeof stepInfo !== 'undefined') {
-      stepInfo.textArray.forEach((text, j) => {
+      stepInfo.textArray.forEach((textInfo, j) => {
         tl.fromTo(
           `#story-text-step-${step}-${j}`,
           {
@@ -47,7 +56,24 @@
             opacity: 1,
             duration: 0.1,
             ease: 'power1.in',
-            delay: 2 + j * 3, // Delay each text reveal
+            delay: textInfo.start, // Delay each text reveal
+          },
+          0
+        );
+
+        // TODO: Could make this optional: Only remove if not last text in array - however this would make the last text int the array potentially be displayed for longer, introducing somewhat of an inconsistency - dunno if that is relevant
+        const removeTime =
+          textInfo.start +
+          (textInfo.duration
+            ? textInfo.duration
+            : $p.defaultTextDisplayDuration);
+        tl.to(
+          `#story-text-step-${step}-${j}`,
+          {
+            duration: 0.1,
+            ease: 'power1.in',
+            delay: removeTime,
+            opacity: 0,
           },
           0
         );
@@ -87,12 +113,17 @@
 
   #text-positioning-container {
     position: relative;
+    display: flex;
+    align-items: center;
+    height: 300px;
   }
 
   .text-step-container {
     position: absolute;
     left: 0;
     padding: 20px;
+    /* margin-top: auto;
+    margin-bottom: auto; */
   }
 
   .story-text {
@@ -121,19 +152,19 @@
 </div> -->
 
 <div id="story-text-container">
-  <!-- <div id="text-positioning-container"> -->
-  {#each storyText as stepInfo, i}
-    <div class="text-step-container">
-      {#each stepInfo.textArray as text, j}
-        <p id="story-text-step-{stepInfo.step}-{j}" class="story-text">
-          {@html text}
-        </p>
-        {#if i < stepInfo.textArray.length - 1}
+  <div id="text-positioning-container">
+    {#each storyText as stepInfo, i}
+      {#each stepInfo.textArray as textInfo, j}
+        <div class="text-step-container">
+          <p id="story-text-step-{stepInfo.step}-{j}" class="story-text">
+            {@html textInfo.text}
+          </p>
+          <!-- {#if i < stepInfo.textArray.length - 1}
           <br />
           <br />
-        {/if}
+        {/if} -->
+        </div>
       {/each}
-    </div>
-  {/each}
-  <!-- </div> -->
+    {/each}
+  </div>
 </div>

@@ -8,6 +8,7 @@ const pInit = {
   dataGeoJSON: [],
   flarePath: [],
   defaultDuration: 7,
+  defaultTextDisplayDuration: 4,
   stepMax: 2,
   mapWidth: 300, //700,
   mapHeight: 600, //400,
