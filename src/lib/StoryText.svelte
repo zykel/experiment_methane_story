@@ -12,12 +12,17 @@
       step: 10,
       textArray: [
         {
-          text: 'This is a methane cloud measured by the XY satellite.<br><br>Methane is released when industrially processing oil and gas for energy generation.',
+          paragraphs: [
+            'This is a methane cloud measured by the XY satellite.',
+            'Methane is released when industrially processing oil and gas for energy generation.',
+          ],
           start: 2,
           duration: 3,
         },
         {
-          text: 'It is the second-largest contributor to climate warming after carbon dioxide.',
+          paragraphs: [
+            'It is the second-largest contributor to climate warming after carbon dioxide.',
+          ],
           start: 6,
         },
       ],
@@ -26,7 +31,9 @@
       step: 20,
       textArray: [
         {
-          text: `Big industrial sectors in which methane is released are <span style="color: ${$p.sectorColors['Oil and Gas']}">oil and gas generation</span>, <span style="color: ${$p.sectorColors['Coal']}">coal mining</span>, and <span style="color: ${$p.sectorColors['Waste']}">processing of waste</span>.`,
+          paragraphs: [
+            `Big industrial sectors in which methane is released are <span style="color: ${$p.sectorColors['Oil and Gas']}">oil and gas generation</span>, <span style="color: ${$p.sectorColors['Coal']}">coal mining</span>, and <span style="color: ${$p.sectorColors['Waste']}">processing of waste</span>.`,
+          ],
           start: 2,
         },
       ],
@@ -128,16 +135,20 @@
 
   .story-text {
     display: inline;
-    background-color: #ffffff;
-    border-radius: 5px;
-    padding: 0px 0.5rem 0.2rem 0.5rem;
     color: #121212;
     font-weight: 700;
-    box-decoration-break: clone; /* Ensure background and padding apply to each line */
-    -webkit-box-decoration-break: clone; /* For WebKit browsers */
     line-height: 1.8;
     opacity: 0;
     transition: opacity 0.1s;
+  }
+
+  .text-paragraph {
+    display: inline;
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 0px 0.5rem 0.2rem 0.5rem;
+    box-decoration-break: clone; /* Ensure background and padding apply to each line */
+    -webkit-box-decoration-break: clone; /* For WebKit browsers */
   }
 </style>
 
@@ -157,7 +168,13 @@
       {#each stepInfo.textArray as textInfo, j}
         <div class="text-step-container">
           <p id="story-text-step-{stepInfo.step}-{j}" class="story-text">
-            {@html textInfo.text}
+            {#each textInfo.paragraphs as text, k}
+              <span class="text-paragraph">{@html text}</span>
+              {#if k < textInfo.paragraphs.length - 1}
+                <br />
+                <br />
+              {/if}
+            {/each}
           </p>
           <!-- {#if i < stepInfo.textArray.length - 1}
           <br />
