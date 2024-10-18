@@ -121,7 +121,7 @@
       // TBD: need to include that if clicking on the left half and 30% of the tl time has alread passed, the current step should be repeated instead of jumping to the previous step
 
       const mouseUpTime = Date.now();
-      if (mouseUpTime - mouseDownTime < 500 || isStartWidget) {
+      if (mouseUpTime - mouseDownTime < 380 || isStartWidget) {
         // Determine whether mouseup event too place in the left or the right half of the viewport
         const viewportWidth = window.innerWidth;
         const mouseUpX = event.clientX;

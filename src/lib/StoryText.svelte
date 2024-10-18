@@ -17,7 +17,7 @@
             'Methane is released when industrially processing oil and gas for energy generation.',
           ],
           start: 2,
-          duration: 3,
+          // duration: 4,
         },
         {
           paragraphs: [

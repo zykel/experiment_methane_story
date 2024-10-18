@@ -22,6 +22,7 @@
         `#marker-first`,
         {
           opacity: 1,
+          'stroke-width': 0,
           r: 0,
         },
         {
@@ -30,7 +31,7 @@
           'stroke-width': 120 / 3,
           duration: 1,
           ease: 'power1.in',
-          delay: 0.5,
+          delay: 2,
         },
         0
       );
@@ -61,6 +62,7 @@
             {
               opacity: 1,
               r: 0,
+              'stroke-width': 0,
             },
             {
               opacity: 0,
@@ -100,6 +102,7 @@
             {
               opacity: 1,
               r: 0,
+              'stroke-width': 0,
             },
             {
               opacity: 0,
