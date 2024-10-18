@@ -27,8 +27,10 @@
         {
           opacity: 0,
           r: 120,
+          'stroke-width': 120 / 3,
           duration: 1,
           ease: 'power1.in',
+          delay: 0.5,
         },
         0
       );
@@ -36,12 +38,16 @@
         `#flare-path`,
         {
           opacity: 0,
+          scale: 0,
+          transformOrigin: '0% 100%',
         },
         {
           opacity: 1,
           duration: 2,
-          ease: 'power1.in',
-          delay: 0.5,
+          scale: 1,
+          // transformOrigin: '50% 50%',
+          ease: 'power1.inOut',
+          delay: 0, //.5,
         },
         0
       );
@@ -58,7 +64,8 @@
             },
             {
               opacity: 0,
-              r: 120 + 2 ** (i / 1000) * 1500 - 1500,
+              r: 60 + 2 ** (i / 1000) * 1500 - 1500,
+              'stroke-width': (60 + 2 ** (i / 1000) * 1500 - 1500) / 3,
               duration: 1,
               delay:
                 i *
@@ -85,6 +92,7 @@
             {
               opacity: 0,
               r: 520 + 2 ** (i / 1000) * 1500 - 1500,
+              'stroke-width': (520 + 2 ** (i / 1000) * 1500 - 1500) / 3,
               duration: 1,
               delay: i * 0.0015 - ($p.dataCSVAfterFirst.length / 2) * 0.0015, // Delay each circle reveal
               ease: 'power1.out',

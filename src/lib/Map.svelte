@@ -65,23 +65,29 @@
         // Reset the zoom level
         $p.map.setZoom($p.initialZoomOverall);
       }
-      if (step >= 20) {
+      if (step >= 10) {
         // Setup where to zoom to
         initialZoom = $p.initialZoomOverall;
+        targetZoom = 13;
+        ease = 'power1.inOut';
+      }
+      if (step >= 20) {
+        // Setup where to zoom to
+        initialZoom = 13;
         targetZoom = 5;
-        ease = 'power1.in';
+        ease = 'power1.inOut';
       }
       if (step >= 30) {
         // Setup where to zoom to
         initialZoom = 5;
         targetZoom = $p.targetZoomOverall;
-        ease = 'power1.out';
+        ease = 'power1.inOut';
       }
       if (step > 30) {
         ease = 'power1.inOut';
       }
 
-      if (step >= 20) {
+      if (step >= 10) {
         // Perform the actual zoom
         // Create an object to hold zoom level and animate this instead of the map directly
         let zoomObj = { zoom: initialZoom };

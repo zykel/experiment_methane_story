@@ -12,7 +12,7 @@ const pInit = {
   mapWidth: 300, //700,
   mapHeight: 600, //400,
   map: null,
-  initialZoomOverall: 13,
+  initialZoomOverall: 13.5,
   targetZoomOverall: 1,
   steps: [0, 10, 20, 30],
   sectorColors: {
