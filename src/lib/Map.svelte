@@ -1,5 +1,10 @@
 <script>
-  import { p, sectorsSelected, getDuration } from '../stores/p.js';
+  import {
+    p,
+    sectorsSelected,
+    filterFluxrate,
+    getDuration,
+  } from '../stores/p.js';
   import { select, zoomIdentity } from 'd3';
   import { onMount } from 'svelte';
   import { gsap } from 'gsap';
@@ -112,10 +117,18 @@
         },
       });
 
-      // Update the layer filter whenever selectedSectors changes
-      sectorsSelected.subscribe((sectors) => {
-        $p.map.setFilter('points', ['in', 'sector', ...sectors]);
-      });
+      // Update the layer filter whenever selectedSectors or ch4Range changes
+      function updateFilter() {
+        $p.map.setFilter('points', [
+          'all',
+          ['in', ['get', 'sector'], ['literal', $sectorsSelected]],
+          ['>=', ['get', 'ch4_fluxrate'], $filterFluxrate[0]],
+          ['<=', ['get', 'ch4_fluxrate'], $filterFluxrate[1]],
+        ]);
+      }
+
+      sectorsSelected.subscribe(updateFilter);
+      filterFluxrate.subscribe(updateFilter);
 
       // Add event listeners for hover
       $p.map.on('mouseenter', 'points', (e) => {

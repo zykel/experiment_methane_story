@@ -45,6 +45,7 @@ export const p = writable({
 });
 
 export const sectorsSelected = writable(Object.keys(pInit.sectorColors));
+export const filterFluxrate = writable([0, 1000000]);
 
 export const isLastStep = derived(
   p,

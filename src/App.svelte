@@ -11,6 +11,7 @@
   import ProgressBars from './lib/ProgressBars.svelte';
   import StoryText from './lib/StoryText.svelte';
   import SectorSelector from './lib/SectorSelector.svelte';
+  import FluxrateSlider from './lib/FluxrateSlider.svelte';
   import { gsap } from 'gsap';
   import { csv, json } from 'd3';
 
@@ -206,6 +207,7 @@
       >
       <!-- Include a checkbox with one option for each sector in $p.sectors and all sectors initially selected -->
       <SectorSelector />
+      <FluxrateSlider />
 
       <!-- <button on:click={pauseAnimation}>Pause</button>
       <button on:click={resumeAnimation}>Resume</button> -->
