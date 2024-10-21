@@ -116,6 +116,17 @@
       sectorsSelected.subscribe((sectors) => {
         $p.map.setFilter('points', ['in', 'sector', ...sectors]);
       });
+
+      // Add event listeners for hover
+      $p.map.on('mouseenter', 'points', (e) => {
+        $p.map.getCanvas().style.cursor = 'pointer';
+        console.log(e.features[0]);
+      });
+
+      $p.map.on('mouseleave', 'points', () => {
+        $p.map.getCanvas().style.cursor = '';
+        // hoveredFeature.set(null);
+      });
     });
   });
 

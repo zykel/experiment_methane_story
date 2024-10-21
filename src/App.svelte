@@ -1,7 +1,6 @@
 <script>
   import {
     p,
-    sectorsSelected,
     getNextStep,
     getPreviousStep,
     isLastStep,
@@ -11,6 +10,7 @@
   import Map from './lib/Map.svelte';
   import ProgressBars from './lib/ProgressBars.svelte';
   import StoryText from './lib/StoryText.svelte';
+  import SectorSelector from './lib/SectorSelector.svelte';
   import { gsap } from 'gsap';
   import { csv, json } from 'd3';
 
@@ -205,11 +205,7 @@
         >Start Animation</button
       >
       <!-- Include a checkbox with one option for each sector in $p.sectors and all sectors initially selected -->
-      <select multiple bind:value="{$sectorsSelected}">
-        <option value="Waste">Waste</option>
-        <option value="Coal">Coal</option>
-        <option value="Oil and Gas">Oil and Gas</option>
-      </select>
+      <SectorSelector />
 
       <!-- <button on:click={pauseAnimation}>Pause</button>
       <button on:click={resumeAnimation}>Resume</button> -->
