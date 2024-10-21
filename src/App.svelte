@@ -1,6 +1,7 @@
 <script>
   import {
     p,
+    sectorsSelected,
     getNextStep,
     getPreviousStep,
     isLastStep,
@@ -68,11 +69,24 @@
     const dataCSVUnsorted = await csv(
       './data/unep_methanedata_detected_plumes.csv'
     );
-    $p.dataCSV = dataCSVUnsorted.sort(function (a, b) {
-      if (a.tile_date < b.tile_date) return -1;
-      if (a.tile_date > b.tile_date) return 1;
-      return 0;
-    });
+    $p.dataCSV = dataCSVUnsorted
+      .map((d) => {
+        return {
+          ...d,
+          // tile_date: new Date(d.tile_date),
+          lon: +d.lon,
+          lat: +d.lat,
+          wind_u: +d.wind_u,
+          wind_v: +d.wind_v,
+          ch4_fluxrate: +d.ch4_fluxrate,
+          ch4_fluxrate_std: +d.ch4_fluxrate_std,
+        };
+      })
+      .sort(function (a, b) {
+        if (a.tile_date < b.tile_date) return -1;
+        if (a.tile_date > b.tile_date) return 1;
+        return 0;
+      });
 
     // Find ideal first flare
     const idealFlareCandidates = $p.dataCSV.filter(
@@ -115,6 +129,12 @@
       pauseAnimation();
     });
     document.addEventListener('mouseup', (event) => {
+      if (step == $p.explorationStep) {
+        // In the exploration step, navigation should be deactivated
+        tl.progress(1);
+        return;
+      }
+
       // Treat the start widget like a click in the right half of the viewport
       const isStartWidget = event.target['classList'].contains('start-widget');
 
@@ -184,6 +204,13 @@
       <button class="start-widget" on:click="{startAnimation}"
         >Start Animation</button
       >
+      <!-- Include a checkbox with one option for each sector in $p.sectors and all sectors initially selected -->
+      <select multiple bind:value="{$sectorsSelected}">
+        <option value="Waste">Waste</option>
+        <option value="Coal">Coal</option>
+        <option value="Oil and Gas">Oil and Gas</option>
+      </select>
+
       <!-- <button on:click={pauseAnimation}>Pause</button>
       <button on:click={resumeAnimation}>Resume</button> -->
     </div>

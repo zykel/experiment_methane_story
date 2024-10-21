@@ -29,6 +29,7 @@ export const p = writable({
   ...pInit,
   // Rememeber that these derived values are not reactive
   nrSteps: pInit.steps.length,
+  explorationStep: pInit.steps[pInit.steps.length - 1],
   maxZoomFactor: 2 ** (pInit.initialZoomOverall - pInit.targetZoomOverall),
   durations: pInit.steps.map((step, i) => {
     let duration = pInit.defaultDuration;
@@ -42,6 +43,8 @@ export const p = writable({
     return { step, duration, buffer };
   }),
 });
+
+export const sectorsSelected = writable(Object.keys(pInit.sectorColors));
 
 export const isLastStep = derived(
   p,

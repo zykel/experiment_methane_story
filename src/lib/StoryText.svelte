@@ -110,6 +110,7 @@
 
 <style>
   #story-text-container {
+    pointer-events: none;
     position: absolute;
     top: 50%;
     left: 0;

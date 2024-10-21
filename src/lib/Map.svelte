@@ -1,5 +1,5 @@
 <script>
-  import { p, getDuration } from '../stores/p.js';
+  import { p, sectorsSelected, getDuration } from '../stores/p.js';
   import { select, zoomIdentity } from 'd3';
   import { onMount } from 'svelte';
   import { gsap } from 'gsap';
@@ -56,7 +56,67 @@
     updateSVGTransform();
 
     // Add GeoJSON source
-    $p.map.on('load', () => {});
+    $p.map.on('load', () => {
+      // Add a source for the positions of the points inside $p.dataCSV, including the property ch4_fluxrate to use it for the size of the merkers later on
+      $p.map.addSource('points', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: $p.dataCSV.map((d) => {
+            return {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [d.lon, d.lat],
+              },
+              properties: {
+                ch4_fluxrate: d.ch4_fluxrate,
+                sector: d.sector,
+                tile_date: d.tile_date,
+                ch4_fluxrate_std: d.ch4_fluxrate_std,
+              },
+            };
+          }),
+        },
+      });
+      // Add a layer for the points with the point color depending on the sector
+      $p.map.addLayer({
+        id: 'points',
+        type: 'circle',
+        source: 'points',
+        paint: {
+          // Color
+          'circle-color': 'transparent', // Make the circle fill transparent
+          'circle-stroke-color': [
+            'match',
+            ['get', 'sector'],
+            'Waste',
+            $p.sectorColors['Waste'],
+            'Coal',
+            $p.sectorColors['Coal'],
+            'Oil and Gas',
+            $p.sectorColors['Oil and Gas'],
+            '#000000',
+          ],
+          'circle-stroke-width': 2,
+          'circle-stroke-opacity': 0.5,
+          'circle-radius': [
+            'interpolate',
+            ['linear'],
+            ['get', 'ch4_fluxrate'],
+            0,
+            5,
+            $p.dataCSV.reduce((acc, d) => Math.max(acc, d.ch4_fluxrate), 0),
+            30,
+          ],
+        },
+      });
+
+      // Update the layer filter whenever selectedSectors changes
+      sectorsSelected.subscribe((sectors) => {
+        $p.map.setFilter('points', ['in', 'sector', ...sectors]);
+      });
+    });
   });
 
   $: {
@@ -92,6 +152,9 @@
         // Create an object to hold zoom level and animate this instead of the map directly
         let zoomObj = { zoom: initialZoom };
 
+        // Reset map center to the initial position
+        $p.map.setCenter([lonCenter, latCenter]);
+
         // Animate the zoomObj
         tl.to(
           zoomObj,
@@ -117,11 +180,15 @@
   }
 
   #mapbox-map-container,
+  #interaction-blocker,
   #svg-map-container {
-    overflow: hidden;
     position: absolute;
     top: 0;
     left: 0;
+  }
+  #svg-map-container {
+    overflow: hidden;
+    pointer-events: none;
   }
 </style>
 
@@ -129,6 +196,13 @@
   <div
     id="mapbox-map-container"
     style="width: {mapWidth}px; height: {mapHeight}px"
+  ></div>
+  <div
+    id="interaction-blocker"
+    style="width: {mapWidth}px; height: {mapHeight}px; display: {step ==
+    $p.explorationStep
+      ? 'none'
+      : 'block'}"
   ></div>
   <div
     id="svg-map-container"
