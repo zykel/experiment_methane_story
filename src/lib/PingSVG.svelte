@@ -28,7 +28,7 @@
         {
           opacity: 0,
           r: 120,
-          'stroke-width': 120 / 3,
+          'stroke-width': 120 / 8,
           duration: 1,
           ease: 'power1.in',
           delay: 2,
