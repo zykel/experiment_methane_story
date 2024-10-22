@@ -17,9 +17,9 @@ const pInit = {
   targetZoomOverall: 1,
   steps: [0, 10, 20, 30, 50, 60],
   sectorColors: {
-    'Oil and Gas': '#C25D5D',
-    Coal: '#C0A85C',
-    Waste: '#5D6CC2',
+    'Oil and Gas': '#F7996E',
+    Coal: '#D8638B',
+    Waste: '#5c7eff',
   },
   // Could be useful to include individual step durations
 };
