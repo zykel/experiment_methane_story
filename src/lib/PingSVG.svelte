@@ -66,8 +66,8 @@
             },
             {
               opacity: 0,
-              r: 60 + 2 ** (i / 1000) * 1500 - 1500,
-              'stroke-width': (60 + 2 ** (i / 1000) * 1500 - 1500) / 3,
+              r: (60 + 2 ** (i / 1000) * 1500 - 1500) / 2,
+              'stroke-width': (60 + 2 ** (i / 1000) * 1500 - 1500) / 8,
               duration: 1,
               delay:
                 i *
@@ -106,10 +106,12 @@
             },
             {
               opacity: 0,
-              r: 520 + 2 ** (i / 1000) * 1500 - 1500,
-              'stroke-width': (520 + 2 ** (i / 1000) * 1500 - 1500) / 3,
+              r: (520 + 2 ** (i / 1000) * 1500 - 1500) / 2,
+              'stroke-width': (520 + 2 ** (i / 1000) * 1500 - 1500) / 8,
               duration: 1,
-              delay: i * 0.0015 - ($p.dataCSVAfterFirst.length / 2) * 0.0015, // Delay each circle reveal
+              delay:
+                (i - $p.dataCSVAfterFirst.length / 2) *
+                (($getDuration(step) - 1) / ($p.dataCSVAfterFirst.length / 2)), // Delay each circle reveal
               ease: 'power1.out',
             },
             0
