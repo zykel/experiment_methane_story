@@ -130,19 +130,25 @@
       pauseAnimation();
     });
     document.addEventListener('mouseup', (event) => {
+      // Treat the start widget like a click in the right half of the viewport
+      const isRestartWidget =
+        event.target['classList'].contains('restart-widget');
+      if (isRestartWidget) {
+        direction = 'forward';
+        step = $p.steps[1];
+        return;
+      }
+
       if (step == $p.explorationStep) {
         // In the exploration step, navigation should be deactivated
         tl.progress(1);
         return;
       }
 
-      // Treat the start widget like a click in the right half of the viewport
-      const isStartWidget = event.target['classList'].contains('start-widget');
-
       // TBD: need to include that if clicking on the left half and 30% of the tl time has alread passed, the current step should be repeated instead of jumping to the previous step
 
       const mouseUpTime = Date.now();
-      if (mouseUpTime - mouseDownTime < 380 || isStartWidget) {
+      if (mouseUpTime - mouseDownTime < 380) {
         // Determine whether mouseup event too place in the left or the right half of the viewport
         const viewportWidth = window.innerWidth;
         const mouseUpX = event.clientX;
@@ -188,6 +194,16 @@
     padding: 5px 10px;
   }
 
+  #exploration-controls-container {
+    position: absolute;
+    bottom: 75px;
+    background: #000000a6;
+    width: 260px;
+    height: 200px;
+    padding: 0 20px 0 20px;
+    height: 200px;
+  }
+
   :global(body) {
     background-color: #121212; /* Dark background color */
     color: #ffffff; /* Light text color for contrast */
@@ -201,9 +217,12 @@
       <Map {tl} {step} />
       <StoryText {tl} {step} />
     </div>
-    <div>
-      <button class="start-widget" on:click="{startAnimation}"
-        >Start Animation</button
+    <div
+      id="exploration-controls-container"
+      style="display: {$isLastStep(step) ? 'block' : 'none'};"
+    >
+      <button class="restart-widget" on:click="{startAnimation}"
+        >Restart Story</button
       >
       <!-- Include a checkbox with one option for each sector in $p.sectors and all sectors initially selected -->
       <SectorSelector />
