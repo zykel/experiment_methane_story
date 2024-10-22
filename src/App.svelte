@@ -10,8 +10,7 @@
   import Map from './lib/Map.svelte';
   import ProgressBars from './lib/ProgressBars.svelte';
   import StoryText from './lib/StoryText.svelte';
-  import SectorSelector from './lib/SectorSelector.svelte';
-  import FluxrateSlider from './lib/FluxrateSlider.svelte';
+  import ExplorationControls from './lib/ExplorationControls.svelte';
   import { gsap } from 'gsap';
   import { csv, json } from 'd3';
 
@@ -189,21 +188,6 @@
     position: relative;
   }
 
-  button {
-    margin: 10px;
-    padding: 5px 10px;
-  }
-
-  #exploration-controls-container {
-    position: absolute;
-    bottom: 75px;
-    background: #000000a6;
-    width: 260px;
-    height: 200px;
-    padding: 0 20px 0 20px;
-    height: 200px;
-  }
-
   :global(body) {
     background-color: #121212; /* Dark background color */
     color: #ffffff; /* Light text color for contrast */
@@ -216,20 +200,7 @@
     <div id="main-view-container">
       <Map {tl} {step} />
       <StoryText {tl} {step} />
-    </div>
-    <div
-      id="exploration-controls-container"
-      style="display: {$isLastStep(step) ? 'block' : 'none'};"
-    >
-      <button class="restart-widget" on:click="{startAnimation}"
-        >Restart Story</button
-      >
-      <!-- Include a checkbox with one option for each sector in $p.sectors and all sectors initially selected -->
-      <SectorSelector />
-      <FluxrateSlider />
-
-      <!-- <button on:click={pauseAnimation}>Pause</button>
-      <button on:click={resumeAnimation}>Resume</button> -->
+      <ExplorationControls {step} />
     </div>
   {/if}
 </div>
