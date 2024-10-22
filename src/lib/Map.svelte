@@ -56,7 +56,7 @@
 
     // Add event listeners for move and zoom events
     // map.on('move', updateSVGTransform);
-    $p.map.on('zoom', updateSVGTransform);
+    // $p.map.on('zoom', updateSVGTransform);
 
     // Initial transformation update
     updateSVGTransform();
@@ -68,7 +68,7 @@
         type: 'geojson',
         data: {
           type: 'FeatureCollection',
-          features: $p.dataCSV.map((d) => {
+          features: $p.dataCSV.map((d, i) => {
             return {
               type: 'Feature',
               geometry: {
@@ -76,6 +76,7 @@
                 coordinates: [d.lon, d.lat],
               },
               properties: {
+                idx: i,
                 ch4_fluxrate: d.ch4_fluxrate,
                 sector: d.sector,
                 tile_date: d.tile_date,
@@ -105,7 +106,7 @@
             '#000000',
           ],
           'circle-stroke-width': 2,
-          'circle-stroke-opacity': 0,
+          'circle-stroke-opacity': 0.5,
           'circle-radius': [
             'interpolate',
             ['linear'],
@@ -144,6 +145,8 @@
         $p.map.getCanvas().style.cursor = '';
         // hoveredFeature.set(null);
       });
+
+      $p.map.setFilter('points', ['all', ['<=', ['get', 'idx'], -1]]);
     });
   });
 
@@ -196,31 +199,72 @@
         );
       }
 
-      if (step == 50) {
-        const opacityObj = { opacity: 0 };
-        const targetOpacity = 0.5;
+      if (step == 20) {
+        let idxObj = { idx: 0 };
+        let targetIdx = 3000;
         tl.to(
-          opacityObj,
+          idxObj,
           {
-            duration: 2,
-            opacity: targetOpacity,
+            duration: $getDuration(step),
+            idx: targetIdx,
             ease: ease,
             onUpdate: () => {
-              // Update the circle opacity
-              $p.map.setPaintProperty(
-                'points',
-                'circle-stroke-opacity',
-                opacityObj.opacity
-              );
+              // Update the map's zoom level during the animation
+              $p.map.setFilter('points', [
+                'all',
+                ['<=', ['get', 'idx'], idxObj.idx],
+              ]);
             },
           },
           0
         );
-      } else if (step == 60) {
-        $p.map.setPaintProperty('points', 'circle-stroke-opacity', 0.5);
-      } else if (step < 50) {
-        $p.map.setPaintProperty('points', 'circle-stroke-opacity', 0);
       }
+      if (step == 30) {
+        let idxObj = { idx: 3000 };
+        let targetIdx = 6200;
+        tl.to(
+          idxObj,
+          {
+            duration: $getDuration(step),
+            idx: targetIdx,
+            ease: ease,
+            onUpdate: () => {
+              // Update the map's zoom level during the animation
+              $p.map.setFilter('points', [
+                'all',
+                ['<=', ['get', 'idx'], idxObj.idx],
+              ]);
+            },
+          },
+          0
+        );
+      }
+
+      // if (step == 50) {
+      //   const opacityObj = { opacity: 0 };
+      //   const targetOpacity = 0.5;
+      //   tl.to(
+      //     opacityObj,
+      //     {
+      //       duration: 2,
+      //       opacity: targetOpacity,
+      //       ease: ease,
+      //       onUpdate: () => {
+      //         // Update the circle opacity
+      //         $p.map.setPaintProperty(
+      //           'points',
+      //           'circle-stroke-opacity',
+      //           opacityObj.opacity
+      //         );
+      //       },
+      //     },
+      //     0
+      //   );
+      // } else if (step == 60) {
+      //   $p.map.setPaintProperty('points', 'circle-stroke-opacity', 0.5);
+      // } else if (step < 50) {
+      //   $p.map.setPaintProperty('points', 'circle-stroke-opacity', 0);
+      // }
     }
   }
 </script>
@@ -259,6 +303,6 @@
     id="svg-map-container"
     style="width: {mapWidth}px; height: {mapHeight}px"
   >
-    <PingSVG bind:pingSVGNode {tl} {step} />
+    <!-- <PingSVG bind:pingSVGNode {tl} {step} /> -->
   </div>
 </div>
