@@ -15,7 +15,7 @@ const pInit = {
   map: null,
   initialZoomOverall: 13.5,
   targetZoomOverall: 1,
-  steps: [0, 10, 20, 30],
+  steps: [0, 10, 20, 30, 50, 60],
   sectorColors: {
     'Oil and Gas': '#C25D5D',
     Coal: '#C0A85C',
@@ -34,12 +34,9 @@ export const p = writable({
   durations: pInit.steps.map((step, i) => {
     let duration = pInit.defaultDuration;
     let buffer = 0;
-    if (step == 10) {
-      duration = 11;
-    }
-    if (step == 20) {
-      duration = 8;
-    }
+    if (step == 10) duration = 11;
+    if (step == 20) duration = 8;
+    if (step == 60) duration = 0.01;
     return { step, duration, buffer };
   }),
 });

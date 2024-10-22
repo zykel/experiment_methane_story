@@ -4,6 +4,7 @@
     sectorsSelected,
     filterFluxrate,
     getDuration,
+    isLastStep,
   } from '../stores/p.js';
   import { select, zoomIdentity } from 'd3';
   import { onMount } from 'svelte';
@@ -18,7 +19,7 @@
   // let map; // Store the map instance
   let initialZoom;
   let targetZoom;
-  let ease;
+  let ease = 'power1.inOut';
 
   let lonCenter = $p.firstFlare.lon; //54.2828085816237;
   let latCenter = $p.firstFlare.lat; //38.65034094375579;
@@ -104,7 +105,7 @@
             '#000000',
           ],
           'circle-stroke-width': 2,
-          'circle-stroke-opacity': 0.5,
+          'circle-stroke-opacity': 0,
           'circle-radius': [
             'interpolate',
             ['linear'],
@@ -115,6 +116,9 @@
             30,
           ],
         },
+        // layout: {
+        //   visibility: 'none', // Initially hide the layer
+        // },
       });
 
       // Update the layer filter whenever selectedSectors or ch4Range changes
@@ -149,29 +153,26 @@
         // Reset the zoom level
         $p.map.setZoom($p.initialZoomOverall);
       }
-      if (step >= 10) {
+      if (step == 10) {
         // Setup where to zoom to
         initialZoom = $p.initialZoomOverall;
         targetZoom = 13;
-        ease = 'power1.inOut';
+        // ease = 'power1.inOut';
       }
-      if (step >= 20) {
+      if (step == 20) {
         // Setup where to zoom to
         initialZoom = 13;
         targetZoom = 5;
-        ease = 'power1.inOut';
+        // ease = 'power1.inOut';
       }
-      if (step >= 30) {
+      if (step == 30) {
         // Setup where to zoom to
         initialZoom = 5;
         targetZoom = $p.targetZoomOverall;
-        ease = 'power1.inOut';
-      }
-      if (step > 30) {
-        ease = 'power1.inOut';
+        // ease = 'power1.inOut';
       }
 
-      if (step >= 10) {
+      if ([10, 20, 30].includes(step)) {
         // Perform the actual zoom
         // Create an object to hold zoom level and animate this instead of the map directly
         let zoomObj = { zoom: initialZoom };
@@ -193,6 +194,32 @@
           },
           0
         );
+      }
+
+      if (step == 50) {
+        const opacityObj = { opacity: 0 };
+        const targetOpacity = 0.5;
+        tl.to(
+          opacityObj,
+          {
+            duration: 2,
+            opacity: targetOpacity,
+            ease: ease,
+            onUpdate: () => {
+              // Update the circle opacity
+              $p.map.setPaintProperty(
+                'points',
+                'circle-stroke-opacity',
+                opacityObj.opacity
+              );
+            },
+          },
+          0
+        );
+      } else if (step == 60) {
+        $p.map.setPaintProperty('points', 'circle-stroke-opacity', 0.5);
+      } else if (step < 50) {
+        $p.map.setPaintProperty('points', 'circle-stroke-opacity', 0);
       }
     }
   }
