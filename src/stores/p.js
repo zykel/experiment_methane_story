@@ -1,5 +1,6 @@
 import { writable, derived } from 'svelte/store';
 
+// debugger;
 // p without self-derived values
 const pInit = {
   dataCSV: [],
@@ -10,8 +11,8 @@ const pInit = {
   defaultDuration: 7,
   defaultTextDisplayDuration: 4,
   stepMax: 2,
-  mapWidth: 300, //700,
-  mapHeight: 600, //400,
+  mapWidth: Math.min(window.innerHeight - 40, window.innerWidth), //700,
+  mapHeight: window.innerHeight - 40, //400,
   map: null,
   initialZoomOverall: 5, //13.5,
   minimalZoomOverall: 13.5,

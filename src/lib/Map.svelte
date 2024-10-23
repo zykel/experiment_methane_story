@@ -50,7 +50,6 @@
 
     // Function to update the SVG transformation
     function updateSVGTransform() {
-      console.log('updateSVGTransform called');
       select(pingSVGNode).attr('transform', getSvgTransform($p.map.getZoom()));
       // TODO: extract reactive zoom variable
       // $p.zoom = $p.map.getZoom();
@@ -127,7 +126,6 @@
 
       // Update the layer filter whenever selectedSectors or ch4Range changes
       function updateFilter() {
-        console.log($notifiedSelected);
         $p.map.setFilter('points', [
           'all',
           ['in', ['get', 'sector'], ['literal', $sectorsSelected]],
