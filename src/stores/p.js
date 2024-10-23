@@ -13,9 +13,10 @@ const pInit = {
   mapWidth: 300, //700,
   mapHeight: 600, //400,
   map: null,
-  initialZoomOverall: 13.5,
+  initialZoomOverall: 5, //13.5,
+  minimalZoomOverall: 13.5,
   targetZoomOverall: 1,
-  steps: [0, 10, 20, 30, 50, 60],
+  steps: [0, 5, 10, 20, 30, 50, 60],
   sectorColors: {
     'Oil and Gas': '#F7996E',
     Coal: '#D8638B',
@@ -30,7 +31,7 @@ export const p = writable({
   // Rememeber that these derived values are not reactive
   nrSteps: pInit.steps.length,
   explorationStep: pInit.steps[pInit.steps.length - 1],
-  maxZoomFactor: 2 ** (pInit.initialZoomOverall - pInit.targetZoomOverall),
+  maxZoomFactor: 2 ** (pInit.minimalZoomOverall - pInit.targetZoomOverall),
   durations: pInit.steps.map((step, i) => {
     let duration = pInit.defaultDuration;
     let buffer = 0;
@@ -42,6 +43,7 @@ export const p = writable({
 });
 
 export const sectorsSelected = writable(Object.keys(pInit.sectorColors));
+export const notifiedSelected = writable(['True', 'False']);
 export const filterFluxrate = writable([0, 1000000]);
 
 export const isLastStep = derived(

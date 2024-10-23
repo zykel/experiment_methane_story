@@ -35,23 +35,23 @@
         },
         0
       );
-      tl.fromTo(
-        `#flare-path`,
-        {
-          opacity: 0,
-          scale: 0,
-          transformOrigin: '0% 100%',
-        },
-        {
-          opacity: 1,
-          duration: 2,
-          scale: 1,
-          // transformOrigin: '50% 50%',
-          ease: 'power1.inOut',
-          delay: 0, //.5,
-        },
-        0
-      );
+      // tl.fromTo(
+      //   `#flare-path`,
+      //   {
+      //     opacity: 0,
+      //     scale: 0,
+      //     transformOrigin: '0% 100%',
+      //   },
+      //   {
+      //     opacity: 1,
+      //     duration: 2,
+      //     scale: 1,
+      //     // transformOrigin: '50% 50%',
+      //     ease: 'power1.inOut',
+      //     delay: 0, //.5,
+      //   },
+      //   0
+      // );
     }
     if (step == 20) {
       // Animate the circle opacity using GSAP
@@ -144,7 +144,7 @@
       stroke="white"
       stroke-width="3"
       fill="{$p.sectorColors[$p.firstFlare.sector]}"
-      opacity="0"
+      opacity="1"
       d="{flareProjectedPath
         .map((point, index) => {
           const [x, y] = point;

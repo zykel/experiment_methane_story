@@ -34,7 +34,7 @@
   let pingSVGNode;
 
   $: getSvgTransform = (zoom) => {
-    const scale = 1 / 2 ** Math.abs(zoom - $p.initialZoomOverall);
+    const scale = 1 / 2 ** Math.abs(zoom - $p.minimalZoomOverall);
     return `translate(${dx},${dy}) scale(${scale})`;
   };
 
@@ -50,6 +50,7 @@
 
     // Function to update the SVG transformation
     function updateSVGTransform() {
+      console.log('updateSVGTransform called');
       select(pingSVGNode).attr('transform', getSvgTransform($p.map.getZoom()));
       // TODO: extract reactive zoom variable
       // $p.zoom = $p.map.getZoom();
@@ -59,11 +60,10 @@
     // map.on('move', updateSVGTransform);
     $p.map.on('zoom', updateSVGTransform);
 
-    // Initial transformation update
-    updateSVGTransform();
-
     // Add GeoJSON source
     $p.map.on('load', () => {
+      // Initial transformation update
+      // updateSVGTransform();
       // Add a source for the positions of the points inside $p.dataCSV, including the property ch4_fluxrate to use it for the size of the merkers later on
       $p.map.addSource('points', {
         type: 'geojson',
@@ -158,9 +158,15 @@
         // Reset the zoom level
         $p.map.setZoom($p.initialZoomOverall);
       }
-      if (step == 10) {
+      if (step == 5) {
         // Setup where to zoom to
         initialZoom = $p.initialZoomOverall;
+        targetZoom = $p.minimalZoomOverall;
+        // ease = 'power1.inOut';
+      }
+      if (step == 10) {
+        // Setup where to zoom to
+        initialZoom = $p.minimalZoomOverall;
         targetZoom = 13;
         // ease = 'power1.inOut';
       }
@@ -177,7 +183,7 @@
         // ease = 'power1.inOut';
       }
 
-      if ([10, 20, 30].includes(step)) {
+      if ([5, 10, 20, 30].includes(step)) {
         // Perform the actual zoom
         // Create an object to hold zoom level and animate this instead of the map directly
         let zoomObj = { zoom: initialZoom };

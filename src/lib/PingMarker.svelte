@@ -11,6 +11,7 @@
   class="{markerData.country + '-marker ping-marker'}"
   cx="{projection.x + ($p.mapWidth * $p.maxZoomFactor) / 2 - $p.mapWidth / 2}"
   cy="{projection.y + ($p.mapHeight * $p.maxZoomFactor) / 2 - $p.mapHeight / 2}"
+  r="{20}"
   fill="none"
   stroke="{$p.sectorColors[markerData.sector]}"
 ></circle>
