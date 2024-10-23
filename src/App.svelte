@@ -98,9 +98,11 @@
     );
     $p.firstFlare = idealFlareCandidates[0];
     // Filter $p.dataCSV to only include flares after the first flare
-    const indexOfFirstFlare = $p.dataCSV.indexOf(
+    const indexOfFirstFlare = $p.dataCSV.findIndex(
       (d) => d.id_plume == $p.firstFlare.id_plume
     );
+    console.log('First flare', indexOfFirstFlare);
+    // debugger;
     $p.dataCSVAfterFirst = $p.dataCSV.slice(indexOfFirstFlare + 1);
 
     // Load the geojson data

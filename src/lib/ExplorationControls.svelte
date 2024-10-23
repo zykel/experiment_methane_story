@@ -1,6 +1,7 @@
 <script>
   import { p, isLastStep } from '../stores/p.js';
   import SectorSelector from './SectorSelector.svelte';
+  import NotifiedSelector from './NotifiedSelector.svelte';
   import FluxrateSlider from './FluxrateSlider.svelte';
   export let step;
 
@@ -23,7 +24,7 @@
   }
   #exploration-controls-container {
     background: #000000a6;
-    height: 200px;
+    height: 250px;
     pointer-events: all;
   }
 </style>
@@ -45,6 +46,7 @@
     <button class="restart-widget">Restart Story</button>
     <!-- Include a checkbox with one option for each sector in $p.sectors and all sectors initially selected -->
     <SectorSelector />
+    <NotifiedSelector />
     <FluxrateSlider />
 
     <!-- <button on:click={pauseAnimation}>Pause</button>

@@ -2,6 +2,7 @@
   import {
     p,
     sectorsSelected,
+    notifiedSelected,
     filterFluxrate,
     getDuration,
     isLastStep,
@@ -80,6 +81,7 @@
                 sector: d.sector,
                 tile_date: d.tile_date,
                 ch4_fluxrate_std: d.ch4_fluxrate_std,
+                notified: d.notified,
               },
             };
           }),
@@ -123,15 +125,18 @@
 
       // Update the layer filter whenever selectedSectors or ch4Range changes
       function updateFilter() {
+        console.log($notifiedSelected);
         $p.map.setFilter('points', [
           'all',
           ['in', ['get', 'sector'], ['literal', $sectorsSelected]],
+          ['in', ['get', 'notified'], ['literal', $notifiedSelected]],
           ['>=', ['get', 'ch4_fluxrate'], $filterFluxrate[0]],
           ['<=', ['get', 'ch4_fluxrate'], $filterFluxrate[1]],
         ]);
       }
 
       sectorsSelected.subscribe(updateFilter);
+      notifiedSelected.subscribe(updateFilter);
       filterFluxrate.subscribe(updateFilter);
 
       // Add event listeners for hover

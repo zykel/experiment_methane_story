@@ -22,6 +22,7 @@
         {
           paragraphs: [
             'It is the second-largest contributor to climate warming after carbon dioxide.',
+            // 'Methane has a shorter atmospheric lifetime than CO2 but absorbs much more energy while it exists in the atmosphere, meaning 1 tonne of methane is equivalent to between 28 and 36 tonnes of CO2 over 100 years.',
           ],
           start: 6,
         },
