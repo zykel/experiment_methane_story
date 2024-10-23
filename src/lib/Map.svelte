@@ -45,7 +45,7 @@
       container: 'mapbox-map-container',
       style: 'mapbox://styles/mapbox/dark-v10',
       center: [lonCenter, latCenter], // Replace with your initial coordinates
-      zoom: $p.initialZoomOverall,
+      zoom: $p.minimalZoomOverall,
     });
 
     // Function to update the SVG transformation
@@ -62,8 +62,9 @@
 
     // Add GeoJSON source
     $p.map.on('load', () => {
+      $p.map.setZoom($p.initialZoomOverall);
       // Initial transformation update
-      // updateSVGTransform();
+      updateSVGTransform();
       // Add a source for the positions of the points inside $p.dataCSV, including the property ch4_fluxrate to use it for the size of the merkers later on
       $p.map.addSource('points', {
         type: 'geojson',

@@ -78,18 +78,18 @@
           );
         }
       });
-      tl.fromTo(
-        `#flare-path`,
-        {
-          opacity: 1,
-        },
-        {
-          opacity: 0,
-          duration: 2,
-          ease: 'power1.inOut',
-        },
-        0
-      );
+      // tl.fromTo(
+      //   `#flare-path`,
+      //   {
+      //     opacity: 1,
+      //   },
+      //   {
+      //     opacity: 0,
+      //     duration: 2,
+      //     ease: 'power1.inOut',
+      //   },
+      //   0
+      // );
     }
 
     if (step == 30) {
