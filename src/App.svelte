@@ -188,6 +188,8 @@
 
   #main-view-container {
     position: relative;
+    border-radius: 5px;
+    overflow: hidden;
   }
 
   :global(body) {
