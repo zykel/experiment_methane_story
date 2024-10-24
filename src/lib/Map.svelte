@@ -64,7 +64,7 @@
       $p.map.setZoom($p.initialZoomOverall);
       // Initial transformation update
       updateSVGTransform();
-      document.getElementById('interaction-blocker').style.display = 'none';
+      document.getElementById('interaction-blocker').style.opacity = '0';
       // Add a source for the positions of the points inside $p.dataCSV, including the property ch4_fluxrate to use it for the size of the merkers later on
       $p.map.addSource('points', {
         type: 'geojson',
