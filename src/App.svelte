@@ -201,11 +201,11 @@
 
 <div id="story-content">
   {#if $p.dataCSV.length > 0}
-    <ProgressBars {tl} {step} />
     <div id="main-view-container">
       <Map {tl} {step} />
       <StoryText {tl} {step} />
       <ExplorationControls {step} />
+      <ProgressBars {tl} {step} />
     </div>
   {/if}
 </div>
