@@ -9,23 +9,34 @@
 
   const storyText = [
     {
+      step: 5,
+      textArray: [
+        {
+          paragraphs: [
+            'Methane is second biggest driver of global warming after carbon dioxide and is responsible for 30% of warming from human sources.',
+          ],
+          start: 0,
+        },
+      ],
+    },
+    {
       step: 10,
       textArray: [
         {
           paragraphs: [
-            'This is a methane cloud measured by the XY satellite.',
-            'Methane is released when industrially processing oil and gas for energy generation.',
+            'This is a methane flare from an oil an gas plant in Turkmenistan in November 2023 (CHANGE).',
+            'It was identified by the UN’s Methane Alert and Response System (MARS), which uses satellites to track methane emission sources.',
           ],
           start: 2,
           // duration: 4,
         },
-        {
-          paragraphs: [
-            'It is the second-largest contributor to climate warming after carbon dioxide.',
-            // 'Methane has a shorter atmospheric lifetime than CO2 but absorbs much more energy while it exists in the atmosphere, meaning 1 tonne of methane is equivalent to between 28 and 36 tonnes of CO2 over 100 years.',
-          ],
-          start: 6,
-        },
+        // {
+        //   paragraphs: [
+        //     'It is the second-largest contributor to climate warming after carbon dioxide.',
+        //     // 'Methane has a shorter atmospheric lifetime than CO2 but absorbs much more energy while it exists in the atmosphere, meaning 1 tonne of methane is equivalent to between 28 and 36 tonnes of CO2 over 100 years.',
+        //   ],
+        //   start: 6,
+        // },
       ],
     },
     {
@@ -33,7 +44,32 @@
       textArray: [
         {
           paragraphs: [
-            `Big industrial sectors in which methane is released are <span style="color: ${$p.sectorColors['Oil and Gas']}">oil and gas generation</span>, <span style="color: ${$p.sectorColors['Coal']}">coal mining</span>, and <span style="color: ${$p.sectorColors['Waste']}">processing of waste</span>.`,
+            `MARS is currenty being used to inform governments and companies of methane emitting events across the energy (<span style="color: ${$p.sectorColors['Oil and Gas']}">oil & gas</span> and <span style="color: ${$p.sectorColors['Coal']}">coal</span>) and <span style="color: ${$p.sectorColors['Waste']}">waste</span> industries.`,
+          ],
+          start: 4,
+        },
+      ],
+    },
+    {
+      step: 30,
+      textArray: [
+        {
+          paragraphs: [
+            'Turkmenistan has the highest detected Methane emissions, followed by India, Pakistan and the US.',
+            'However, the underlying production often also takes place for consumption in other countries.',
+          ],
+          start: 4,
+          duration: 3,
+        },
+      ],
+    },
+    {
+      step: 50,
+      textArray: [
+        {
+          paragraphs: [
+            'MARS will soon be able to detect smaller plumes and incorporate other sectors like agriculture.',
+            'For now, feel free to explore these methane emissions yourself!',
           ],
           start: 2,
         },
@@ -42,52 +78,85 @@
   ];
 
   const hideAllText = () => {
-    document.querySelectorAll('.story-text').forEach((el) => {
-      el['style'].opacity = 0;
-    });
+    if (onlyOneTextPanelPerStep) {
+      document.querySelectorAll('.text-paragraph').forEach((el) => {
+        el['style'].opacity = 0;
+      });
+    } else {
+      document.querySelectorAll('.story-text').forEach((el) => {
+        el['style'].opacity = 0;
+      });
+    }
   };
+
+  const onlyOneTextPanelPerStep = true;
 
   $: {
     // Set the opacity style of all elements with class .story-text to 0
     hideAllText();
 
-    // if (step == 10) {
-    const stepInfo = storyText.find((stepInfo) => stepInfo.step === step);
-    if (typeof stepInfo !== 'undefined') {
-      stepInfo.textArray.forEach((textInfo, j) => {
-        tl.fromTo(
-          `#story-text-step-${step}-${j}`,
-          {
-            opacity: 0,
-          },
-          {
-            opacity: 1,
-            duration: 0.1,
-            ease: 'power1.in',
-            delay: textInfo.start, // Delay each text reveal
-          },
-          0
-        );
+    if (onlyOneTextPanelPerStep) {
+      const stepInfo = storyText.find((stepInfo) => stepInfo.step === step);
+      if (typeof stepInfo !== 'undefined') {
+        const j = 0;
+        const textInfo = stepInfo.textArray[j];
+        const duration = textInfo.duration
+          ? textInfo.duration
+          : $p.defaultTextDisplayDuration;
+        textInfo.paragraphs.forEach((text, k) => {
+          tl.fromTo(
+            `#text-paragraph-${step}-${j}-${k}`,
+            {
+              opacity: 0,
+            },
+            {
+              opacity: 1,
+              duration: 0.1,
+              ease: 'power1.in',
+              delay: textInfo.start + k * duration, // Delay each text reveal
+            },
+            0
+          );
+        });
+      }
+    } else {
+      const stepInfo = storyText.find((stepInfo) => stepInfo.step === step);
+      if (typeof stepInfo !== 'undefined') {
+        stepInfo.textArray.forEach((textInfo, j) => {
+          tl.fromTo(
+            `#story-text-step-${step}-${j}`,
+            {
+              opacity: 0,
+            },
+            {
+              opacity: 1,
+              duration: 0.1,
+              ease: 'power1.in',
+              delay: textInfo.start, // Delay each text reveal
+            },
+            0
+          );
 
-        // TODO: Could make this optional: Only remove if not last text in array - however this would make the last text int the array potentially be displayed for longer, introducing somewhat of an inconsistency - dunno if that is relevant
-        const removeTime =
-          textInfo.start +
-          (textInfo.duration
-            ? textInfo.duration
-            : $p.defaultTextDisplayDuration);
-        tl.to(
-          `#story-text-step-${step}-${j}`,
-          {
-            duration: 0.1,
-            ease: 'power1.in',
-            delay: removeTime,
-            opacity: 0,
-          },
-          0
-        );
-      });
+          // TODO: Could make this optional: Only remove if not last text in array - however this would make the last text int the array potentially be displayed for longer, introducing somewhat of an inconsistency - dunno if that is relevant
+          const removeTime =
+            textInfo.start +
+            (textInfo.duration
+              ? textInfo.duration
+              : $p.defaultTextDisplayDuration);
+          tl.to(
+            `#story-text-step-${step}-${j}`,
+            {
+              duration: 0.1,
+              ease: 'power1.in',
+              delay: removeTime,
+              opacity: 0,
+            },
+            0
+          );
+        });
+      }
+      // }
     }
-    // }
   }
 
   //   $: {
@@ -117,6 +186,8 @@
     left: 0;
     z-index: 5;
     /* padding: 20px; */
+    /* left: 230px;
+    width: 300px; TODO:*/
     width: 100%;
   }
 
@@ -124,7 +195,6 @@
     position: relative;
     display: flex;
     align-items: center;
-    height: 300px;
   }
 
   .text-step-container {
@@ -140,7 +210,6 @@
     color: #121212;
     font-weight: 700;
     line-height: 1.8;
-    opacity: 0;
     transition: opacity 0.1s;
   }
 
@@ -151,6 +220,7 @@
     padding: 0px 0.5rem 0.2rem 0.5rem;
     box-decoration-break: clone; /* Ensure background and padding apply to each line */
     -webkit-box-decoration-break: clone; /* For WebKit browsers */
+    transition: opacity 0.1s;
   }
 </style>
 
@@ -164,14 +234,31 @@
   {/each}
 </div> -->
 
-<div id="story-text-container">
-  <div id="text-positioning-container">
+<div
+  id="story-text-container"
+  style="width: {$p.mapWidth > $p.maxTextWidth
+    ? $p.maxTextWidth + 'px'
+    : '100%'}; 
+    left: {$p.mapWidth > $p.maxTextWidth
+    ? ($p.mapWidth - $p.maxTextWidth) / 2 + 'px'
+    : '0'};"
+>
+  <div id="text-positioning-container" style="height: {$p.mapHeight / 2}px">
     {#each storyText as stepInfo, i}
       {#each stepInfo.textArray as textInfo, j}
         <div class="text-step-container">
-          <p id="story-text-step-{stepInfo.step}-{j}" class="story-text">
+          <p
+            id="story-text-step-{stepInfo.step}-{j}"
+            class="story-text"
+            style="opacity: {onlyOneTextPanelPerStep ? 1 : 0}"
+          >
             {#each textInfo.paragraphs as text, k}
-              <span class="text-paragraph">{@html text}</span>
+              <span
+                id="text-paragraph-{stepInfo.step}-{j}-{k}"
+                class="text-paragraph"
+                style="opacity: {onlyOneTextPanelPerStep ? 0 : 1}"
+                >{@html text}</span
+              >
               {#if k < textInfo.paragraphs.length - 1}
                 <br />
                 <br />

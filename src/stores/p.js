@@ -13,6 +13,7 @@ const pInit = {
   stepMax: 2,
   mapWidth: Math.min(window.innerHeight - 40, window.innerWidth), //700,
   mapHeight: window.innerHeight - 40, //400,
+  maxTextWidth: 400,
   map: null,
   initialZoomOverall: 5, //13.5,
   minimalZoomOverall: 13.5,
@@ -37,7 +38,8 @@ export const p = writable({
     let duration = pInit.defaultDuration;
     let buffer = 0;
     if (step == 10) duration = 11;
-    if (step == 20) duration = 8;
+    if (step == 20) duration = 10;
+    if (step == 30) duration = 10;
     if (step == 60) duration = 0.01;
     return { step, duration, buffer };
   }),

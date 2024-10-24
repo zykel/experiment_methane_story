@@ -167,18 +167,18 @@
       if (step == 10) {
         // Setup where to zoom to
         initialZoom = $p.minimalZoomOverall;
-        targetZoom = 13;
+        targetZoom = 12;
         // ease = 'power1.inOut';
       }
       if (step == 20) {
         // Setup where to zoom to
-        initialZoom = 13;
-        targetZoom = 5;
+        initialZoom = 12;
+        targetZoom = 4;
         // ease = 'power1.inOut';
       }
       if (step == 30) {
         // Setup where to zoom to
-        initialZoom = 5;
+        initialZoom = 4;
         targetZoom = $p.targetZoomOverall;
         // ease = 'power1.inOut';
       }
