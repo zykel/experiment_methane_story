@@ -14,6 +14,7 @@
         {
           paragraphs: [
             'Methane is second biggest driver of global warming after carbon dioxide and is responsible for 30% of warming from human sources.',
+            "We can now track methane emissions using satellites - let's take a look.",
           ],
           start: 0,
         },
@@ -24,8 +25,8 @@
       textArray: [
         {
           paragraphs: [
-            'This is a methane flare from an oil an gas plant in Turkmenistan in November 2023 (CHANGE).',
-            'It was identified by the UN’s Methane Alert and Response System (MARS), which uses satellites to track methane emission sources.',
+            'This is a methane plume from an oil an gas plant in Turkmenistan in November 2022.',
+            "It was captured by the UN's International Methane Emissions Observatory (IMEO), which is using satellites to track methane emission sources.",
           ],
           start: 2,
           // duration: 4,
@@ -44,9 +45,11 @@
       textArray: [
         {
           paragraphs: [
-            `MARS is currenty being used to inform governments and companies of methane emitting events across the energy (<span style="color: ${$p.sectorColors['Oil and Gas']}">oil & gas</span> and <span style="color: ${$p.sectorColors['Coal']}">coal</span>) and <span style="color: ${$p.sectorColors['Waste']}">waste</span> industries.`,
+            `The IMEO are currently tracking methane across the energy (<span style="color: ${$p.sectorColors['Oil and Gas']}">oil & gas</span> and <span style="color: ${$p.sectorColors['Coal']}">coal</span>) and <span style="color: ${$p.sectorColors['Waste']}">waste</span> sectors.`,
+            'Soon, it will be possible to detect smaller plumes and incorporate other sectors like agriculture.',
           ],
           start: 4,
+          duration: 3,
         },
       ],
     },
@@ -55,8 +58,8 @@
       textArray: [
         {
           paragraphs: [
-            'Turkmenistan has the highest detected Methane emissions, followed by India, Pakistan and the US.',
-            'However, the underlying production often also takes place for consumption in other countries.',
+            'To date, the greatest quantities of methane have been detected in Turkmenistan, followed by India, Pakistan and the US.',
+            'It is worth nothing that it is very difficult for satellites to detect methane emissions in cloudy areas.',
           ],
           start: 4,
           duration: 3,
@@ -68,14 +71,85 @@
       textArray: [
         {
           paragraphs: [
-            'MARS will soon be able to detect smaller plumes and incorporate other sectors like agriculture.',
-            'For now, feel free to explore these methane emissions yourself!',
+            'Here is the complete Methane data from the IMEO, as of October 2024.',
+            'Feel free to explore this data by sector and emissions.',
           ],
           start: 2,
+          duration: 3,
         },
       ],
     },
   ];
+
+  // [
+  //   {
+  //     step: 5,
+  //     textArray: [
+  //       {
+  //         paragraphs: [
+  //           'Methane is second biggest driver of global warming after carbon dioxide and is responsible for 30% of warming from human sources.',
+  //         ],
+  //         start: 0,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     step: 10,
+  //     textArray: [
+  //       {
+  //         paragraphs: [
+  //           'This is a methane flare from an oil an gas plant in Turkmenistan in November 2023 (CHANGE).',
+  //           'It was identified by the UN’s Methane Alert and Response System (MARS), which uses satellites to track methane emission sources.',
+  //         ],
+  //         start: 2,
+  //         // duration: 4,
+  //       },
+  //       // {
+  //       //   paragraphs: [
+  //       //     'It is the second-largest contributor to climate warming after carbon dioxide.',
+  //       //     // 'Methane has a shorter atmospheric lifetime than CO2 but absorbs much more energy while it exists in the atmosphere, meaning 1 tonne of methane is equivalent to between 28 and 36 tonnes of CO2 over 100 years.',
+  //       //   ],
+  //       //   start: 6,
+  //       // },
+  //     ],
+  //   },
+  //   {
+  //     step: 20,
+  //     textArray: [
+  //       {
+  //         paragraphs: [
+  //           `MARS is currenty being used to inform governments and companies of methane emitting events across the energy (<span style="color: ${$p.sectorColors['Oil and Gas']}">oil & gas</span> and <span style="color: ${$p.sectorColors['Coal']}">coal</span>) and <span style="color: ${$p.sectorColors['Waste']}">waste</span> industries.`,
+  //         ],
+  //         start: 4,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     step: 30,
+  //     textArray: [
+  //       {
+  //         paragraphs: [
+  //           'Turkmenistan has the highest detected Methane emissions, followed by India, Pakistan and the US.',
+  //           'However, the underlying production often also takes place for consumption in other countries.',
+  //         ],
+  //         start: 4,
+  //         duration: 3,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     step: 50,
+  //     textArray: [
+  //       {
+  //         paragraphs: [
+  //           'MARS will soon be able to detect smaller plumes and incorporate other sectors like agriculture.',
+  //           'For now, feel free to explore these methane emissions yourself!',
+  //         ],
+  //         start: 2,
+  //       },
+  //     ],
+  //   },
+  // ];
 
   const hideAllText = () => {
     if (onlyOneTextPanelPerStep) {

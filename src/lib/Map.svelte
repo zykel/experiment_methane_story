@@ -112,11 +112,13 @@
           'circle-radius': [
             'interpolate',
             ['linear'],
-            ['get', 'ch4_fluxrate'],
+            ['sqrt', ['get', 'ch4_fluxrate']],
             0,
-            5,
-            $p.dataCSV.reduce((acc, d) => Math.max(acc, d.ch4_fluxrate), 0),
-            30,
+            2,
+            Math.sqrt(
+              $p.dataCSV.reduce((acc, d) => Math.max(acc, d.ch4_fluxrate), 0)
+            ),
+            40,
           ],
         },
         // layout: {

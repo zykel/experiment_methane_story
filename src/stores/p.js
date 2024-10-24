@@ -17,7 +17,7 @@ const pInit = {
   map: null,
   initialZoomOverall: 5, //13.5,
   minimalZoomOverall: 13.5,
-  targetZoomOverall: 1,
+  targetZoomOverall: 2,
   steps: [0, 5, 10, 20, 30, 50, 60],
   sectorColors: {
     'Oil and Gas': '#F7996E',

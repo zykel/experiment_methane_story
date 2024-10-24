@@ -73,7 +73,7 @@
       .map((d) => {
         return {
           ...d,
-          // tile_date: new Date(d.tile_date),
+          timestamp: new Date(d.tile_date),
           lon: +d.lon,
           lat: +d.lat,
           wind_u: +d.wind_u,
