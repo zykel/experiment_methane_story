@@ -4,7 +4,9 @@
   export let tl;
   export let step;
 
-  let gap = 4; // Gap between progress bars
+  const gap = 4; // Gap between progress bars
+  const lastBarWidth = 16; // Width of the last bar
+  $: lastStep = $p.steps[$p.steps.length - 1]; // Last step
 
   $: {
     if (step > $p.steps[0]) {
@@ -28,6 +30,7 @@
   .progress-bars {
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
 
   .progress-bar-container {
@@ -59,10 +62,11 @@
 </style>
 
 <div class="progress-bars" style="gap: {gap}px">
-  {#each $p.steps.slice(1, $p.nrSteps) as s}
+  {#each $p.steps.slice(1, $p.nrSteps - 1) as s}
     <div
       class="progress-bar-container"
-      style="width: {$p.mapWidth / ($p.nrSteps - 1) - gap / 2}px;"
+      style="width: {($p.mapWidth - ($p.nrSteps - 2) * gap - lastBarWidth) /
+        ($p.nrSteps - 2)}px;"
     >
       <div class="progress-bar ghost" id="ghost-progress-bar-{s}"></div>
       <div
@@ -72,4 +76,19 @@
       ></div>
     </div>
   {/each}
+  <div
+    class="progress-bar-container last-step-container"
+    style="width: {lastBarWidth}px; height: {lastBarWidth}px;"
+  >
+    <div
+      class="progress-bar ghost"
+      id="ghost-progress-bar-{lastStep}"
+      style="height: {lastBarWidth}px;"
+    ></div>
+    <div
+      class="progress-bar"
+      id="progress-bar-{lastStep}"
+      style="width: {step <= lastStep ? 0 : 100}%; height: {lastBarWidth}px;"
+    ></div>
+  </div>
 </div>

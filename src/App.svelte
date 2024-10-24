@@ -97,6 +97,7 @@
         d.lat <= 39.08892395176091
     );
     $p.firstFlare = idealFlareCandidates[0];
+    console.log($p.firstFlare);
     // Filter $p.dataCSV to only include flares after the first flare
     const indexOfFirstFlare = $p.dataCSV.findIndex(
       (d) => d.id_plume == $p.firstFlare.id_plume
