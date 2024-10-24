@@ -1,5 +1,5 @@
 <script>
-  import { p, getDuration } from '../stores/p.js';
+  import { p, getDuration, isLastStep } from '../stores/p.js';
   import { area } from 'd3-shape';
   import PingMarker from './PingMarker.svelte';
 
@@ -144,7 +144,7 @@
       stroke="white"
       stroke-width="3"
       fill="{$p.sectorColors[$p.firstFlare.sector]}"
-      opacity="1"
+      opacity="{$isLastStep(step) ? 0 : 1}"
       d="{flareProjectedPath
         .map((point, index) => {
           const [x, y] = point;
