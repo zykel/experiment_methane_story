@@ -26,6 +26,7 @@
     background: #000000a6;
     height: 250px;
     pointer-events: all;
+    transition: opacity 0.3s;
   }
 </style>
 
@@ -36,12 +37,8 @@
   <div
     id="exploration-controls-container"
     style="width: {$p.mapWidth -
-      paddingSide *
-        2}px; padding: 0 {paddingSide}px 0 {paddingSide}px; display: {$isLastStep(
-      step
-    )
-      ? 'block'
-      : 'none'};"
+      paddingSide * 2}px; padding: 0 {paddingSide}px 0 {paddingSide}px; 
+      opacity: {$isLastStep(step) ? 1 : 0};"
   >
     <button class="restart-widget">Restart Story</button>
     <!-- Include a checkbox with one option for each sector in $p.sectors and all sectors initially selected -->
