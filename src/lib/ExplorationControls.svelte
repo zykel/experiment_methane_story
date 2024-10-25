@@ -3,6 +3,7 @@
   import SectorSelector from './SectorSelector.svelte';
   import NotifiedSelector from './NotifiedSelector.svelte';
   import FluxrateSlider from './FluxrateSlider.svelte';
+  import TimeSlider from './TimeSlider.svelte';
   export let step;
 
   const paddingSide = 20;
@@ -45,6 +46,7 @@
     <SectorSelector />
     <NotifiedSelector />
     <FluxrateSlider />
+    <TimeSlider />
 
     <!-- <button on:click={pauseAnimation}>Pause</button>
     <button on:click={resumeAnimation}>Resume</button> -->

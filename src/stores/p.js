@@ -17,7 +17,7 @@ const pInit = {
   map: null,
   initialZoomOverall: 5, //13.5,
   minimalZoomOverall: 13.5,
-  targetZoomOverall: 2,
+  targetZoomOverall: 1.5,
   steps: [0, 5, 10, 20, 30, 50, 60],
   sectorColors: {
     'Oil and Gas': '#F7996E',
@@ -33,6 +33,7 @@ export const p = writable({
   // Rememeber that these derived values are not reactive
   nrSteps: pInit.steps.length,
   explorationStep: pInit.steps[pInit.steps.length - 1],
+  // Technically, I would have to adjust this to the screen size as I do it in adjustZoomToScreensize in Map.svelte, but the difference is actually "calculated out" since the difference in zoom levels doesn't change even though the zoom levels are adjusted - both are adjusted by subtracting the same amount in adjustZoomToScreensize
   maxZoomFactor: 2 ** (pInit.minimalZoomOverall - pInit.targetZoomOverall),
   durations: pInit.steps.map((step, i) => {
     let duration = pInit.defaultDuration;
@@ -48,6 +49,7 @@ export const p = writable({
 export const sectorsSelected = writable(Object.keys(pInit.sectorColors));
 export const notifiedSelected = writable(['True', 'False']);
 export const filterFluxrate = writable([0, 1000000]);
+export const filterTime = writable([]);
 
 export const isLastStep = derived(
   p,

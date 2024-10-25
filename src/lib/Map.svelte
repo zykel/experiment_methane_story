@@ -4,6 +4,7 @@
     sectorsSelected,
     notifiedSelected,
     filterFluxrate,
+    filterTime,
     getDuration,
     isLastStep,
   } from '../stores/p.js';
@@ -33,8 +34,17 @@
 
   let pingSVGNode;
 
+  $: adjustZoomToScreensize = (zoom) => {
+    if ($p.mapHeight <= 0) return zoom;
+    let newZoom = zoom - Math.log2(800 / $p.mapHeight);
+    newZoom = newZoom < 0 ? 0 : newZoom;
+    newZoom = newZoom > 22 ? 22 : newZoom;
+    return newZoom;
+  };
+
   $: getSvgTransform = (zoom) => {
-    const scale = 1 / 2 ** Math.abs(zoom - $p.minimalZoomOverall);
+    const scale =
+      1 / 2 ** Math.abs(zoom - adjustZoomToScreensize($p.minimalZoomOverall));
     return `translate(${dx},${dy}) scale(${scale})`;
   };
 
@@ -45,7 +55,7 @@
       container: 'mapbox-map-container',
       style: 'mapbox://styles/mapbox/dark-v10',
       center: [lonCenter, latCenter], // Replace with your initial coordinates
-      zoom: $p.minimalZoomOverall,
+      zoom: adjustZoomToScreensize($p.minimalZoomOverall),
     });
 
     // Function to update the SVG transformation
@@ -61,7 +71,7 @@
 
     // Add GeoJSON source
     $p.map.on('load', () => {
-      $p.map.setZoom($p.initialZoomOverall);
+      $p.map.setZoom(adjustZoomToScreensize($p.initialZoomOverall));
       // Initial transformation update
       updateSVGTransform();
       document.getElementById('interaction-blocker').style.opacity = '0';
@@ -83,6 +93,7 @@
                 tile_date: d.tile_date,
                 ch4_fluxrate_std: d.ch4_fluxrate_std,
                 notified: d.notified,
+                timestamp: d.timestamp,
               },
             };
           }),
@@ -134,17 +145,20 @@
           ['in', ['get', 'notified'], ['literal', $notifiedSelected]],
           ['>=', ['get', 'ch4_fluxrate'], $filterFluxrate[0]],
           ['<=', ['get', 'ch4_fluxrate'], $filterFluxrate[1]],
+          ['>=', ['get', 'timestamp'], $filterTime[0]],
+          ['<=', ['get', 'timestamp'], $filterTime[1]],
         ]);
       }
 
       sectorsSelected.subscribe(updateFilter);
       notifiedSelected.subscribe(updateFilter);
       filterFluxrate.subscribe(updateFilter);
+      filterTime.subscribe(updateFilter);
 
       // Add event listeners for hover
       $p.map.on('mouseenter', 'points', (e) => {
         $p.map.getCanvas().style.cursor = 'pointer';
-        console.log(e.features[0]);
+        console.log(e.features[0].properties.tile_date);
       });
 
       $p.map.on('mouseleave', 'points', () => {
@@ -158,7 +172,7 @@
     if ($p.map && step > $p.steps[0]) {
       if (step == $p.steps[1]) {
         // Reset the zoom level
-        $p.map.setZoom($p.initialZoomOverall);
+        $p.map.setZoom(adjustZoomToScreensize($p.initialZoomOverall));
       }
       if (step == 5) {
         // Setup where to zoom to
@@ -188,7 +202,7 @@
       if ([5, 10, 20, 30].includes(step)) {
         // Perform the actual zoom
         // Create an object to hold zoom level and animate this instead of the map directly
-        let zoomObj = { zoom: initialZoom };
+        let zoomObj = { zoom: adjustZoomToScreensize(initialZoom) };
 
         // Reset map center to the initial position
         $p.map.setCenter([lonCenter, latCenter]);
@@ -198,7 +212,7 @@
           zoomObj,
           {
             duration: $getDuration(step),
-            zoom: targetZoom,
+            zoom: adjustZoomToScreensize(targetZoom),
             ease: ease, // TODO: Check if inout easing is not actually nicer
             onUpdate: () => {
               // Update the map's zoom level during the animation
