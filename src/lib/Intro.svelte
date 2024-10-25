@@ -68,6 +68,10 @@
   h1 {
     text-align: center;
   }
+
+  p {
+    font-size: 1.25rem;
+  }
 </style>
 
 <div class="blurry-div" style="opacity: {step > 0 ? 0 : 1};">
