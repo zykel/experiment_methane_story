@@ -22,6 +22,7 @@
       0
     ); /* Optional: Add a semi-transparent background */
     pointer-events: none; /* Optional: Allow clicks to pass through */
+    transition: opacity 0.5s;
   }
 
   #intro-text-container {
@@ -69,7 +70,7 @@
   }
 </style>
 
-<div class="blurry-div" style="display: {step > 0 ? 'none' : 'flex'};">
+<div class="blurry-div" style="opacity: {step > 0 ? 0 : 1};">
   <h1>A Quick Dive into UNEP's Methane Data</h1>
   <div id="intro-text-container">
     <div class="navigation-entry-container">
@@ -84,7 +85,8 @@
         ></path>
       </svg>
       <p>
-        To skip forward, <span class="bold">tap on the right side</span> of the view.
+        To skip forwards, <span class="bold">tap on the right side</span> of the
+        view.
       </p>
     </div>
     <div class="navigation-entry-container">
@@ -112,7 +114,8 @@
         ></path>
       </svg>
       <p>
-        To skip backward, <span class="bold">tap on the left side</span> of the view.
+        To skip backwards, <span class="bold">tap on the left side</span> of the
+        view.
       </p>
     </div>
   </div>
