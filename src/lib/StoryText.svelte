@@ -25,7 +25,7 @@
       textArray: [
         {
           paragraphs: [
-            'This is a methane plume from an oil an gas plant in Turkmenistan in November 2022.',
+            `This is a methane plume from an <span style="color: ${$p.sectorColors['Oil and Gas']}">oil and gas</span> plant in Turkmenistan in November 2022.`,
             "It was captured by the UN's International Methane Emissions Observatory (IMEO), which is using satellites to track methane emission sources.",
           ],
           start: 2,
@@ -281,15 +281,16 @@
 
   .story-text {
     display: inline;
-    color: #121212;
+    color: #ffffff;
     font-weight: 700;
     line-height: 1.8;
+    font-size: 1.25rem;
     transition: opacity 0.1s;
   }
 
   .text-paragraph {
     display: inline;
-    background-color: #ffffff;
+    background-color: #121212;
     border-radius: 5px;
     padding: 0px 0.5rem 0.2rem 0.5rem;
     box-decoration-break: clone; /* Ensure background and padding apply to each line */

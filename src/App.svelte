@@ -151,10 +151,11 @@
 
       const mouseUpTime = Date.now();
       if (mouseUpTime - mouseDownTime < 380) {
-        // Determine whether mouseup event too place in the left or the right half of the viewport
+        // Determine whether mouseup event too place in the left or the right section of the viewport
         const viewportWidth = window.innerWidth;
         const mouseUpX = event.clientX;
-        if (mouseUpX < viewportWidth / 2) {
+        // Split at a third of the map from the left
+        if (mouseUpX < viewportWidth / 2 - $p.mapWidth / 6) {
           // Get the percentage of current progress of the tl
           const progress = tl.progress();
           if (progress > 0.2) {
