@@ -11,6 +11,7 @@
   import ProgressBars from './lib/ProgressBars.svelte';
   import StoryText from './lib/StoryText.svelte';
   import ExplorationControls from './lib/ExplorationControls.svelte';
+  import Intro from './lib/Intro.svelte';
   import { gsap } from 'gsap';
   import { csv, json } from 'd3';
 
@@ -207,6 +208,7 @@
       <StoryText {tl} {step} />
       <ExplorationControls {step} />
       <ProgressBars {tl} {step} />
+      <Intro {step} />
     </div>
   {/if}
 </div>
