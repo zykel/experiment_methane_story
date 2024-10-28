@@ -157,12 +157,11 @@
 
       // Add event listeners for hover
       $p.map.on('mouseenter', 'points', (e) => {
-        $p.map.getCanvas().style.cursor = 'pointer';
-        console.log(e.features[0].properties.tile_date);
+        // $p.map.getCanvas().style.cursor = 'pointer';
       });
 
       $p.map.on('mouseleave', 'points', () => {
-        $p.map.getCanvas().style.cursor = '';
+        // $p.map.getCanvas().style.cursor = '';
         // hoveredFeature.set(null);
       });
     });
