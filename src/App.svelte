@@ -191,7 +191,6 @@
 
   #main-view-container {
     position: relative;
-    border-radius: 5px;
     overflow: hidden;
   }
 
@@ -203,7 +202,11 @@
 
 <div id="story-content">
   {#if $p.dataCSV.length > 0}
-    <div id="main-view-container">
+    <div
+      id="main-view-container"
+      style="
+    border-radius: {$p.portraitMode ? 0 : 10}px;"
+    >
       <Map {tl} {step} />
       <StoryText {tl} {step} />
       <ExplorationControls {step} />

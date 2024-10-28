@@ -63,8 +63,6 @@
           .join(' ');
       })
       .join(' ');
-
-    console.log(path);
     return path;
   };
 

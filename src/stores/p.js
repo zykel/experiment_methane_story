@@ -11,8 +11,14 @@ const pInit = {
   defaultDuration: 7,
   defaultTextDisplayDuration: 4,
   stepMax: 2,
-  mapWidth: Math.min(window.innerHeight, window.innerWidth), //700,
-  mapHeight: window.innerHeight, //400,
+  mapWidth:
+    window.innerWidth > window.innerHeight
+      ? window.innerHeight - 20
+      : window.innerWidth, //700,
+  mapHeight:
+    window.innerWidth > window.innerHeight
+      ? window.innerHeight - 20
+      : window.innerHeight, //400,
   maxTextWidth: 400,
   map: null,
   initialZoomOverall: 5, //13.5,
@@ -48,6 +54,7 @@ export const p = writable({
     if (step == 60) duration = 0.01;
     return { step, duration, buffer };
   }),
+  portraitMode: pInit.mapHeight > pInit.mapWidth + 1,
 });
 
 export const sectorsSelected = writable(Object.keys(pInit.sectorColors));
