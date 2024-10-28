@@ -174,9 +174,15 @@
         // Reset the zoom level
         $p.map.setZoom(adjustZoomToScreensize($p.initialZoomOverall));
       }
-      if (step == 5) {
+      if (step == 2) {
         // Setup where to zoom to
         initialZoom = $p.initialZoomOverall;
+        targetZoom = $p.initialZoomOverall + 0.5;
+        // ease = 'power1.inOut';
+      }
+      if (step == 5) {
+        // Setup where to zoom to
+        initialZoom = $p.initialZoomOverall + 0.5;
         targetZoom = $p.minimalZoomOverall;
         // ease = 'power1.inOut';
       }
@@ -199,7 +205,7 @@
         // ease = 'power1.inOut';
       }
 
-      if ([5, 10, 20, 30].includes(step)) {
+      if ([2, 5, 10, 20, 30].includes(step)) {
         // Perform the actual zoom
         // Create an object to hold zoom level and animate this instead of the map directly
         let zoomObj = { zoom: adjustZoomToScreensize(initialZoom) };
