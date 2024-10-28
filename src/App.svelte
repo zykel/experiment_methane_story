@@ -18,7 +18,7 @@
   let step = $p.steps[0];
   let tl;
 
-  let mouseDownTime = null;
+  let pointerDownTime = null;
   let direction = 'forward';
 
   $: {
@@ -126,13 +126,13 @@
     // 38.06969014665377
     // 39.08892395176091
 
-    document.addEventListener('mousedown', () => {
-      // Start measuring the time beginning with the mousedown event, until the mouseup event is fired
-      mouseDownTime = Date.now();
+    document.addEventListener('pointerdown', () => {
+      // Start measuring the time beginning with the pointerdown event, until the pointerup event is fired
+      pointerDownTime = Date.now();
 
       pauseAnimation();
     });
-    document.addEventListener('mouseup', (event) => {
+    document.addEventListener('pointerup', (event) => {
       // Treat the start widget like a click in the right half of the viewport
       const isRestartWidget =
         event.target['classList'].contains('restart-widget');
@@ -150,13 +150,13 @@
 
       // TBD: need to include that if clicking on the left half and 30% of the tl time has alread passed, the current step should be repeated instead of jumping to the previous step
 
-      const mouseUpTime = Date.now();
-      if (mouseUpTime - mouseDownTime < 380) {
-        // Determine whether mouseup event too place in the left or the right section of the viewport
+      const pointerUpTime = Date.now();
+      if (pointerUpTime - pointerDownTime < 380) {
+        // Determine whether pointerup event too place in the left or the right section of the viewport
         const viewportWidth = window.innerWidth;
-        const mouseUpX = event.clientX;
+        const pointerUpX = event.clientX;
         // Split at a third of the map from the left
-        if (mouseUpX < viewportWidth / 2 - $p.mapWidth / 6) {
+        if (pointerUpX < viewportWidth / 2 - $p.mapWidth / 6) {
           // Get the percentage of current progress of the tl
           const progress = tl.progress();
           if (progress > 0.2) {
@@ -216,4 +216,4 @@
   {/if}
 </div>
 
-<!-- On mousedown on document, call pauseAnimation -->
+<!-- On pointerdown on document, call pauseAnimation -->
