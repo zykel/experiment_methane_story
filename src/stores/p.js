@@ -17,6 +17,8 @@ const pInit = {
   map: null,
   initialZoomOverall: 5, //13.5,
   minimalZoomOverall: 13.5,
+  targetZoom10: 12,
+  targetZoom20: 4,
   targetZoomOverall: 1.5,
   steps: [0, 5, 10, 20, 30, 50, 60],
   sectorColors: {
@@ -24,6 +26,8 @@ const pInit = {
     Coal: '#D8638B',
     Waste: '#5c7eff',
   },
+  minCircleRadius: 2,
+  maxCircleRadius: 40,
   // Could be useful to include individual step durations
 };
 

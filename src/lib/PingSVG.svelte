@@ -2,10 +2,16 @@
   import { p, getDuration, isLastStep } from '../stores/p.js';
   import { area } from 'd3-shape';
   import PingMarker from './PingMarker.svelte';
+  import { get } from 'svelte/store';
 
   export let tl;
   export let step;
   export let pingSVGNode;
+
+  $: maxFluxrate = $p.dataCSV.reduce(
+    (acc, d) => Math.max(acc, d.ch4_fluxrate),
+    0
+  );
 
   $: reposition = (projection) => {
     return {
@@ -13,6 +19,29 @@
       y:
         projection.y + ($p.mapHeight * $p.maxZoomFactor) / 2 - $p.mapHeight / 2,
     };
+  };
+
+  $: getRadius = (i, fluxrate, initialZoom, targetZoom) => {
+    return (
+      200 *
+      2 **
+        ((i / ($p.dataCSVAfterFirst.length / 2)) * (initialZoom - targetZoom) +
+          (Math.log2($p.maxZoomFactor) - initialZoom)) *
+      (($p.minCircleRadius +
+        (fluxrate / maxFluxrate) ** (1 / 2) *
+          ($p.maxCircleRadius - $p.minCircleRadius)) /
+        $p.maxCircleRadius)
+    );
+  };
+
+  $: getStrokeWidth = (i, initialZoom, targetZoom) => {
+    return (
+      200 *
+      2 **
+        ((i / ($p.dataCSVAfterFirst.length / 2)) * (initialZoom - targetZoom) +
+          (Math.log2($p.maxZoomFactor) - initialZoom)) *
+      ($p.minCircleRadius / $p.maxCircleRadius)
+    );
   };
 
   $: {
@@ -55,7 +84,7 @@
     }
     if (step == 20) {
       // Animate the circle opacity using GSAP
-      $p.dataCSVAfterFirst.forEach((_, i) => {
+      $p.dataCSVAfterFirst.forEach((d, i) => {
         if (i < $p.dataCSVAfterFirst.length / 2) {
           tl.fromTo(
             `#marker-${i}`,
@@ -66,8 +95,13 @@
             },
             {
               opacity: 0,
-              r: (60 + 2 ** (i / 1000) * 1500 - 1500) / 2,
-              'stroke-width': (60 + 2 ** (i / 1000) * 1500 - 1500) / 8,
+              r: getRadius(i, d.ch4_fluxrate, $p.targetZoom10, $p.targetZoom20),
+              // 'stroke-width': (60 + 2 ** (i / 1000) * 1500 - 1500) / 8,
+              'stroke-width': getStrokeWidth(
+                i,
+                $p.targetZoom10,
+                $p.targetZoom20
+              ),
               duration: 1,
               delay:
                 i *
@@ -94,9 +128,25 @@
 
     if (step == 30) {
       // Animate the circle opacity using GSAP
-      $p.dataCSVAfterFirst.forEach((_, i) => {
+      $p.dataCSVAfterFirst.forEach((d, i) => {
         if (i > $p.dataCSVAfterFirst.length / 2) {
           // console.log('pinging');
+          // debugger;
+          const radius = getRadius(
+            i - $p.dataCSVAfterFirst.length / 2,
+            d.ch4_fluxrate,
+            $p.targetZoom20,
+            $p.targetZoomOverall
+          );
+          // const strokeWidth = (520 + 2 ** (i / 1000) * 1500 - 1500) / 8;
+
+          const strokeWidth = getStrokeWidth(
+            i - $p.dataCSVAfterFirst.length / 2,
+            $p.targetZoom20,
+            $p.targetZoomOverall
+          );
+          // console.log(radius);
+          // console.log(strokeWidth);
           tl.fromTo(
             `#marker-${i}`,
             {
@@ -106,8 +156,8 @@
             },
             {
               opacity: 0,
-              r: (520 + 2 ** (i / 1000) * 1500 - 1500) / 2,
-              'stroke-width': (520 + 2 ** (i / 1000) * 1500 - 1500) / 8,
+              r: radius,
+              'stroke-width': strokeWidth,
               duration: 1,
               delay:
                 (i - $p.dataCSVAfterFirst.length / 2) *

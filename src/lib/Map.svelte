@@ -125,11 +125,11 @@
             ['linear'],
             ['sqrt', ['get', 'ch4_fluxrate']],
             0,
-            2,
+            $p.minCircleRadius,
             Math.sqrt(
               $p.dataCSV.reduce((acc, d) => Math.max(acc, d.ch4_fluxrate), 0)
             ),
-            40,
+            $p.maxCircleRadius,
           ],
         },
         // layout: {
@@ -183,18 +183,18 @@
       if (step == 10) {
         // Setup where to zoom to
         initialZoom = $p.minimalZoomOverall;
-        targetZoom = 12;
+        targetZoom = $p.targetZoom10;
         // ease = 'power1.inOut';
       }
       if (step == 20) {
         // Setup where to zoom to
-        initialZoom = 12;
-        targetZoom = 4;
+        initialZoom = $p.targetZoom10;
+        targetZoom = $p.targetZoom20;
         // ease = 'power1.inOut';
       }
       if (step == 30) {
         // Setup where to zoom to
-        initialZoom = 4;
+        initialZoom = $p.targetZoom20;
         targetZoom = $p.targetZoomOverall;
         // ease = 'power1.inOut';
       }
