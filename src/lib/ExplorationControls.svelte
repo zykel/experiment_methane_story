@@ -24,7 +24,7 @@
     pointer-events: none;
   }
   #exploration-controls-container {
-    background: #000000a6;
+    background: #000000e6;
     height: 250px;
     pointer-events: all;
     transition: opacity 0.3s;
@@ -44,8 +44,8 @@
     <button class="restart-widget">Restart Story</button>
     <!-- Include a checkbox with one option for each sector in $p.sectors and all sectors initially selected -->
     <SectorSelector />
-    <NotifiedSelector />
-    <FluxrateSlider />
+    <!-- <NotifiedSelector /> -->
+    <!-- <FluxrateSlider /> -->
     <TimeSlider />
 
     <!-- <button on:click={pauseAnimation}>Pause</button>

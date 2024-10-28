@@ -7,6 +7,9 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
+  --color-oil-and-gas: #f7996e;
+  --color-coal: #d8638b;
+  --color-waste: #5c7eff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

@@ -142,17 +142,17 @@
         $p.map.setFilter('points', [
           'all',
           ['in', ['get', 'sector'], ['literal', $sectorsSelected]],
-          ['in', ['get', 'notified'], ['literal', $notifiedSelected]],
-          ['>=', ['get', 'ch4_fluxrate'], $filterFluxrate[0]],
-          ['<=', ['get', 'ch4_fluxrate'], $filterFluxrate[1]],
+          // ['in', ['get', 'notified'], ['literal', $notifiedSelected]],
+          // ['>=', ['get', 'ch4_fluxrate'], $filterFluxrate[0]],
+          // ['<=', ['get', 'ch4_fluxrate'], $filterFluxrate[1]],
           ['>=', ['get', 'timestamp'], $filterTime[0]],
           ['<=', ['get', 'timestamp'], $filterTime[1]],
         ]);
       }
 
       sectorsSelected.subscribe(updateFilter);
-      notifiedSelected.subscribe(updateFilter);
-      filterFluxrate.subscribe(updateFilter);
+      // notifiedSelected.subscribe(updateFilter);
+      // filterFluxrate.subscribe(updateFilter);
       filterTime.subscribe(updateFilter);
 
       // Add event listeners for hover

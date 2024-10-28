@@ -179,8 +179,6 @@
     <PingMarker markerData="{$p.firstFlare}" idSuffix="first" />
     <path
       id="flare-path"
-      stroke="white"
-      stroke-width="3"
       fill="{$p.sectorColors[$p.firstFlare.sector]}"
       opacity="{$isLastStep(step) ? 0 : 1}"
       d="{convertMultiPolygonToSVGPath($p.flareGeometry)}"

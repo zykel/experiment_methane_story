@@ -1,5 +1,7 @@
 import { writable, derived } from 'svelte/store';
 
+const rootStyles = getComputedStyle(document.documentElement);
+
 // debugger;
 // p without self-derived values
 const pInit = {
@@ -28,9 +30,9 @@ const pInit = {
   targetZoomOverall: 1.5,
   steps: [0, 2, 5, 10, 20, 30, 50, 60],
   sectorColors: {
-    'Oil and Gas': '#F7996E',
-    Coal: '#D8638B',
-    Waste: '#5c7eff',
+    'Oil and Gas': rootStyles.getPropertyValue('--color-oil-and-gas').trim(),
+    Coal: rootStyles.getPropertyValue('--color-coal').trim(),
+    Waste: rootStyles.getPropertyValue('--color-waste').trim(),
   },
   minCircleRadius: 2,
   maxCircleRadius: 40,
