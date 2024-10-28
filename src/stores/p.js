@@ -52,7 +52,7 @@ export const p = writable({
     if (step == 10) duration = 11;
     if (step == 20) duration = 10;
     if (step == 30) duration = 12;
-    if (step == 50) duration = 8;
+    // if (step == 50) duration = 8;
     if (step == 60) duration = 0.01;
     return { step, duration, buffer };
   }),

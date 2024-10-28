@@ -83,7 +83,7 @@
             'This is the complete Methane data from the IMEO, as of October 2024.',
             'Feel free to explore this data by sector and emissions.',
           ],
-          start: 0.5,
+          start: 0.2,
           duration: 3,
         },
       ],
