@@ -44,7 +44,7 @@
       const bboxLeftDate = leftDate.getBoundingClientRect();
       const bboxrightDate = rightDate.getBoundingClientRect();
       isOverlapping =
-        bboxLeftDate.left + bboxLeftDate.width > bboxrightDate.left;
+        bboxLeftDate.left + bboxLeftDate.width + 5 > bboxrightDate.left;
     }
   }
 
