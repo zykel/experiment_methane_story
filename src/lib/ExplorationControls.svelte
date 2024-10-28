@@ -47,8 +47,8 @@
     <!-- Include a checkbox with one option for each sector in $p.sectors and all sectors initially selected -->
     <SectorSelector />
     <!-- <NotifiedSelector /> -->
-    <!-- <FluxrateSlider /> -->
     <TimeSlider />
+    <FluxrateSlider />
 
     <!-- <button on:click={pauseAnimation}>Pause</button>
     <button on:click={resumeAnimation}>Resume</button> -->
