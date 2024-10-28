@@ -114,7 +114,7 @@
     const flareFeature = $p.dataGeoJSON['features'].find(
       (d) => d.properties.id_plume == $p.firstFlare.id_plume
     );
-    $p.flarePath = flareFeature.geometry.coordinates[0][0];
+    $p.flareGeometry = flareFeature.geometry;
     // $p.dataCSVAfterFirst = $p.dataCSV.filter(
     //   (d) => d.tile_date >= $p.firstFlare.tile_date // later without = in >=
     // );

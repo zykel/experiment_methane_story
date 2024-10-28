@@ -44,6 +44,30 @@
     );
   };
 
+  $: convertMultiPolygonToSVGPath = (multipolygon) => {
+    if (multipolygon == null) return '';
+    const path = multipolygon.coordinates
+      .map((polygon) => {
+        return polygon
+          .map((ring) => {
+            return (
+              ring
+                .map((coord, index) => {
+                  const projection = $p.map.project(coord);
+                  const position = reposition(projection);
+                  return `${index === 0 ? 'M' : 'L'}${position.x},${position.y}`;
+                })
+                .join(' ') + ' Z'
+            );
+          })
+          .join(' ');
+      })
+      .join(' ');
+
+    console.log(path);
+    return path;
+  };
+
   $: {
     if (step == 10) {
       // Animate in first flare
@@ -64,23 +88,6 @@
         },
         0
       );
-      // tl.fromTo(
-      //   `#flare-path`,
-      //   {
-      //     opacity: 0,
-      //     scale: 0,
-      //     transformOrigin: '0% 100%',
-      //   },
-      //   {
-      //     opacity: 1,
-      //     duration: 2,
-      //     scale: 1,
-      //     // transformOrigin: '50% 50%',
-      //     ease: 'power1.inOut',
-      //     delay: 0, //.5,
-      //   },
-      //   0
-      // );
     }
     if (step == 20) {
       // Animate the circle opacity using GSAP
@@ -112,18 +119,6 @@
           );
         }
       });
-      // tl.fromTo(
-      //   `#flare-path`,
-      //   {
-      //     opacity: 1,
-      //   },
-      //   {
-      //     opacity: 0,
-      //     duration: 2,
-      //     ease: 'power1.inOut',
-      //   },
-      //   0
-      // );
     }
 
     if (step == 30) {
@@ -184,23 +179,13 @@
 >
   {#if $p.map !== null}
     <PingMarker markerData="{$p.firstFlare}" idSuffix="first" />
-    {@const flareProjectedPath = $p.flarePath.map((coords) => {
-      const projection = $p.map.project(coords);
-      const position = reposition(projection);
-      return [position.x, position.y];
-    })}
     <path
       id="flare-path"
       stroke="white"
       stroke-width="3"
       fill="{$p.sectorColors[$p.firstFlare.sector]}"
       opacity="{$isLastStep(step) ? 0 : 1}"
-      d="{flareProjectedPath
-        .map((point, index) => {
-          const [x, y] = point;
-          return index === 0 ? `M${x},${y}` : `L${x},${y}`;
-        })
-        .join(' ')}"
+      d="{convertMultiPolygonToSVGPath($p.flareGeometry)}"
     ></path>
     {#each $p.dataCSVAfterFirst as markerData, i}
       <PingMarker {markerData} idSuffix="{i}" />

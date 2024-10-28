@@ -7,7 +7,7 @@ const pInit = {
   dataCSVAfterFirst: [],
   firstFlare: null,
   dataGeoJSON: [],
-  flarePath: [],
+  flareGeometry: null,
   defaultDuration: 7,
   defaultTextDisplayDuration: 4,
   stepMax: 2,
