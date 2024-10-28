@@ -30,8 +30,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    margin: 3rem 0 3rem 0;
-    padding: 20px;
+    margin: 3rem;
+    /* padding: 0 2rem; */
     /* background-color: rgba(0, 0, 0, 0.5); */
     border-radius: 5px;
     color: white;
