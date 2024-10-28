@@ -1,14 +1,7 @@
 <script>
   import { p, filterFluxrate, filterTime } from '../stores/p.js';
   import DoubleRangeSlider from './DoubleRangeSlider.svelte';
-  import {
-    scaleTime,
-    scaleLinear,
-    axisBottom,
-    axisLeft,
-    histogram,
-    select,
-  } from 'd3';
+  import TimeLegendSVG from './TimeLegendSVG.svelte';
 
   let sliderStart;
   let sliderEnd;
@@ -36,29 +29,6 @@
 
   // $: filterFluxrate.set([sliderStart * fluxrateMax, sliderEnd * fluxrateMax]);
 
-  let svg, x, histogramGenerator, bins, y;
-
-  $: {
-    if (svg) {
-      // Get svg width and height
-      const width = svg.clientWidth;
-      const height = svg.clientHeight;
-
-      x = scaleTime().domain([timestampMin, timestampMax]).range([0, width]);
-
-      // Set the parameters for the histogram
-      histogramGenerator = histogram()
-        .value((d) => d.timestamp)
-        .domain(x.domain())
-        .thresholds(x.ticks(40)); // Adjust the number of bins
-
-      bins = histogramGenerator($p.dataCSV);
-
-      y = scaleLinear()
-        .range([height, 0])
-        .domain([0, Math.max(...bins.map((d) => d.length))]);
-    }
-  }
   // X axis: scale and draw
 
   // Apply the histogram function to data
@@ -84,11 +54,6 @@
     position: relative;
   }
 
-  svg {
-    width: 100%;
-    height: 40px;
-  }
-
   .slider-container {
     position: absolute;
     bottom: -7px; /* Adjust this value as needed */
@@ -101,19 +66,7 @@
 <div class="legend-box">
   <div class="legend-title">Filter by date</div>
   <div class="svg-and-slider-container">
-    <svg bind:this="{svg}">
-      {#if bins}
-        {#each bins as bin}
-          <rect
-            x="{x(bin.x0)}"
-            y="{y(bin.length)}"
-            width="{x(bin.x1) - x(bin.x0) - 1}"
-            height="{y(0) - y(bin.length)}"
-            fill="white"
-          ></rect>
-        {/each}
-      {/if}
-    </svg>
+    <TimeLegendSVG {timestampMin} {timestampMax} {filterTime} />
     <div class="slider-container">
       <DoubleRangeSlider bind:start="{sliderStart}" bind:end="{sliderEnd}" />
     </div>
