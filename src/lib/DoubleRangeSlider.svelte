@@ -130,13 +130,13 @@
   .slider {
     position: relative;
     width: 100%;
-    height: 6px;
+    height: 4px;
     top: 50%;
     transform: translate(0, -50%);
-    background-color: #e2e2e2;
-    box-shadow:
+    background-color: #414141;
+    /* box-shadow:
       inset 0 7px 10px -5px #4a4a4a,
-      inset 0 -1px 0px 0px #9c9c9c;
+      inset 0 -1px 0px 0px #9c9c9c; */
     border-radius: 1px;
   }
   .handle {
@@ -144,6 +144,7 @@
     top: 50%;
     width: 0;
     height: 0;
+    cursor: pointer;
   }
   .handle:after {
     content: ' ';

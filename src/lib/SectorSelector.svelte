@@ -22,6 +22,7 @@
     border-radius: 10px;
     text-align: center;
     width: 15rem;
+    height: 7rem;
     margin: auto;
   }
 
@@ -78,7 +79,7 @@
 </style>
 
 <div class="sector-box">
-  <div class="sector-title">Tap to filter sectors</div>
+  <div class="sector-title">Tap to filter by sectors</div>
   <div class="sector-options">
     <div class="sector-option" on:click="{() => toggleSelection('Waste')}">
       <div

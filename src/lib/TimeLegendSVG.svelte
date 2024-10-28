@@ -1,12 +1,12 @@
 <script>
-  import { p } from '../stores/p.js';
+  import { p, sectorsSelected } from '../stores/p.js';
   import { scaleTime, scaleLinear, histogram } from 'd3';
 
   export let timestampMin;
   export let timestampMax;
   export let filterTime;
 
-  let svg, x, histogramGenerator, bins, y;
+  let svg, x, histogramGenerator, binsInside, binsOutside, combinedBins, y;
 
   $: {
     if (svg) {
@@ -22,15 +22,34 @@
         .domain(x.domain())
         .thresholds(x.ticks(40)); // Adjust the number of bins
 
-      bins = histogramGenerator(
-        $p.dataCSV.filter(
-          (d) => d.timestamp >= $filterTime[0] && d.timestamp <= $filterTime[1]
-        )
-      );
+      const insideFilter = (d) =>
+        d.timestamp >= $filterTime[0] &&
+        d.timestamp <= $filterTime[1] &&
+        $sectorsSelected.includes(d.sector);
 
+      // Filter data into two subsets
+      const dataInside = $p.dataCSV.filter(insideFilter);
+      const dataOutside = $p.dataCSV.filter((d) => !insideFilter(d));
+
+      // Apply the histogram function to data
+      binsInside = histogramGenerator(dataInside);
+      binsOutside = histogramGenerator(dataOutside);
+
+      // Combine bins for stacking
+      combinedBins = binsInside.map((bin, i) => ({
+        x0: bin.x0,
+        x1: bin.x1,
+        inside: bin.length,
+        outside: binsOutside[i] ? binsOutside[i].length : 0,
+      }));
+
+      // Y axis: scale and draw
       y = scaleLinear()
         .range([height, 0])
-        .domain([0, Math.max(...bins.map((d) => d.length))]);
+        .domain([
+          0,
+          Math.max(...combinedBins.map((d) => d.inside + d.outside)),
+        ]);
     }
   }
 </script>
@@ -43,14 +62,21 @@
 </style>
 
 <svg bind:this="{svg}">
-  {#if bins}
-    {#each bins as bin}
+  {#if binsInside && binsInside}
+    {#each binsInside as bin, i}
       <rect
         x="{x(bin.x0)}"
         y="{y(bin.length)}"
         width="{x(bin.x1) - x(bin.x0) - 1}"
         height="{y(0) - y(bin.length)}"
-        fill="white"
+        fill="rgb(220,220,220)"
+      ></rect>
+      <rect
+        x="{x(binsOutside[i].x0)}"
+        y="{y(bin.length + binsOutside[i].length)}"
+        width="{x(binsOutside[i].x1) - x(binsOutside[i].x0) - 1}"
+        height="{y(bin.length) - y(bin.length + binsOutside[i].length)}"
+        fill="#414141"
       ></rect>
     {/each}
   {/if}

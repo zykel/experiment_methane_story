@@ -6,6 +6,10 @@
   let sliderStart;
   let sliderEnd;
 
+  let leftDate, rightDate;
+
+  let isOverlapping = false;
+
   // Get first and last date from $p.dataCSV d => d.timestamp
   const timestampMin = $p.dataCSV.reduce(
     (acc, curr) => (curr.timestamp < acc ? curr.timestamp : acc),
@@ -32,6 +36,23 @@
   // X axis: scale and draw
 
   // Apply the histogram function to data
+
+  $: {
+    sliderStart;
+    sliderEnd;
+    if (leftDate && rightDate) {
+      const bboxLeftDate = leftDate.getBoundingClientRect();
+      const bboxrightDate = rightDate.getBoundingClientRect();
+      isOverlapping =
+        bboxLeftDate.left + bboxLeftDate.width > bboxrightDate.left;
+    }
+  }
+
+  function formatDate(timestamp) {
+    const date = new Date(timestamp);
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+  }
 </script>
 
 <style>
@@ -41,6 +62,7 @@
     border-radius: 10px;
     text-align: center;
     width: 15rem;
+    height: 7rem;
     margin: auto;
   }
 
@@ -61,14 +83,60 @@
     transform: translateX(-50%);
     width: 100%;
   }
+
+  .date-label-container {
+    position: absolute;
+    bottom: -30px; /* Adjust this value as needed */
+    pointer-events: none;
+    user-select: none;
+    font-size: 0.75rem;
+    /* left: 0%; */
+    /* transform: translateX(-50%); */
+  }
+
+  .date-label-container.left {
+    /* transform: translate(-8px, 0px); */
+  }
+
+  .date-label-container.right {
+    /* transform: translate(8px, 0px); */ /* Done dynamically below */
+  }
 </style>
 
 <div class="legend-box">
-  <div class="legend-title">Filter by date</div>
+  <div class="legend-title">Drag to filter by date</div>
   <div class="svg-and-slider-container">
     <TimeLegendSVG {timestampMin} {timestampMax} {filterTime} />
     <div class="slider-container">
       <DoubleRangeSlider bind:start="{sliderStart}" bind:end="{sliderEnd}" />
+    </div>
+    <div
+      bind:this="{leftDate}"
+      id="date-label-container-left"
+      class="date-label-container left"
+      style="
+        {sliderStart < 0.5
+        ? `left: ${sliderStart * 100}%`
+        : `right: ${100 - sliderStart * 100}%`};
+        transform: translate({sliderStart < 0.5 ? '-8' : '8'}px, 0px);
+        "
+    >
+      {formatDate($filterTime[0])}
+    </div>
+    <div
+      bind:this="{rightDate}"
+      id="date-label-container-right"
+      class="date-label-container right"
+      style="
+        {sliderEnd < 0.5
+        ? `left: ${sliderEnd * 100}%`
+        : `right: ${100 - sliderEnd * 100}%`};
+        transform: translate({sliderEnd < 0.5 ? '-8' : '8'}px, {isOverlapping
+        ? '1rem'
+        : '0px'})
+        "
+    >
+      {formatDate($filterTime[1])}
     </div>
   </div>
 </div>
