@@ -67,6 +67,7 @@
 
   h1 {
     text-align: center;
+    padding: 1rem;
   }
 
   p {
