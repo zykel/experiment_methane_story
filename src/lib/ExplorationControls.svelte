@@ -24,6 +24,8 @@
     pointer-events: none;
   }
   #exploration-controls-container {
+    display: flex;
+    align-items: center;
     background: #000000e6;
     height: 250px;
     pointer-events: all;

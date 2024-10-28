@@ -29,4 +29,47 @@
   // $: filterFluxrate.set([sliderStart * fluxrateMax, sliderEnd * fluxrateMax]);
 </script>
 
-<DoubleRangeSlider bind:start="{sliderStart}" bind:end="{sliderEnd}" />
+<style>
+  .legend-box {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 15rem;
+    margin: auto;
+  }
+
+  .legend-title {
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .svg-and-slider-container {
+    position: relative;
+  }
+
+  svg {
+    width: 100%;
+    height: 40px;
+    background-color: azure;
+  }
+
+  .slider-container {
+    position: absolute;
+    bottom: -7px; /* Adjust this value as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+  }
+</style>
+
+<div class="legend-box">
+  <div class="legend-title">Filter by date</div>
+  <div class="svg-and-slider-container">
+    <svg> </svg>
+    <div class="slider-container">
+      <DoubleRangeSlider bind:start="{sliderStart}" bind:end="{sliderEnd}" />
+    </div>
+  </div>
+</div>
