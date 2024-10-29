@@ -45,6 +45,8 @@
       const bboxrightDate = rightDate.getBoundingClientRect();
       isOverlapping =
         bboxLeftDate.left + bboxLeftDate.width + 5 > bboxrightDate.left;
+      // To capture strange reactivity behavior in the beginning
+      if (leftDate.innerText.includes('Invalid Date')) isOverlapping = false;
     }
   }
 
@@ -104,7 +106,7 @@
 </style>
 
 <div class="legend-box">
-  <div class="legend-title">Drag to filter by date</div>
+  <div class="legend-title">date</div>
   <div class="svg-and-slider-container">
     <TimeLegendSVG {timestampMin} {timestampMax} {filterTime} />
     <div class="slider-container">

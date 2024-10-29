@@ -27,7 +27,6 @@
     display: flex;
     align-items: center;
     background: #000000e6;
-    height: 250px;
     pointer-events: all;
     transition: opacity 0.3s;
   }
@@ -74,6 +73,7 @@
     id="exploration-controls-container"
     style="width: {$p.mapWidth -
       paddingSide * 2}px; padding: 0 {paddingSide}px 0 {paddingSide}px; 
+      height: {$p.mapHeight / 2.5}px;
       opacity: {$isLastStep(step) ? 1 : 0};"
   >
     <button class="restart-widget">

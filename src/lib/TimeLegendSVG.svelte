@@ -1,5 +1,5 @@
 <script>
-  import { p, sectorsSelected } from '../stores/p.js';
+  import { p, sectorsSelected, filterFluxrate } from '../stores/p.js';
   import { scaleTime, scaleLinear, histogram } from 'd3';
 
   export let timestampMin;
@@ -25,6 +25,8 @@
       const insideFilter = (d) =>
         d.timestamp >= $filterTime[0] &&
         d.timestamp <= $filterTime[1] &&
+        d.ch4_fluxrate >= $filterFluxrate[0] &&
+        d.ch4_fluxrate <= $filterFluxrate[1] &&
         $sectorsSelected.includes(d.sector);
 
       // Filter data into two subsets
@@ -67,14 +69,18 @@
       <rect
         x="{x(bin.x0)}"
         y="{y(bin.length)}"
-        width="{x(bin.x1) - x(bin.x0) - 1}"
+        width="{x(bin.x1) - x(bin.x0) < 1
+          ? x(bin.x1) - x(bin.x0)
+          : x(bin.x1) - x(bin.x0) - 1}"
         height="{y(0) - y(bin.length)}"
         fill="rgb(220,220,220)"
       ></rect>
       <rect
         x="{x(binsOutside[i].x0)}"
         y="{y(bin.length + binsOutside[i].length)}"
-        width="{x(binsOutside[i].x1) - x(binsOutside[i].x0) - 1}"
+        width="{x(binsOutside[i].x1) - x(binsOutside[i].x0) < 1
+          ? x(binsOutside[i].x1) - x(binsOutside[i].x0)
+          : x(binsOutside[i].x1) - x(binsOutside[i].x0) - 1}"
         height="{y(bin.length) - y(bin.length + binsOutside[i].length)}"
         fill="#414141"
       ></rect>
