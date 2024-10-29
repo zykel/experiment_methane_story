@@ -22,12 +22,18 @@
   }
   #exploration-controls-container {
     display: flex;
-    align-items: flex-end;
     justify-content: space-around;
     gap: 10px;
     background: #000000e6;
     pointer-events: all;
     transition: opacity 0.3s;
+  }
+
+  .portrait-exploration-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
   }
 </style>
 
@@ -38,15 +44,32 @@
   <div
     id="exploration-controls-container"
     style="width: {$p.mapWidth -
-      paddingSide * 2}px; padding: 0 {paddingSide}px {30}px {paddingSide}px; 
-      height: 230px;
+      paddingSide * 2}px; padding: 30px {paddingSide}px {30}px {paddingSide}px; 
+      height: {$p.portraitMode ? 340 : 230}px;
+      {$p.portraitMode ? 'align-items: flex-start;' : 'align-items: flex-end;'}
       opacity: {$isLastStep(step) ? 1 : 0};"
   >
     <!-- Include a checkbox with one option for each sector in $p.sectors and all sectors initially selected -->
-    <TimeSlider />
-    <SectorSelector />
-    <!-- <NotifiedSelector /> -->
-    <FluxrateSlider />
+    {#if $p.portraitMode}
+      <div
+        id="portrait-left-exploration-container"
+        class="portrait-exploration-container"
+      >
+        <TimeSlider />
+        <SectorSelector />
+      </div>
+      <div
+        id="portrait-right-exploration-container"
+        class="portrait-exploration-container"
+      >
+        <FluxrateSlider />
+        <RestartWidget />
+      </div>
+    {:else}
+      <TimeSlider />
+      <SectorSelector />
+      <FluxrateSlider />
+    {/if}
     <!-- <RestartWidget /> -->
 
     <!-- <button on:click={pauseAnimation}>Pause</button>

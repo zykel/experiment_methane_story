@@ -21,7 +21,7 @@
     padding: 20px;
     border-radius: 10px;
     text-align: center;
-    width: 15rem;
+    min-width: 11rem;
     /* height: 7rem; */
     /* margin: auto; */
   }
