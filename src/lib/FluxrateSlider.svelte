@@ -40,9 +40,9 @@
     padding: 20px;
     border-radius: 10px;
     text-align: center;
-    width: 15rem;
-    height: 10rem;
-    margin: auto;
+    min-width: 11rem;
+    height: 160px;
+    /* margin: auto; */
   }
 
   .legend-title {

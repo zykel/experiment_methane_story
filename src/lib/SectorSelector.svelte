@@ -23,7 +23,7 @@
     text-align: center;
     width: 15rem;
     /* height: 7rem; */
-    margin: auto;
+    /* margin: auto; */
   }
 
   .sector-title {
@@ -35,7 +35,7 @@
   .sector-options {
     display: flex;
     justify-content: space-around;
-    align-items: center;
+    align-items: flex-start;
   }
 
   .sector-option {
@@ -43,7 +43,7 @@
     flex-direction: column;
     align-items: center;
     cursor: pointer;
-    width: 5rem;
+    width: 3rem;
   }
 
   .sector-circle {
@@ -72,6 +72,7 @@
 
   .sector-name {
     cursor: pointer;
+    font-size: 0.75rem;
   }
   .sector-name.deselected {
     color: grey;

@@ -25,3 +25,15 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+@media (max-height: 700px) {
+  :root {
+    font-size: 14px; /* Reduced root font size for smaller screens */
+  }
+}
+
+@media (max-height: 620px) {
+  :root {
+    font-size: 12px; /* Reduced root font size for smaller screens */
+  }
+}

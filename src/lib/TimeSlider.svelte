@@ -65,7 +65,7 @@
     text-align: center;
     width: 15rem;
     height: 7rem;
-    margin: auto;
+    /* margin: auto; */
   }
 
   .legend-title {
