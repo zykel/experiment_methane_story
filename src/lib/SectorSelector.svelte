@@ -17,13 +17,23 @@
 
 <style>
   .sector-box {
+    pointer-events: auto;
     border: 1px solid #ccc;
+    background: #000000e6;
     padding: 20px;
     border-radius: 10px;
     text-align: center;
     min-width: 11rem;
+    width: 11rem;
     /* height: 7rem; */
     /* margin: auto; */
+  }
+
+  @media (max-width: 400px) {
+    .sector-box {
+      min-width: 7rem;
+      width: 7rem;
+    }
   }
 
   .sector-title {
@@ -36,6 +46,7 @@
     display: flex;
     justify-content: space-around;
     align-items: flex-start;
+    gap: 2px;
   }
 
   .sector-option {

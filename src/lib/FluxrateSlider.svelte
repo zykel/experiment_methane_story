@@ -27,7 +27,10 @@
       isOverlapping =
         bboxLeftDate.left + bboxLeftDate.width + 5 > bboxrightDate.left;
       // To capture strange reactivity behavior in the beginning
-      if (labelLeft.innerText.includes('NaN')) isOverlapping = false;
+      if (labelLeft.innerText.includes('NaN') && !$p.portraitMode) {
+        //TODO: dirty
+        isOverlapping = false;
+      }
     }
   }
 
@@ -36,7 +39,9 @@
 
 <style>
   .legend-box {
+    pointer-events: auto;
     border: 1px solid #ccc;
+    background: #000000e6;
     padding: 20px;
     border-radius: 10px;
     text-align: center;

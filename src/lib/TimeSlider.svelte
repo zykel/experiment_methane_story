@@ -46,7 +46,10 @@
       isOverlapping =
         bboxLeftDate.left + bboxLeftDate.width + 5 > bboxrightDate.left;
       // To capture strange reactivity behavior in the beginning
-      if (leftDate.innerText.includes('Invalid Date')) isOverlapping = false;
+      if (leftDate.innerText.includes('Invalid Date') && !$p.portraitMode) {
+        //TODO: dirty
+        isOverlapping = false;
+      }
     }
   }
 
@@ -59,13 +62,23 @@
 
 <style>
   .legend-box {
+    pointer-events: auto;
     border: 1px solid #ccc;
+    background: #000000e6;
     padding: 20px;
     border-radius: 10px;
     text-align: center;
     min-width: 11rem;
+    width: 11rem;
     height: 7rem;
     /* margin: auto; */
+  }
+
+  @media (max-width: 400px) {
+    .legend-box {
+      min-width: 7rem;
+      width: 7rem;
+    }
   }
 
   .legend-title {

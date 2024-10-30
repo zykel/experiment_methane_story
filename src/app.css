@@ -32,6 +32,12 @@ body {
   }
 }
 
+@media (max-width: 500px) {
+  :root {
+    font-size: 14px; /* Reduced root font size for smaller screens */
+  }
+}
+
 @media (max-height: 620px) {
   :root {
     font-size: 12px; /* Reduced root font size for smaller screens */
