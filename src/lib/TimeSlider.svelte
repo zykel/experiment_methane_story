@@ -46,8 +46,7 @@
       isOverlapping =
         bboxLeftDate.left + bboxLeftDate.width + 5 > bboxrightDate.left;
       // To capture strange reactivity behavior in the beginning
-      if (leftDate.innerText.includes('Invalid Date') && !$p.portraitMode) {
-        //TODO: dirty
+      if (leftDate.innerText.includes('Invalid Date')) {
         isOverlapping = false;
       }
     }
@@ -73,17 +72,9 @@
     /* margin: auto; */
   }
 
-  @media (max-width: 400px) {
-    .legend-box {
-      min-width: 7rem;
-      width: 7rem;
-    }
-  }
-
   .legend-title {
     text-transform: uppercase;
     font-weight: bold;
-    margin-bottom: 10px;
   }
 
   .svg-and-slider-container {
@@ -120,9 +111,18 @@
 <div
   class="legend-box"
   style="
-height: {$p.portraitMode ? 80 : 160}px"
+    padding:{$p.portraitMode ? '10px 20px' : '20px'};
+    height: {$p.portraitMode ? 80 : 160}px;
+    {$p.portraitMode ? 'width: calc(13rem + 8rem + 10px)' : ''};
+    {$p.portraitMode ? 'min-width: calc(13rem + 8rem + 10px)' : ''};"
 >
-  <div class="legend-title">date</div>
+  <div
+    class="legend-title"
+    style="
+    margin-bottom: {$p.portraitMode ? 0 : 10}px;"
+  >
+    date
+  </div>
   <div class="svg-and-slider-container">
     <TimeLegendSVG {timestampMin} {timestampMax} {filterTime} />
     <div class="slider-container">

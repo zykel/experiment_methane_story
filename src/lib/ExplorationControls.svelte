@@ -8,7 +8,7 @@
 
   export let step;
 
-  const paddingSide = 20;
+  const paddingSide = 10;
 </script>
 
 <style>
@@ -62,19 +62,14 @@
     /* background: #000000e6; */
     pointer-events: all;
     transition: opacity 0.3s;
-    padding-bottom: 40px;
+    margin-left: auto;
+    margin-right: auto;
     pointer-events: none;
-  }
-
-  @media (max-width: 400px) {
-    #exploration-controls-container {
-      padding-bottom: 0px;
-    }
   }
 
   .portrait-exploration-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     gap: 10px;
   }
@@ -83,8 +78,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    opacity: 0;
-    background: #000000;
+    background: #2f2f2f;
   }
 </style>
 
@@ -94,28 +88,32 @@
 >
   <div
     id="exploration-controls-container"
-    style="width: {$p.mapWidth - paddingSide * 2}px; 
-      padding-left: {paddingSide}px;
-      padding-right: {paddingSide}px; 
-      height: {$p.portraitMode ? 340 : 230}px;
-      {$p.portraitMode ? 'align-items: flex-start;' : 'align-items: flex-end;'}
-      opacity: {$isLastStep(step) ? 1 : 0};"
+    style="width: {$p.portraitMode
+      ? 'calc(13rem + 8rem + 10px + 40px)'
+      : $p.mapWidth - paddingSide * 2 + 'px'}; 
+      min-width: {$p.portraitMode
+      ? 'calc(13rem + 8rem + 10px + 40px)'
+      : $p.mapWidth - paddingSide * 2 + 'px'}; 
+      height: {$p.portraitMode ? 350 : 230}px;
+      {$p.portraitMode ? 'flex-direction: column;' : 'align-items: center;'}
+      opacity: {$isLastStep(step) ? 1 : 0};
+      padding-bottom: {$p.portraitMode ? 15 : 35}px;"
   >
     <!-- Include a checkbox with one option for each sector in $p.sectors and all sectors initially selected -->
     {#if $p.portraitMode}
       <div
-        id="portrait-left-exploration-container"
+        id="portrait-top-exploration-container"
+        class="portrait-exploration-container"
+      >
+        <SectorSelector />
+        <FluxrateSlider />
+      </div>
+      <div
+        id="portrait-bottom-exploration-container"
         class="portrait-exploration-container"
       >
         <TimeSlider />
-        <SectorSelector />
-      </div>
-      <div
-        id="portrait-right-exploration-container"
-        class="portrait-exploration-container"
-      >
-        <FluxrateSlider />
-        <RestartWidget />
+        <!-- <RestartWidget /> -->
       </div>
     {:else}
       <SectorSelector />
@@ -127,14 +125,12 @@
     <!-- <button on:click={pauseAnimation}>Pause</button>
     <button on:click={resumeAnimation}>Resume</button> -->
   </div>
-  {#if !$p.portraitMode}
-    <div
-      id="square-restart-widget-container"
-      style="opacity: {$isLastStep(step) ? 1 : 0};"
-    >
-      <RestartWidget />
-    </div>
-  {/if}
+  <div
+    id="square-restart-widget-container"
+    style="opacity: {$isLastStep(step) ? 1 : 0};"
+  >
+    <RestartWidget />
+  </div>
   <div
     id="dataset-link-container"
     style="opacity: {$isLastStep(step) ? 1 : 0};"

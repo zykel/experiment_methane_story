@@ -27,8 +27,7 @@
       isOverlapping =
         bboxLeftDate.left + bboxLeftDate.width + 5 > bboxrightDate.left;
       // To capture strange reactivity behavior in the beginning
-      if (labelLeft.innerText.includes('NaN') && !$p.portraitMode) {
-        //TODO: dirty
+      if (labelLeft.innerText.includes('NaN')) {
         isOverlapping = false;
       }
     }
@@ -40,10 +39,10 @@
     pointer-events: auto;
     border: 1px solid #ccc;
     background: #000000e6;
-    padding: 20px;
     border-radius: 10px;
     text-align: center;
-    min-width: 11rem;
+    min-width: 13rem;
+    width: 13rem;
     height: 160px;
     /* margin: auto; */
   }
@@ -82,7 +81,11 @@
   }
 </style>
 
-<div class="legend-box">
+<div
+  class="legend-box"
+  style="
+padding:{$p.portraitMode ? 10 : 20}px;"
+>
   <div class="legend-title">emission rate</div>
 
   <div class="svg-and-slider-container">

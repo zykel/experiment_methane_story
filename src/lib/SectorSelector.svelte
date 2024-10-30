@@ -1,5 +1,5 @@
 <script>
-  import { sectorsSelected } from '../stores/p.js';
+  import { p, sectorsSelected } from '../stores/p.js';
   // Function to toggle selection
   function toggleSelection(sector) {
     sectorsSelected.update((selected) => {
@@ -20,20 +20,12 @@
     pointer-events: auto;
     border: 1px solid #ccc;
     background: #000000e6;
-    padding: 20px;
     border-radius: 10px;
     text-align: center;
     min-width: 11rem;
     width: 11rem;
     height: 160px;
     /* margin: auto; */
-  }
-
-  @media (max-width: 400px) {
-    .sector-box {
-      min-width: 7rem;
-      width: 7rem;
-    }
   }
 
   .sector-title {
@@ -64,6 +56,10 @@
     margin-bottom: 5px;
     border: 2px solid;
   }
+  .sector-circle.portrait-mode {
+    width: 20px;
+    height: 20px;
+  }
 
   .sector-circle.waste {
     border-color: var(--color-waste); /* Color for Waste */
@@ -90,7 +86,13 @@
   }
 </style>
 
-<div class="sector-box">
+<div
+  class="sector-box"
+  style="
+    padding:{$p.portraitMode ? 10 : 20}px;
+    {$p.portraitMode ? 'width: 8rem' : ''};
+    {$p.portraitMode ? 'min-width: 8rem' : ''};"
+>
   <div class="sector-title">sectors</div>
   <div class="sector-options">
     <div
@@ -101,7 +103,7 @@
         id="sector-circle-oil-and-gas"
         class="sector-circle oil-gas {isSelected('Oil and Gas')
           ? ''
-          : 'deselected'}"
+          : 'deselected'} {$p.portraitMode ? 'portrait-mode' : ''}"
       ></div>
       <label
         for="sector-circle-oil-and-gas"
@@ -112,7 +114,9 @@
     <div class="sector-option" on:click="{() => toggleSelection('Coal')}">
       <div
         id="sector-circle-coal"
-        class="sector-circle coal {isSelected('Coal') ? '' : 'deselected'}"
+        class="sector-circle coal {isSelected('Coal')
+          ? ''
+          : 'deselected'} {$p.portraitMode ? 'portrait-mode' : ''}"
       ></div>
       <label
         for="sector-circle-coal"
@@ -122,7 +126,9 @@
     <div class="sector-option" on:click="{() => toggleSelection('Waste')}">
       <div
         id="sector-circle-waste"
-        class="sector-circle waste {isSelected('Waste') ? '' : 'deselected'}"
+        class="sector-circle waste {isSelected('Waste')
+          ? ''
+          : 'deselected'} {$p.portraitMode ? 'portrait-mode' : ''}"
       ></div>
       <label
         for="sector-circle-waste"
