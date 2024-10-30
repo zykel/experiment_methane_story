@@ -28,7 +28,6 @@
     left: 50%;
     transform: translate(-50%, 15px);
     transition: opacity 0.3s;
-    z-index: 1000;
   }
 
   #dataset-link-container {
@@ -78,6 +77,14 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
+  }
+
+  #interaction-blocker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    background: #000000;
   }
 </style>
 
@@ -140,3 +147,10 @@
     >
   </div>
 </div>
+<div
+  id="interaction-blocker"
+  style="
+    width: {$p.mapWidth}px; 
+    height: {$p.mapHeight}px; 
+    display: {step == $p.explorationStep ? 'none' : 'block'};"
+></div>

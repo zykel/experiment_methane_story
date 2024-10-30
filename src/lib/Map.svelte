@@ -74,7 +74,6 @@
       $p.map.setZoom(adjustZoomToScreensize($p.initialZoomOverall));
       // Initial transformation update
       updateSVGTransform();
-      document.getElementById('interaction-blocker').style.opacity = '0';
       // Add a source for the positions of the points inside $p.dataCSV, including the property ch4_fluxrate to use it for the size of the merkers later on
       $p.map.addSource('points', {
         type: 'geojson',
@@ -263,7 +262,6 @@
   }
 
   #mapbox-map-container,
-  #interaction-blocker,
   #svg-map-container {
     position: absolute;
     top: 0;
@@ -286,11 +284,4 @@
   >
     <PingSVG bind:pingSVGNode {tl} {step} />
   </div>
-  <div
-    id="interaction-blocker"
-    style="width: {mapWidth}px; height: {mapHeight}px; display: {step ==
-    $p.explorationStep
-      ? 'none'
-      : 'block'}; background: #121212; opacity: {step > $p.steps[0] ? 0 : 1};"
-  ></div>
 </div>
