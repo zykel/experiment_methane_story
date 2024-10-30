@@ -59,11 +59,14 @@
 <style>
   svg {
     width: 100%;
-    height: 40px;
   }
 </style>
 
-<svg bind:this="{svg}">
+<svg
+  bind:this="{svg}"
+  style="
+height: {$p.portraitMode ? 30 : 92}px"
+>
   {#if binsInside && binsInside}
     {#each binsInside as bin, i}
       <rect

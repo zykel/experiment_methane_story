@@ -70,7 +70,6 @@
     text-align: center;
     min-width: 11rem;
     width: 11rem;
-    height: 7rem;
     /* margin: auto; */
   }
 
@@ -118,7 +117,11 @@
   }
 </style>
 
-<div class="legend-box">
+<div
+  class="legend-box"
+  style="
+height: {$p.portraitMode ? 80 : 160}px"
+>
   <div class="legend-title">date</div>
   <div class="svg-and-slider-container">
     <TimeLegendSVG {timestampMin} {timestampMax} {filterTime} />

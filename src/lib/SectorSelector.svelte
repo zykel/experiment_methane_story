@@ -25,7 +25,7 @@
     text-align: center;
     min-width: 11rem;
     width: 11rem;
-    /* height: 7rem; */
+    height: 160px;
     /* margin: auto; */
   }
 
@@ -39,7 +39,7 @@
   .sector-title {
     text-transform: uppercase;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 32px;
   }
 
   .sector-options {

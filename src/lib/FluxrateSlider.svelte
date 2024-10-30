@@ -33,8 +33,6 @@
       }
     }
   }
-
-  $: console.log(isOverlapping);
 </script>
 
 <style>
@@ -105,7 +103,7 @@
         transform: translate({sliderStart < 0.5 ? '-4' : '4'}px, 0px);
         "
         >
-          {Math.round($filterFluxrate[0])} [t/h]
+          {Math.round($filterFluxrate[0] / 1000)} [t/h]
         </div>
         <div
           bind:this="{labelRight}"
@@ -120,7 +118,7 @@
             : '0px'})
         "
         >
-          {Math.round($filterFluxrate[1])} [t/h]
+          {Math.round($filterFluxrate[1] / 1000)} [t/h]
         </div>
       {/if}
     </div>
