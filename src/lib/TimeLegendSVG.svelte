@@ -52,6 +52,8 @@
           0,
           Math.max(...combinedBins.map((d) => d.inside + d.outside)),
         ]);
+
+      console.log('ydomain', y.domain());
     }
   }
 </script>
@@ -68,6 +70,17 @@
 height: {$p.portraitMode ? 30 : 92}px"
 >
   {#if binsInside && binsInside}
+    <text fill="gray" x="{x.range()[0]}" y="{y(300) - 4}" font-size="1rem"
+      >300</text
+    >
+    <line
+      x1="{x.range()[0]}"
+      x2="{x.range()[1]}"
+      y1="{y(300)}"
+      y2="{y(300)}"
+      stroke="#414141"
+      stroke-width="1"
+    ></line>
     {#each binsInside as bin, i}
       <rect
         x="{x(bin.x0)}"
