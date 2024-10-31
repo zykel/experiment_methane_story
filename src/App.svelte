@@ -157,7 +157,13 @@
       if (pointerUpTime - pointerDownTime < 380) {
         // Determine whether pointerup event too place in the left or the right section of the viewport
         const viewportWidth = window.innerWidth;
-        const pointerUpX = event.clientX;
+        let pointerUpX = event.clientX;
+        // if (event.type === 'touchend') {
+        //   console.log('touchend');
+        //   pointerUpX = event.changedTouches[0].clientX;
+        // } else {
+        //   console.log('mouseup');
+        // }
         // Split at a third of the map from the left
         if (pointerUpX < viewportWidth / 2 - $mapWidth / 6) {
           // Get the percentage of current progress of the tl
@@ -178,8 +184,10 @@
       resumeAnimation();
     };
 
-    document.addEventListener('mouseup', handlePointerUp);
-    document.addEventListener('touchend', handlePointerUp);
+    document.addEventListener('pointerup', handlePointerUp);
+    document.addEventListener('touchend', () => {
+      resumeAnimation();
+    });
   });
 
   $: svh100 = window.innerHeight;
