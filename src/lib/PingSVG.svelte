@@ -168,6 +168,9 @@
       });
     }
   }
+
+  $: v1 = $mapWidth / 2 - ($mapWidth * $p.maxZoomFactor) / 2;
+  $: v2 = $mapHeight / 2 - ($mapHeight * $p.maxZoomFactor) / 2;
 </script>
 
 <svg
@@ -179,10 +182,7 @@
   width="{$mapWidth * $p.maxZoomFactor}"
   height="{$mapHeight * $p.maxZoomFactor}"
   style="
-  transform: translate({$mapWidth / 2 -
-    ($mapWidth * $p.maxZoomFactor) / 2}, {$mapHeight / 2 -
-    ($mapHeight * $p.maxZoomFactor) / 2});
-  will-change: transform;"
+  transform: translate({v1}px, {v2}px);"
 >
   {#if $p.map !== null}
     <PingMarker markerData="{$p.firstFlare}" idSuffix="first" />

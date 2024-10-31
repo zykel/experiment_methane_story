@@ -44,7 +44,7 @@
   $: getSvgTransform = (zoom) => {
     const scale =
       1 / 2 ** Math.abs(zoom - adjustZoomToScreensize($p.minimalZoomOverall));
-    return `translate(${dx},${dy}) scale(${scale})`;
+    return `translate(${dx}px,${dy}px) scale(${scale})`;
   };
 
   // Function to initialize the map
@@ -59,7 +59,7 @@
 
     // Function to update the SVG transformation
     function updateSVGTransform() {
-      select(pingSVGNode).attr('transform', getSvgTransform($p.map.getZoom()));
+      select(pingSVGNode).style('transform', getSvgTransform($p.map.getZoom()));
       // TODO: extract reactive zoom variable
       // $p.zoom = $p.map.getZoom();
     }
