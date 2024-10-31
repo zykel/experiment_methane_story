@@ -180,7 +180,7 @@
 
   $: svh100 = window.innerHeight;
 
-  $: mapHeight.set(svh100 > $mapWidth ? svh100 - 20 : svh100);
+  $: mapHeight.set($p.portraitMode ? svh100 : svh100 - 20);
 
   // $: $p.portraitMode = $mapHeight > $mapWidth;
 
