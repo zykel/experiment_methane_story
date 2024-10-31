@@ -11,6 +11,8 @@
   --color-coal: #d8638b;
   --color-waste: #5c7eff;
 
+  --svh: 100svh;
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

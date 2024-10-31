@@ -1,6 +1,7 @@
 import { writable, derived } from 'svelte/store';
 
 const rootStyles = getComputedStyle(document.documentElement);
+debugger;
 
 // debugger;
 // p without self-derived values
