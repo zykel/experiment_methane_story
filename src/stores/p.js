@@ -10,8 +10,8 @@ const pInit = {
   firstFlare: null,
   dataGeoJSON: [],
   flareGeometry: null,
-  defaultDuration: 7,
-  defaultTextDisplayDuration: 4,
+  defaultDuration: 8,
+  defaultTextDisplayDuration: 4.5,
   stepMax: 2,
   mapWidth:
     window.innerWidth > window.innerHeight
@@ -50,10 +50,10 @@ export const p = writable({
   durations: pInit.steps.map((step, i) => {
     let duration = pInit.defaultDuration;
     let buffer = 0;
-    if (step == 2) duration = 9;
-    if (step == 10) duration = 11;
-    if (step == 20) duration = 10;
-    if (step == 30) duration = 12;
+    if (step == 2) duration = 10;
+    if (step == 10) duration = 12;
+    if (step == 20) duration = 13;
+    if (step == 30) duration = 14;
     // if (step == 50) duration = 8;
     if (step == 60) duration = 0.01;
     return { step, duration, buffer };
