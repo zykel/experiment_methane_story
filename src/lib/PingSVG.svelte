@@ -193,5 +193,13 @@
     {#each $p.dataCSVAfterFirst as markerData, i}
       <PingMarker {markerData} idSuffix="{i}" />
     {/each}
+    <rect
+      x="100"
+      y="100"
+      width="{$mapWidth * $p.maxZoomFactor * 0.5}"
+      height="{$mapHeight * $p.maxZoomFactor * 0.5}"
+      fill="red"
+    >
+    </rect>
   {/if}
 </svg>
