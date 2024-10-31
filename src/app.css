@@ -41,6 +41,12 @@ body {
   }
 }
 
+@media (max-height: 670px) {
+  :root {
+    font-size: 13px; /* Reduced root font size for smaller screens */
+  }
+}
+
 @media (max-height: 620px) {
   :root {
     font-size: 12px; /* Reduced root font size for smaller screens */
