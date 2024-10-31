@@ -1,5 +1,5 @@
 <script>
-  import { p } from '../stores/p.js';
+  import { p, mapWidth, mapHeight } from '../stores/p.js';
   export let markerData;
   export let idSuffix;
 
@@ -9,8 +9,8 @@
 <circle
   id="{`marker-${idSuffix}`}"
   class="{markerData.country + '-marker ping-marker'}"
-  cx="{projection.x + ($p.mapWidth * $p.maxZoomFactor) / 2 - $p.mapWidth / 2}"
-  cy="{projection.y + ($p.mapHeight * $p.maxZoomFactor) / 2 - $p.mapHeight / 2}"
+  cx="{projection.x + ($mapWidth * $p.maxZoomFactor) / 2 - $mapWidth / 2}"
+  cy="{projection.y + ($mapHeight * $p.maxZoomFactor) / 2 - $mapHeight / 2}"
   fill="none"
   stroke="{$p.sectorColors[markerData.sector]}"
 ></circle>

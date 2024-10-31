@@ -5,6 +5,8 @@
     getPreviousStep,
     isLastStep,
     getDurationWithBuffer,
+    mapWidth,
+    mapHeight,
   } from './stores/p.js';
   import { onMount } from 'svelte';
   import Map from './lib/Map.svelte';
@@ -156,7 +158,7 @@
         const viewportWidth = window.innerWidth;
         const pointerUpX = event.clientX;
         // Split at a third of the map from the left
-        if (pointerUpX < viewportWidth / 2 - $p.mapWidth / 6) {
+        if (pointerUpX < viewportWidth / 2 - $mapWidth / 6) {
           // Get the percentage of current progress of the tl
           const progress = tl.progress();
           if (progress > 0.2) {
@@ -176,6 +178,12 @@
     });
   });
 
+  $: svh100 = window.innerHeight;
+
+  $: mapHeight.set(svh100 > $mapWidth ? svh100 - 20 : svh100);
+
+  // $: $p.portraitMode = $mapHeight > $mapWidth;
+
   $: console.log($p.dataCSV);
 </script>
 
@@ -185,6 +193,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    height: 100vh;
     height: 100svh;
     flex-direction: column;
   }
@@ -200,7 +209,7 @@
   }
 </style>
 
-<div id="story-content">
+<div id="story-content" bind:clientHeight="{svh100}">
   {#if $p.dataCSV.length > 0}
     <div
       id="main-view-container"

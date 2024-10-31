@@ -1,6 +1,6 @@
 <script>
   import { onMount, tick } from 'svelte';
-  import { p } from '../stores/p';
+  import { p, mapWidth, mapHeight } from '../stores/p';
 
   export let tl;
   export let step;
@@ -250,14 +250,14 @@
 
 <div
   id="story-text-container"
-  style="width: {$p.mapWidth > $p.maxTextWidth
+  style="width: {$mapWidth > $p.maxTextWidth
     ? $p.maxTextWidth + 'px'
     : '100%'}; 
-    left: {$p.mapWidth > $p.maxTextWidth
-    ? ($p.mapWidth - $p.maxTextWidth) / 2 + 'px'
+    left: {$mapWidth > $p.maxTextWidth
+    ? ($mapWidth - $p.maxTextWidth) / 2 + 'px'
     : '0'};"
 >
-  <div id="text-positioning-container" style="height: {$p.mapHeight / 2}px">
+  <div id="text-positioning-container" style="height: {$mapHeight / 2}px">
     {#each storyText as stepInfo, i}
       {#each stepInfo.textArray as textInfo, j}
         <div class="text-step-container">

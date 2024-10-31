@@ -1,5 +1,5 @@
 <script>
-  import { p } from '../stores/p.js';
+  import { p, mapWidth } from '../stores/p.js';
   import { range } from 'd3-array';
   export let tl;
   export let step;
@@ -8,7 +8,7 @@
   const padding = 5; // Padding left and right
   const lastBarWidth = 16; // Width of the last bar
   const barWidth =
-    ($p.mapWidth - ($p.nrSteps - 2) * gap - lastBarWidth - 2 * padding) /
+    ($mapWidth - ($p.nrSteps - 2) * gap - lastBarWidth - 2 * padding) /
     ($p.nrSteps - 2); // Width of the bars
   $: lastStep = $p.steps[$p.steps.length - 1]; // Last step
 

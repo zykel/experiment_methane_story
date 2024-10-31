@@ -1,5 +1,5 @@
 <script>
-  import { p, isLastStep } from '../stores/p.js';
+  import { p, isLastStep, mapWidth, mapHeight } from '../stores/p.js';
   import SectorSelector from './SectorSelector.svelte';
   import NotifiedSelector from './NotifiedSelector.svelte';
   import FluxrateSlider from './FluxrateSlider.svelte';
@@ -84,16 +84,16 @@
 
 <div
   id="positioning-container"
-  style="width: {$p.mapWidth}px; height: {$p.mapHeight}px"
+  style="width: {$mapWidth}px; height: {$mapHeight}px"
 >
   <div
     id="exploration-controls-container"
     style="width: {$p.portraitMode
       ? 'calc(13rem + 8rem + 10px + 40px)'
-      : $p.mapWidth - paddingSide * 2 + 'px'}; 
+      : $mapWidth - paddingSide * 2 + 'px'}; 
       min-width: {$p.portraitMode
       ? 'calc(13rem + 8rem + 10px + 40px)'
-      : $p.mapWidth - paddingSide * 2 + 'px'}; 
+      : $mapWidth - paddingSide * 2 + 'px'}; 
       height: {$p.portraitMode ? 350 : 230}px;
       {$p.portraitMode ? 'flex-direction: column;' : 'align-items: center;'}
       opacity: {$isLastStep(step) ? 1 : 0};
@@ -146,7 +146,7 @@
 <div
   id="interaction-blocker"
   style="
-    width: {$p.mapWidth}px; 
-    height: {$p.mapHeight}px; 
+    width: {$mapWidth}px; 
+    height: {$mapHeight}px; 
     display: {step == $p.explorationStep ? 'none' : 'block'};"
 ></div>

@@ -52,8 +52,6 @@
           0,
           Math.max(...combinedBins.map((d) => d.inside + d.outside)),
         ]);
-
-      console.log('ydomain', y.domain());
     }
   }
 </script>

@@ -7,6 +7,8 @@
     filterTime,
     getDuration,
     isLastStep,
+    mapWidth,
+    mapHeight,
   } from '../stores/p.js';
   import { select, zoomIdentity } from 'd3';
   import { onMount } from 'svelte';
@@ -26,17 +28,14 @@
   let lonCenter = $p.firstFlare.lon; //54.2828085816237;
   let latCenter = $p.firstFlare.lat; //38.65034094375579;
 
-  $: mapWidth = $p.mapWidth;
-  $: mapHeight = $p.mapHeight;
-
-  $: dx = $p.mapWidth / 2 - ($p.mapWidth * $p.maxZoomFactor) / 2;
-  $: dy = $p.mapHeight / 2 - ($p.mapHeight * $p.maxZoomFactor) / 2;
+  $: dx = $mapWidth / 2 - ($mapWidth * $p.maxZoomFactor) / 2;
+  $: dy = $mapHeight / 2 - ($mapHeight * $p.maxZoomFactor) / 2;
 
   let pingSVGNode;
 
   $: adjustZoomToScreensize = (zoom) => {
-    if ($p.mapHeight <= 0) return zoom;
-    let newZoom = zoom - Math.log2(800 / $p.mapHeight);
+    if ($mapHeight <= 0) return zoom;
+    let newZoom = zoom - Math.log2(800 / $mapHeight);
     newZoom = newZoom < 0 ? 0 : newZoom;
     newZoom = newZoom > 22 ? 22 : newZoom;
     return newZoom;
@@ -274,14 +273,14 @@
   }
 </style>
 
-<div id="map-container" style="width: {mapWidth}px; height: {mapHeight}px">
+<div id="map-container" style="width: {$mapWidth}px; height: {$mapHeight}px">
   <div
     id="mapbox-map-container"
-    style="width: {mapWidth}px; height: {mapHeight}px"
+    style="width: {$mapWidth}px; height: {$mapHeight}px"
   ></div>
   <div
     id="svg-map-container"
-    style="width: {mapWidth}px; height: {mapHeight}px"
+    style="width: {$mapWidth}px; height: {$mapHeight}px"
   >
     <PingSVG bind:pingSVGNode {tl} {step} />
   </div>

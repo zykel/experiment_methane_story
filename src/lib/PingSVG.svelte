@@ -1,5 +1,11 @@
 <script>
-  import { p, getDuration, isLastStep } from '../stores/p.js';
+  import {
+    p,
+    getDuration,
+    isLastStep,
+    mapWidth,
+    mapHeight,
+  } from '../stores/p.js';
   import { area } from 'd3-shape';
   import PingMarker from './PingMarker.svelte';
   import { get } from 'svelte/store';
@@ -15,9 +21,8 @@
 
   $: reposition = (projection) => {
     return {
-      x: projection.x + ($p.mapWidth * $p.maxZoomFactor) / 2 - $p.mapWidth / 2,
-      y:
-        projection.y + ($p.mapHeight * $p.maxZoomFactor) / 2 - $p.mapHeight / 2,
+      x: projection.x + ($mapWidth * $p.maxZoomFactor) / 2 - $mapWidth / 2,
+      y: projection.y + ($mapHeight * $p.maxZoomFactor) / 2 - $mapHeight / 2,
     };
   };
 
@@ -169,11 +174,11 @@
   bind:this="{pingSVGNode}"
   id="ping-svg"
   class="map-overlay"
-  width="{$p.mapWidth * $p.maxZoomFactor}"
-  height="{$p.mapHeight * $p.maxZoomFactor}"
-  transform="translate({$p.mapWidth / 2 -
-    ($p.mapWidth * $p.maxZoomFactor) / 2}, {$p.mapHeight / 2 -
-    ($p.mapHeight * $p.maxZoomFactor) / 2})"
+  width="{$mapWidth * $p.maxZoomFactor}"
+  height="{$mapHeight * $p.maxZoomFactor}"
+  transform="translate({$mapWidth / 2 -
+    ($mapWidth * $p.maxZoomFactor) / 2}, {$mapHeight / 2 -
+    ($mapHeight * $p.maxZoomFactor) / 2})"
 >
   {#if $p.map !== null}
     <PingMarker markerData="{$p.firstFlare}" idSuffix="first" />

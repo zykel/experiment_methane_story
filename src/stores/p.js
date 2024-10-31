@@ -1,7 +1,6 @@
 import { writable, derived } from 'svelte/store';
 
 const rootStyles = getComputedStyle(document.documentElement);
-debugger;
 
 // debugger;
 // p without self-derived values
@@ -14,14 +13,6 @@ const pInit = {
   defaultDuration: 8,
   defaultTextDisplayDuration: 4.5,
   stepMax: 2,
-  mapWidth:
-    window.innerWidth > window.innerHeight
-      ? window.innerHeight - 20
-      : window.innerWidth, //700,
-  mapHeight:
-    window.innerWidth > window.innerHeight
-      ? window.innerHeight - 20
-      : window.innerHeight, //400,
   maxTextWidth: 400,
   map: null,
   initialZoomOverall: 5, //13.5,
@@ -59,8 +50,19 @@ export const p = writable({
     if (step == 60) duration = 0.01;
     return { step, duration, buffer };
   }),
-  portraitMode: pInit.mapHeight > pInit.mapWidth + 1,
+  portraitMode: window.innerHeight > window.innerWidth + 1,
 });
+
+export const mapWidth = writable(
+  window.innerWidth > window.innerHeight
+    ? window.innerHeight - 20
+    : window.innerWidth
+);
+export const mapHeight = writable(
+  window.innerWidth > window.innerHeight
+    ? window.innerHeight - 20
+    : window.innerHeight
+);
 
 export const sectorsSelected = writable(Object.keys(pInit.sectorColors));
 export const notifiedSelected = writable(['True', 'False']);
