@@ -178,9 +178,10 @@
   class="map-overlay"
   width="{$mapWidth * $p.maxZoomFactor}"
   height="{$mapHeight * $p.maxZoomFactor}"
-  transform="translate({$mapWidth / 2 -
+  style="
+  transform: translate({$mapWidth / 2 -
     ($mapWidth * $p.maxZoomFactor) / 2}, {$mapHeight / 2 -
-    ($mapHeight * $p.maxZoomFactor) / 2})"
+    ($mapHeight * $p.maxZoomFactor) / 2});"
 >
   {#if $p.map !== null}
     <PingMarker markerData="{$p.firstFlare}" idSuffix="first" />
