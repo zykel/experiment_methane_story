@@ -134,7 +134,8 @@
 
       pauseAnimation();
     });
-    document.addEventListener('pointerup', (event) => {
+
+    const handlePointerUp = (event) => {
       // Treat the start widget like a click in the right half of the viewport
       const isRestartWidget =
         event.target['classList'].contains('restart-widget');
@@ -175,7 +176,10 @@
         if (tl) tl.progress(1);
       }
       resumeAnimation();
-    });
+    };
+
+    document.addEventListener('mouseup', handlePointerUp);
+    document.addEventListener('touchend', handlePointerUp);
   });
 
   $: svh100 = window.innerHeight;
