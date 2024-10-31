@@ -14,6 +14,7 @@
   import StoryText from './lib/StoryText.svelte';
   import ExplorationControls from './lib/ExplorationControls.svelte';
   import Intro from './lib/Intro.svelte';
+  import Debugger from './lib/Debugger.svelte';
   import { gsap } from 'gsap';
   import { csv, json } from 'd3';
 
@@ -219,14 +220,6 @@
     background-color: #121212; /* Dark background color */
     color: #ffffff; /* Light text color for contrast */
   }
-
-  .centered {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: rgb(22, 176, 22);
-  }
 </style>
 
 <div id="story-content" bind:clientHeight="{svh100}">
@@ -241,7 +234,7 @@
       <ExplorationControls {step} />
       <ProgressBars {tl} {step} />
       <Intro {step} />
-      <h1 class="centered">TESTING</h1>
+      <Debugger />
     </div>
   {/if}
 </div>
