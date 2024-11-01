@@ -39,4 +39,4 @@
   }
 </style>
 
-<div id="error-log" class="centered">v1.14</div>
+<div id="error-log" class="centered">v1.16</div>
