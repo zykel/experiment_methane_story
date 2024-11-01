@@ -86,7 +86,7 @@
           r: 120,
           'stroke-width': 120 / 8,
           duration: 1,
-          ease: 'power1.in',
+          ease: 'power1.out',
           delay: 2,
         },
         0
@@ -116,7 +116,7 @@
               delay:
                 i *
                 (($getDuration(step) - 1) / ($p.dataCSVAfterFirst.length / 2)), // Delay each circle reveal
-              ease: 'power1.in',
+              ease: 'power1.out',
             },
             0
           );
@@ -185,16 +185,45 @@
   transform: translate({v1}px, {v2}px);"
 >
   {#if $p.map !== null}
-    <PingMarker markerData="{$p.firstFlare}" idSuffix="first" />
+    <PingMarker
+      markerData="{$p.firstFlare}"
+      idSuffix="first"
+      {step}
+      showStep="{10}"
+    />
     <path
       id="flare-path"
       fill="{$p.sectorColors[$p.firstFlare.sector]}"
       opacity="{$isLastStep(step) ? 0 : 1}"
       d="{convertMultiPolygonToSVGPath($p.flareGeometry)}"
     ></path>
-    {#each $p.dataCSVAfterFirst as markerData, i}
-      <PingMarker {markerData} idSuffix="{i}" />
+    <!-- {#each $p.dataCSVAfterFirst as markerData, i}
+      <PingMarker {markerData} idSuffix="{i}" {step} />
+    {/each} -->
+    {#each $p.dataCSVAfterFirst.slice(0, Math.round($p.dataCSVAfterFirst.length / 2)) as markerData, i}
+      <PingMarker {markerData} idSuffix="{i}" {step} showStep="{20}" />
     {/each}
+    {#each $p.dataCSVAfterFirst.slice(Math.round($p.dataCSVAfterFirst.length / 2)) as markerData, i}
+      <PingMarker
+        {markerData}
+        idSuffix="{i + Math.round($p.dataCSVAfterFirst.length / 2)}"
+        {step}
+        showStep="{30}"
+      />
+    {/each}
+    <!-- {#if [10, 20, 30].includes(step)}
+      {#each $p.dataCSVAfterFirst.slice(0, Math.round($p.dataCSVAfterFirst.length / 2)) as markerData, i}
+        <PingMarker {markerData} idSuffix="{i}" />
+      {/each}
+    {/if}
+    {#if [20, 30, 50].includes(step)}
+      {#each $p.dataCSVAfterFirst.slice(Math.round($p.dataCSVAfterFirst.length / 2)) as markerData, i}
+        <PingMarker
+          {markerData}
+          idSuffix="{i + Math.round($p.dataCSVAfterFirst.length / 2)}"
+        />
+      {/each}
+    {/if} -->
     <!-- <rect
       x="100"
       y="100"

@@ -49,6 +49,8 @@
           step = $p.steps[1];
         }
         direction = 'forward';
+        // Maybe ensure that this timeline gets destroyed?
+        tl.kill();
       },
     });
   }
@@ -239,7 +241,7 @@
       <ExplorationControls {step} />
       <ProgressBars {tl} {step} />
       <Intro {step} />
-      <Debugger />
+      <!-- <Debugger /> -->
     </div>
   {/if}
 </div>
