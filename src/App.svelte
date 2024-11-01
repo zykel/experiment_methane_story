@@ -154,6 +154,9 @@
 
       // TBD: need to include that if clicking on the left half and 30% of the tl time has alread passed, the current step should be repeated instead of jumping to the previous step
 
+      // Ensure that the map and the points layer exists
+      if (!$p.map || !$p.map.getLayer('points')) return;
+
       const pointerUpTime = Date.now();
       if (pointerUpTime - pointerDownTime < 380) {
         // Determine whether pointerup event too place in the left or the right section of the viewport
@@ -187,6 +190,8 @@
 
     document.addEventListener('pointerup', handlePointerUp);
     document.addEventListener('touchend', () => {
+      // Ensure that the map and the points layer exists
+      if (!$p.map || !$p.map.getLayer('points')) return;
       resumeAnimation();
     });
   });

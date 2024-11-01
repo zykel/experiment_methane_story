@@ -70,6 +70,7 @@
 
     // Add GeoJSON source
     $p.map.on('load', () => {
+      // timeout for 0.5 seconds
       $p.map.setZoom(adjustZoomToScreensize($p.initialZoomOverall));
       // Initial transformation update
       updateSVGTransform();
