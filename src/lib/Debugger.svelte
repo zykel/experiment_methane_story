@@ -23,10 +23,7 @@
     if ($p.map) {
       $p.map.on('error', function (event) {
         const errorMessage = `Map Error: ${event.error.message}`;
-        const errorStack = event.error.stack
-          ? `<br>Stack: ${event.error.stack}`
-          : '';
-        doLogError(errorMessage + errorStack);
+        doLogError(errorMessage);
       });
     }
   }
@@ -42,4 +39,4 @@
   }
 </style>
 
-<div id="error-log" class="centered">v1.12</div>
+<div id="error-log" class="centered">v1.13</div>
