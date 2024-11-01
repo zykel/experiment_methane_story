@@ -47,10 +47,10 @@
     return `translate(${dx}px,${dy}px) scale(${scale})`;
   };
 
-  const doLogError = (message) => {
-    const errorLog = document.getElementById('error-log');
-    errorLog.textContent = errorLog.textContent + '-----' + message;
-  };
+  // const doLogError = (message) => {
+  //   const errorLog = document.getElementById('error-log');
+  //   errorLog.textContent = errorLog.textContent + '-----' + message;
+  // };
 
   // Function to initialize the map
   onMount(() => {
@@ -81,7 +81,7 @@
       updateSVGTransform();
       document.getElementById('interaction-blocker').style.opacity = '0';
       // Add a source for the positions of the points inside $p.dataCSV, including the property ch4_fluxrate to use it for the size of the merkers later on
-      doLogError('LOGGING AT POSITION 1');
+      // doLogError('LOGGING AT POSITION 1');
       $p.map.addSource('points', {
         type: 'geojson',
         data: {
@@ -105,7 +105,7 @@
           }),
         },
       });
-      doLogError('LOGGING AT POSITION 2');
+      // doLogError('LOGGING AT POSITION 2');
       // Add a layer for the points with the point color depending on the sector
       $p.map.addLayer({
         id: 'points',
@@ -144,7 +144,7 @@
         // },
       });
 
-      doLogError('LOGGING AT POSITION 3');
+      // doLogError('LOGGING AT POSITION 3');
       // Update the layer filter whenever selectedSectors or ch4Range changes
       function updateFilter() {
         $p.map.setFilter('points', [
@@ -158,7 +158,7 @@
         ]);
       }
 
-      doLogError('LOGGING AT POSITION 4');
+      // doLogError('LOGGING AT POSITION 4');
       sectorsSelected.subscribe(updateFilter);
       // notifiedSelected.subscribe(updateFilter);
       filterFluxrate.subscribe(updateFilter);
@@ -178,7 +178,7 @@
 
   $: {
     if ($p.map && step > $p.steps[0]) {
-      doLogError('LOGGING AT POSITION 5');
+      // doLogError('LOGGING AT POSITION 5');
       if (step == $p.steps[1]) {
         // Reset the zoom level
         $p.map.setZoom(adjustZoomToScreensize($p.initialZoomOverall));

@@ -79,6 +79,7 @@
     top: 0;
     left: 0;
     background: #2f2f2f;
+    user-select: none;
   }
 </style>
 

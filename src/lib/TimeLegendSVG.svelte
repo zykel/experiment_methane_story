@@ -68,7 +68,7 @@
 height: {$p.portraitMode ? 30 : 92}px"
 >
   {#if binsInside && binsInside}
-    <text fill="gray" x="{x.range()[0]}" y="{y(300) - 4}" font-size="1rem"
+    <text fill="gray" x="{x.range()[0]}" y="{y(300) - 4}" font-size="0.8rem"
       >300</text
     >
     <line

@@ -157,6 +157,17 @@
     border: 1px solid #7b7b7b;
     transform: translate(-50%, -50%);
   }
+  .handle:before {
+    content: ' ';
+    box-sizing: border-box;
+    position: absolute;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    background-color: #ffffff00;
+    border: 20px solid #ffffff00;
+    transform: translate(-50%, -50%);
+  }
   /* .handle[data-which="end"]:after{
 		transform: translate(-100%, -50%);
 	} */
