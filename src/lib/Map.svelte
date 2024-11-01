@@ -106,9 +106,6 @@
         },
       });
       doLogError('LOGGING AT POSITION 2');
-      doLogError($p.sectorColors['Waste']);
-      doLogError($p.sectorColors['Coal']);
-      doLogError($p.sectorColors['Oil and Gas']);
       // Add a layer for the points with the point color depending on the sector
       $p.map.addLayer({
         id: 'points',

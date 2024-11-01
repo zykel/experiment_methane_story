@@ -202,11 +202,6 @@
 
   // $: $p.portraitMode = $mapHeight > $mapWidth;
 
-  $: colorsLoaded =
-    !!$p.sectorColors['Waste'] &&
-    !!$p.sectorColors['Coal'] &&
-    !!$p.sectorColors['Oil and Gas'];
-
   $: console.log($p.dataCSV);
 </script>
 
@@ -233,7 +228,7 @@
 </style>
 
 <div id="story-content" bind:clientHeight="{svh100}">
-  {#if $p.dataCSV.length > 0 && colorsLoaded}
+  {#if $p.dataCSV.length > 0}
     <div
       id="main-view-container"
       style="
