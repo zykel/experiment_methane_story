@@ -13,7 +13,7 @@
       textArray: [
         {
           paragraphs: [
-            'Methane is second biggest driver of global warming after carbon dioxide and is responsible for 30% of warming from human sources.',
+            'Methane is the second biggest driver of global warming after carbon dioxide and is responsible for 30% of warming from human sources.',
             "We can now track methane emissions using satellites - let's take a look.",
           ],
           start: 0.5,
